@@ -1,4 +1,4 @@
-<!-- OnRegardeQuoi: an open-source and minimalist web app for discovering movies and TV shows -->
+<!-- OnRegardeQuoi: a free, open-source, and minimalist web app for discovering movies and TV shows -->
 <!-- Made with ❤ by micka from Paris -->
 
 <html lang="en">
@@ -685,26 +685,37 @@
         // -----------------------------------------------------------------------------
 
         const handlePosterClick = async (e) => {
-            const poster = e.target.closest('.poster-container');
-            if (!poster) return;
+            const poster = e.target.closest('.poster-container');
+            if (!poster) return;
 
-            const isAlreadyActive = poster.classList.contains('show-overlay');
-            const action = e.target.closest('[data-action]')?.dataset.action;
-            const { id, type, title } = poster.dataset;
+            const action = e.target.closest('[data-action]')?.dataset.action;
 
-            // State-based logic for mobile: first tap reveals, second tap acts.
-            if (state.isTouchDevice) {
-                if (isAlreadyActive) {
-                    // If buttons are visible, this is an action tap.
-                    // Allow the code below to handle the specific action.
-                } else {
-                    // If buttons are hidden, this is a reveal tap.
-                    // Hide any other visible overlays, show this one, and stop.
-                    document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
-                    poster.classList.add('show-overlay');
-                    return; // Crucial: stop execution to prevent "ghost click"
-                }
-            }
+            if (action) {
+                const { id, type, title } = poster.dataset;
+                if (state.isTouchDevice) {
+                    poster.classList.remove('show-overlay');
+                }
+                if (action === 'play') {
+                    openTrailer((await getBestTrailer(type, id))?.key);
+                } else if (action === 'options') {
+                    showTrailerList(title, await getTrailers(type, id));
+                } else if (action === 'info') {
+                    showInfoModal(title, await getDetails(type, id), type, id);
+                }
+                return;
+            }
+
+            // If no action was clicked and it's a touch device, handle toggling the overlay.
+            if (state.isTouchDevice) {
+                // If this poster is already active, tapping its background should hide it.
+                // Otherwise, hide all other overlays and show this one.
+                if (poster.classList.contains('show-overlay')) {
+                    poster.classList.remove('show-overlay');
+                } else {
+                    document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
+                    poster.classList.add('show-overlay');
+                }
+            }
             
             // This part now runs for desktop clicks and for the second tap on mobile
             if (action) {
@@ -804,3 +815,4 @@
     </script>
 </body>
 </html>
+
