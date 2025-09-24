@@ -66,7 +66,6 @@
             scrollbar-width: none;  /* Firefox */
         }
 
-
         /* Poster Cards */
         .poster-container {
             transition: transform 0.1s ease;
@@ -92,6 +91,9 @@
             -webkit-backdrop-filter: blur(10px);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        #video-modal, #trailer-list-modal, #info-modal, #app-info-modal {
+            height: 100svh;
         }
         #trailer-list-content .video-item:hover {
             background-color: rgba(251, 191, 36, 1);
@@ -280,7 +282,7 @@
                     </p>
                 </div>
                 <div id="whats-new-content" class="tab-content hidden">
-                    <h3 class="text-lg font-bold mb-2 mt-4">v1.0 (September 23, 2025)</h3>
+                    <h3 class="text-lg font-bold mb-2">v1.0 (September 23, 2025)</h3>
                     <ul class="list-disc list-inside">
                         <li>Added a dedicated close button to the search bar for improved usability.</li>
                         <li>Initial release with core movie/TV show browsing</li>
@@ -815,4 +817,5 @@
     </script>
 </body>
 </html>
+
 
