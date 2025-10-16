@@ -1,84 +1,85 @@
 # OnRegardeQuoi
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/c4e9c40d-cb1b-41da-b300-69fb02cb627a" width="250" height="250" alt="OnRegardeQuoi Logo" />
-  <br />
-  <strong>Status:</strong> Maintained
-  <br>
-  <strong>Version:</strong> 1.0
+  <img width="250" height="180" alt="OnRegardeQuoi" src="https://github.com/user-attachments/assets/62c02ac3-a72c-4aa3-81d6-4b27440c8fc4" />
+  <br /><br />
+  <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.1
   <br />
   <a href="https://onregardequoi.vercel.app/"><strong>https://onregardequoi.vercel.app/</strong></a>
 </p>
 
 **OnRegardeQuoi** is a free, open-source, minimalist web app that helps you discover movies and TV shows through their trailers. It takes its name from the French phrase 'On regarde quoi ?', meaning 'What are we watching?'. The goal is to provide a simple, trailer-focused experience, not to replace more comprehensive movie databases.
 
-## Table of Contents
+---
 
-- [Features](#features)
-- [Screenshots](#screenshots)
-- [Getting Started](#getting-started)
-- [How Content is Selected](#how-content-is-selected)
-- [Privacy Policy](#privacy-policy)
-- [Issues](#issues)
-- [Acknowledgment](#acknowledgment)
+## ✨ Features
 
-## Features
+- **Browse Movies & TV Shows** – Easily switch between dedicated sections for movies and television series
+- **Smart Categories** – Discover content through Trending Now, Coming Soon, and All-Time Greats
+- **Instant Trailer Playback** – Watch the best available trailer directly in the app, with access to all available videos
+- **Powerful Search** – Instantly search for any movie or TV show across the entire TMDB database
+- **Responsive Design** – Seamless experience on desktop, tablet, or phone
+- **Fast & Lightweight** – Built with HTML, CSS and JavaScript with no heavy frameworks
+- **Smart Caching** – Time-based local storage caching for faster loading on return visits
+- **Detailed Information** – Access synopsis, genres, runtime, rating, cast, and director for any title
 
--   **🎬 Browse Movies & TV Shows:** Easily switch between dedicated sections for movies and television series.
--   **🔥 Smart Categories:** Discover content through curated categories:
-    -   **Trending Now:** See what's popular right now.
-    -   **Coming Soon:** Get a sneak peek at upcoming releases.
-    -   **All-Time Greats:** Browse critically acclaimed classics and fan favorites.
--   **▶️ Instant Trailer Playback:** Watch the best available trailer directly in the app. A list of all available videos (trailers, teasers, featurettes) is also accessible.
--   **🔍 Powerful Search:** Instantly search for any movie or TV show across the entire TMDB database.
--   **📱 Responsive Design:** Enjoy a seamless experience whether you're on a desktop, tablet, or phone.
--   **⚡ Fast & Lightweight:** Built with HTML, CSS and JavaScript with no heavy frameworks.
--   **🧠 Smart Caching:** Uses time-based local storage caching to reduce loading times and API calls, providing a faster experience on return visits.
--   **ℹ️ Detailed Information:** Access key details for any title, including synopsis, genres, runtime, rating, cast, and director.
+## 🚀 Getting Started
 
-## Screenshots
+### Option 1: Use the Official Instance
 
-SOON
+Simply visit **[onregardequoi.vercel.app](https://onregardequoi.vercel.app/)** and start exploring! No setup required.
 
-## Getting Started
+### Option 2: Run Locally
 
-In addition to the official website, you can run this project locally. All you need is a free API key from [The Movie Database (TMDB)](https://www.themoviedb.org/signup).
+Run this project locally with a free API key from [The Movie Database (TMDB)](https://www.themoviedb.org/signup):
 
-1.  **Download** the `index.html` file.
-2.  **Edit** the file and paste your API key into the `LOCAL_DEV_API_KEY` constant:
-    ```javascript
-    const LOCAL_DEV_API_KEY = 'YOUR_TMDB_API_KEY_GOES_HERE';
-    ```
-3.  **Run** the `index.html` file in your web browser.
+1. Download the `index.html` file
+2. Edit the file and paste your API key into the `LOCAL_DEV_API_KEY` constant:
+```javascript
+   const LOCAL_DEV_API_KEY = 'YOUR_TMDB_API_KEY_GOES_HERE';
+```
+3. Run the `index.html` file in your web browser
 
-## How Content is Selected
+### Option 3: Deploy Your Own Instance
 
-To ensure a high-quality and relevant discovery experience, **OnRegardeQuoi** doesn't just show everything. It uses specific filters for each category, which is why the listings may differ from the main TMDB website. Here’s a look at the "secret sauce":
+Deploy your own instance for free on Vercel:
 
-| Category | Content Type | Filtering Criteria | Sorted By |
-| :--- | :--- | :--- | :--- |
-| **🔥 Trending Now** | Movies | Released in the last **3 months**, with a rating of **≥ 5/10** and at least **100 votes**. | Popularity |
-| | TV Shows | First aired in the last **6 months**, with a rating of **≥ 5/10** and at least **100 votes**. | Popularity |
-| **🕒 Coming Soon** | Movies | Premiering within the next **6 months**. | Popularity |
-| | TV Shows | Premiering within the next **year**. | Popularity |
-| **⭐ All-Time Greats** | Movies | At least **5,000 votes**. | User Rating |
-| | TV Shows | At least **2,000 votes**. | User Rating |
+1. Fork this repository
+2. Sign up for a free account at [Vercel](https://vercel.com/)
+3. Import your forked repository
+4. Add your TMDB API key as an environment variable named `TMDB_API_KEY`
+5. Deploy! Your app will be live in seconds
 
-*Note: These criteria will certainly evolve in the future!*
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mickaphd/OnRegardeQuoi)
 
-## Privacy Policy
+## 🎯 How Content is Selected
 
--   **No Personal Data:** This app does **not** collect, store, or transmit any personal information. There are no user accounts, analytics, or trackers.
--   **Local Storage:** The app uses your browser's `localStorage` to cache movie and TV show data (like titles and poster links). This is done solely to improve performance and make the app load faster for you. This data is stored only on your device and contains no personal information. It can be cleared at any time from your browser settings or by using the "Refresh ↻" button in the app's "About" section.
--   **Third-Party Services:** The app streams videos using YouTube's privacy-enhanced mode via the `youtube-nocookie.com` domain. Interacting with the video player is still subject to YouTube's own privacy policy.
+**OnRegardeQuoi** uses specific filters for each category to ensure high-quality, relevant content. This is why listings may differ from the main TMDB website.
 
-## Issues
+**Trending Now**
+- Movies: Last 3 months, rating ≥5/10, ≥100 votes, sorted by popularity
+- TV Shows: Last 6 months, rating ≥5/10, ≥100 votes, sorted by popularity
 
-Found a bug or have a feature request? Please feel free to [open an issue](https://github.com/mickaphd/OnRegardeQuoi/issues). 
+**Coming Soon**
+- Movies: Next 6 months, sorted by popularity
+- TV Shows: Next year, sorted by popularity
 
-## Acknowledgment
+**All-Time Greats**
+- Movies: ≥5,000 votes, sorted by user rating
+- TV Shows: ≥2,000 votes, sorted by user rating
 
-This project would not be possible without the amazing free services provided by:
+*These criteria will certainly evolve over time*
 
--   [The Movie Database (TMDB)](https://www.themoviedb.org/) for providing the comprehensive movie and TV show data.
--   [Vercel](https://vercel.com/) for seamless and free hosting.
+## 🔒 Privacy Policy
+
+- **No Personal Data** – No collection, storage, or transmission of personal information. No user accounts, analytics, or trackers
+- **Local Storage** – Movie and TV show data cached locally on your device for performance. Can be cleared anytime from browser settings or the app's "Refresh ↻" button
+- **Third-Party Services** – Videos stream via YouTube's privacy-enhanced mode (`youtube-nocookie.com`), subject to YouTube's privacy policy
+
+## 🐛 Issues
+
+Found a bug or have a feature request? [Open an issue](https://github.com/mickaphd/OnRegardeQuoi/issues).
+
+## 🙏 Acknowledgment
+
+- [The Movie Database (TMDB)](https://www.themoviedb.org/) – Comprehensive movie and TV show data
+- [Vercel](https://vercel.com/) – Seamless and free hosting
