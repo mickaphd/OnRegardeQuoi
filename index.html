@@ -719,7 +719,6 @@
 
         const openSearchBar = () => {
             state.isSearching = true;
-            window.scrollTo(0, 0); // <-- scrolls to top immediately
             navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
             searchSeparator.classList.add('opacity-0', 'pointer-events-none');
             searchInputContainer.classList.remove('hidden');
@@ -873,4 +872,3 @@
     </script>
 </body>
 </html>
-
