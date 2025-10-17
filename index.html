@@ -151,39 +151,42 @@
             transition: color 0.3s ease;
         }
         
-        /* Poster icon visibility on hover */
-        .play-icon, .options-icon, .info-icon {
-            transition: all 0.3s ease;
-            pointer-events: none;
-            transform: scale(0.8);
+        /* --- POSTER OVERLAY LOGIC --- */
+        /* 1. Default State (for Touch): Everything is hidden and unclickable. */
+        .poster-overlay, .play-icon, .options-icon, .info-icon {
             opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none; /* Crucial: Prevents tapping invisible buttons */
+            transition: all 0.3s ease;
         }
-        .poster-container:hover .play-icon,
-        .poster-container:hover .options-icon,
-        .poster-container:hover .info-icon,
+
+        /* 2. Active State (for Touch): JS adds '.show-overlay' to reveal. */
+        .poster-container.show-overlay .poster-overlay,
         .poster-container.show-overlay .play-icon,
         .poster-container.show-overlay .options-icon,
         .poster-container.show-overlay .info-icon {
-            pointer-events: auto;
-            transform: scale(1);
             opacity: 1;
+            transform: scale(1);
+            pointer-events: auto; /* Buttons are now clickable */
         }
 
-        /* Poster overlay visibility on hover */
-        .poster-overlay {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .poster-container:hover .poster-overlay,
-        .poster-container.show-overlay .poster-overlay {
-            opacity: 1;
+        /* 3. Enhancement (for Mouse): Automatically reveal on hover. */
+        @media (hover: hover) {
+            .poster-container:hover .poster-overlay,
+            .poster-container:hover .play-icon,
+            .poster-container:hover .options-icon,
+            .poster-container:hover .info-icon {
+                opacity: 1;
+                transform: scale(1);
+                pointer-events: auto;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <header class="p-4 sm:py-2 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 bg-black/10 backdrop-blur-md z-30">
+    <header class="p-4 sm:py-2 sm:px-6 lg:px-8 flex items-center justify-between fixed top-0 w-full bg-black/10 backdrop-blur-md z-30">
 
         <button id="open-app-info-btn" class="flex items-center flex-shrink-0 focus:outline-none cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 805 502" aria-label="OnRegardeQuoi logo" class="h-14 w-auto text-amber-400 mr-1 logo-effect">
@@ -241,7 +244,7 @@
     </header>
 
 
-    <main id="main-content" class="pt-4 px-4 pb-4 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8"></main>
+    <main id="main-content" class="pt-24 px-4 pb-4 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8"></main>
 
     <div id="load-more-container"></div>
 
@@ -281,9 +284,9 @@
             <div class="overflow-y-auto text-white text-sm p-4 flex-grow">
                 <div id="about-content" class="tab-content">
                     <p class="mb-2"><b>OnRegardeQuoi</b> takes its name from the common French phrase "On regarde quoi ?", meaning "What are we watching?".<br>It's a free, open-source, and minimalist web app for discovering movies and TV shows through their trailers.<br>Feel free to visit the <a href="https://github.com/mickaphd/OnRegardeQuoi/" target="_blank" class="text-amber-400 hover:underline">GitHub</a> repository to learn more about the project. It's also the best place to report bugs or request new features.
-            <p class="mt-4 text-xs text-gray-400">
-            Made with ❤ by micka from Paris
-            </p>
+                    <p class="mt-4 text-xs text-gray-400">
+                    Made with ❤ by micka from Paris
+                    </p>
                     <p class="mt-4 text-xs text-gray-400">
                         <a href="#" id="force-refresh-btn" class="opacity-20 hover:opacity-100 transition-opacity" title="Clear all cached movie and TV show data to access the latest content, even if it's unnecessary!">Refresh ↻</a>
                     </p>
@@ -292,10 +295,10 @@
                 <div id="whats-new-content" class="tab-content hidden">
                     <h3 class="text-lg font-bold mb-2">v1.1 (October 16, 2025)</h3>
                     <ul class="list-disc list-inside mb-4">
-                        <li>Code cleaning and optimization</li>
                         <li>New shortcuts for IMDb, Rotten Tomatoes and Metacritic</li>
                         <li>New favicons/icons for all browsers, devices and platforms</li>
-
+                        <li>Implemented a "Smart Hover & Tap" model that feels more native and predictable on all devices (mobile, desktop, and hybrids)</li>
+                        <li>Code cleaning and optimization</li>
                     </ul>
                     
                     <h3 class="text-lg font-bold mb-2">v1.0 (September 23, 2025)</h3>
@@ -309,8 +312,8 @@
 
                 <div id="acknowledgment-content" class="tab-content hidden">
                     <ul class="list-disc list-inside">
-                <li><a href="https://www.themoviedb.org/" target="_blank" class="text-amber-400 hover:underline">The Movie Database (TMDB)</a> for movie and TV show data</li>
-                <li><a href="https://vercel.com/" target="_blank" class="text-amber-400 hover:underline">Vercel</a> for seamless hosting and deployment</li>
+                    <li><a href="https://www.themoviedb.org/" target="_blank" class="text-amber-400 hover:underline">The Movie Database (TMDB)</a> for movie and TV show data</li>
+                    <li><a href="https://vercel.com/" target="_blank" class="text-amber-400 hover:underline">Vercel</a> for seamless hosting and deployment</li>
                     </ul>
                 </div>
             </div>
@@ -347,8 +350,7 @@
             activeCategory: 'trending',
             debounceTimer: null,
             isSearching: false,
-            textMeasureSpan: null,
-            isTouchDevice: false
+            textMeasureSpan: null
         };
 
 
@@ -514,15 +516,13 @@
                 <div class="poster relative rounded-lg overflow-hidden shadow-lg bg-gray-900 aspect-[2/3]">
                     ${badgeHTML}
                     <img src="${IMAGE_BASE_URL}${item.poster_path}" alt="${title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://placehold.co/500x750/0f0f0f/444444?text=Img+Error'">
-                    <div class="poster-overlay absolute inset-0 bg-black/40 transition-opacity flex items-center justify-center">
-                        <!-- Play button (center) -->
+                    <div class="poster-overlay absolute inset-0 flex items-center justify-center">
                         <button data-action="play" class="group cursor-pointer" title="Play Trailer">
                             <svg class="play-icon w-16 h-16 text-white group-hover:text-amber-400 transition-colors" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
                             </svg>
                         </button>
                         
-                        <!-- Options button (bottom-right) - smaller inverted style -->
                         <button data-action="options" class="absolute bottom-2 right-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Find More Videos">
                             <svg class="options-icon w-3 h-3 text-black" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="currentColor">
                                 <circle cx="25" cy="8" r="6"/>
@@ -531,7 +531,6 @@
                             </svg>
                         </button>
                         
-                        <!-- Info button (bottom-left) - smaller inverted style -->
                         <button data-action="info" class="absolute bottom-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="More Information">
                             <svg class="info-icon w-3 h-3 text-black" xmlns="http://www.w3.org/2000/svg" viewBox="150 0 250 550" fill="currentColor">
                                 <path d="M290.671,135.434c37.324-3.263,64.949-36.175,61.663-73.498c-3.241-37.324-36.152-64.938-73.476-61.675 c-37.324,3.264-64.949,36.164-61.686,73.488C220.437,111.096,253.348,138.698,290.671,135.434z"/>
@@ -762,12 +761,14 @@
         const handlePosterClick = async (e) => {
             const poster = e.target.closest('.poster-container');
             if (!poster) return;
+
             const action = e.target.closest('[data-action]')?.dataset.action;
+            const { id, type, title } = poster.dataset;
+
+            // --- Action Logic ---
+            // If a visible action button was clicked, perform the action.
             if (action) {
-                const { id, type, title } = poster.dataset;
-                if (state.isTouchDevice) {
-                    poster.classList.remove('show-overlay');
-                }
+                poster.classList.remove('show-overlay'); // Hide overlay after action
                 if (action === 'play') {
                     openTrailer((await getBestTrailer(type, id))?.key);
                 } else if (action === 'options') {
@@ -777,31 +778,17 @@
                 }
                 return;
             }
-            // If no action was clicked and it's a touch device, handle toggling the overlay
-            if (state.isTouchDevice) {
-                // If this poster is already active, tapping its background should hide it
-                // Otherwise, hide all other overlays and show this one
-                if (poster.classList.contains('show-overlay')) {
-                    poster.classList.remove('show-overlay');
-                } else {
-                    document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
-                    poster.classList.add('show-overlay');
-                }
-            }
 
-            // This part now runs for desktop clicks and for the second tap on mobile
-            if (action) {
-                // On touch, hide the overlay after an action is chosen
-                if (state.isTouchDevice) {
-                    document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
-                }
-                if (action === 'play') {
-                    openTrailer((await getBestTrailer(type, id))?.key);
-                } else if (action === 'options') {
-                    showTrailerList(title, await getTrailers(type, id));
-                } else if (action === 'info') {
-                    showInfoModal(title, await getDetails(type, id), type, id);
-                }
+            // --- Touch Reveal Logic ---
+            // If the poster background was tapped, toggle the overlay.
+            // (This has no effect on desktop, as hover already shows it).
+            if (poster.classList.contains('show-overlay')) {
+                poster.classList.remove('show-overlay');
+            } else {
+                // First, close any other open posters
+                document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
+                // Then, open this one
+                poster.classList.add('show-overlay');
             }
         };
 
@@ -835,7 +822,7 @@
             loadMoreContainerEl.addEventListener('click', e => e.target.closest('#load-more-btn') && fetchContent(true));
             
             document.addEventListener('click', (e) => {
-                if (state.isTouchDevice && !e.target.closest('.poster-container')) {
+                if (!e.target.closest('.poster-container')) {
                     document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
                 }
             });
@@ -874,7 +861,6 @@
         const init = async () => {
             loadCache();
             setupLoadMoreButton();
-            state.isTouchDevice = window.matchMedia('(hover: none)').matches;
             await setActiveSection('movies');
             createTextMeasurementSpan();
             setupEventListeners();
@@ -886,4 +872,3 @@
     </script>
 </body>
 </html>
-
