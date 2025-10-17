@@ -719,11 +719,23 @@
 
         const openSearchBar = () => {
             state.isSearching = true;
+            
+            // Store current scroll position
+            const scrollY = window.scrollY;
+            
+            // Prevent body scroll on iOS
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            
             navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
             searchSeparator.classList.add('opacity-0', 'pointer-events-none');
             searchInputContainer.classList.remove('hidden');
             searchInputContainer.classList.add('flex');
+            
+            // Focus without delay
             newSearchFieldInput.focus();
+            
             mainEl.innerHTML = '';
             resetLoadMoreButton();
             closeSearchBtn.classList.remove('hidden');
@@ -732,11 +744,23 @@
 
         const closeSearchBar = async () => {
             state.isSearching = false;
+            
+            // Restore body scroll
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            
             searchInputContainer.classList.add('hidden');
             searchInputContainer.classList.remove('flex');
             navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
             searchSeparator.classList.remove('opacity-0', 'pointer-events-none');
             newSearchFieldInput.value = '';
+            
+            // Force blur to ensure keyboard closes
+            newSearchFieldInput.blur();
+            
             closeSearchBtn.classList.add('hidden');
             await fetchContent(false);
         };
@@ -872,6 +896,7 @@
     </script>
 </body>
 </html>
+
 
 
 
