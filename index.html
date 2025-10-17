@@ -50,17 +50,6 @@
             font-family: 'Slackey', cursive;
         }
 
-
-
-        
-        header {
-            will-change: transform;
-        }
-
-
-
-
-        
         /*
         ========================================
         2. UI COMPONENT STYLES
@@ -730,42 +719,25 @@
 
         const openSearchBar = () => {
             state.isSearching = true;
-            
             navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
             searchSeparator.classList.add('opacity-0', 'pointer-events-none');
             searchInputContainer.classList.remove('hidden');
             searchInputContainer.classList.add('flex');
-            
-            // Scroll to top BEFORE focusing (this prevents iOS from breaking the header)
-            window.scrollTo(0, 0);
-            
-            // Small delay to let scroll complete on iOS
-            requestAnimationFrame(() => {
-                newSearchFieldInput.focus();
-            });
-            
+            newSearchFieldInput.focus();
             mainEl.innerHTML = '';
             resetLoadMoreButton();
             closeSearchBtn.classList.remove('hidden');
             updateCloseButtonPosition();
         };
-        
+
         const closeSearchBar = async () => {
             state.isSearching = false;
-            
-            // Blur input first to close keyboard
-            newSearchFieldInput.blur();
-            
             searchInputContainer.classList.add('hidden');
             searchInputContainer.classList.remove('flex');
             navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
             searchSeparator.classList.remove('opacity-0', 'pointer-events-none');
             newSearchFieldInput.value = '';
             closeSearchBtn.classList.add('hidden');
-            
-            // Scroll back to top after closing
-            window.scrollTo(0, 0);
-            
             await fetchContent(false);
         };
 
@@ -900,10 +872,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
