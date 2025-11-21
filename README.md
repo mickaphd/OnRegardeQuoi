@@ -26,7 +26,7 @@
 
 ### Option 1: Use the Official Instance
 
-Simply visit **[onregardequoi.vercel.app](https://onregardequoi.vercel.app/)** and start exploring! No setup required.
+Simply visit **[onregardequoi.com](https://www.onregardequoi.com/)** and start exploring! No setup required.
 
 ### Option 2: Run Locally
 
