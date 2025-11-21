@@ -4,7 +4,7 @@
   <br /><br />
   <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.1
   <br />
-  <a href="https://onregardequoi.vercel.app/"><strong>https://onregardequoi.vercel.app/</strong></a>
+  <a href="https://www.onregardequoi.com/"><strong>https://onregardequoi.vercel.app/</strong></a>
 </p>
 
 **OnRegardeQuoi** is a free, open-source, minimalist web app that helps you discover movies and TV shows through their trailers. It takes its name from the French phrase 'On regarde quoi ?', meaning 'What are we watching?'. The goal is to provide a simple, trailer-focused experience, not to replace more comprehensive movie databases.
