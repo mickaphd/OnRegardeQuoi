@@ -23,6 +23,16 @@
 - **Detailed Information** – Access synopsis, genres, runtime, rating, cast, and director for any title
 - **Watch Later** – Save your selected items to view them later
 
+## 🎨 Screenshots
+
+<img src="https://github.com/user-attachments/assets/cf352f4e-10ff-4bd8-b6b7-73d7b9ccc2bc" width="30%" />
+<br>
+<img src="https://github.com/user-attachments/assets/03c72a51-5581-492a-a8a5-84567834de34" width="30%" />
+<br>
+<img src="https://github.com/user-attachments/assets/aed40ded-487f-441e-bef3-decae18ce21e" width="30%" />
+<br>
+<img src="https://github.com/user-attachments/assets/65f38a68-fc84-4758-8930-8212a58de5f7" width="30%" />
+
 ## 🚀 Getting Started
 
 ### Option 1: Use the Official Instance
