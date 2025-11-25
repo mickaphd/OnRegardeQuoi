@@ -7,7 +7,7 @@
   <a href="https://www.onregardequoi.com/"><strong>onregardequoi.com</strong></a>
 </p>
 
-**OnRegardeQuoi** is a free, open-source, minimalist web app that helps you discover movies and TV shows through their trailers. It takes its name from the French phrase 'On regarde quoi ?', meaning 'What are we watching?'. The goal is to provide a simple, trailer-focused experience, not to replace more comprehensive movie databases.
+**OnRegardeQuoi** is a free, open-source, and minimalist web app that helps you discover movies and TV shows through their trailers. It takes its name from the French phrase 'On regarde quoi ?', meaning 'What are we watching?'. The goal is to provide a simple, trailer-focused experience, not to replace more comprehensive movie databases.
 
 ---
 
@@ -21,6 +21,7 @@
 - **Fast & Lightweight** – Built with HTML, CSS and JavaScript with no heavy frameworks
 - **Smart Caching** – Time-based local storage caching for faster loading on return visits
 - **Detailed Information** – Access synopsis, genres, runtime, rating, cast, and director for any title
+- **Watch Later** – Save your selected items to view them later
 
 ## 🚀 Getting Started
 
