@@ -1,6 +1,6 @@
 <!-- OnRegardeQuoi.com: an open-source and minimalist web app for discovering movies and TV shows -->
 <!-- Made with ❤ by micka from Paris -->
-<!-- v1.2 -->
+<!-- v1.3 -->
 
 <!DOCTYPE html>
 <html lang="en" class="overflow-y-scroll">
@@ -39,80 +39,139 @@
     </script>
 
     <style>
-        /* ===== GLOBAL & UTILS ===== */
-        /* Custom scrollbar hiding (Tailwind plugins for this are heavy, easier in CSS) */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-
-        /* ===== STATE MANAGEMENT ===== */
-        /* Keeping this class allows the JS logic .classList.toggle('active') to work without changes */
-        .nav-button.active, .sub-category-button.active { color: theme('colors.amber.400'); }
-
-        /* ===== POSTER OVERLAYS ===== */
-        /* Complex overlay transitions are cleaner in CSS than long HTML strings */
-        .poster-overlay, .play-icon, .options-icon, .info-icon, .bookmark-icon {
-            opacity: 0; transform: scale(0.8); pointer-events: none; transition: all 0.1s ease;
+        /* ===== GLOBAL STYLES ===== */
+        body {
+            /* Base styles inherited from Tailwind classes */
         }
 
-        /* Hover/Touch Logic */
+        /* ===== UTILITIES ===== */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* ===== COMPONENTS - NAVIGATION ===== */
+        .nav-button {
+            transition: all 0.2s ease;
+        }
+
+        .nav-button.active {
+            color: #FBBF24 !important;
+            background-color: rgba(251, 191, 36, 0.15) !important;
+        }
+
+        .nav-button:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #FBBF24;
+        }
+
+        .sub-category-button {
+            transition: all 0.2s ease;
+        }
+
+        .sub-category-button.active {
+            color: #FBBF24 !important;
+            background-color: rgba(251, 191, 36, 0.15) !important;
+        }
+
+        .sub-category-button:not(.active):hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #FBBF24;
+        }
+
+        /* ===== COMPONENTS - POSTERS ===== */
+        .poster-overlay,
+        .play-icon,
+        .options-icon,
+        .info-icon,
+        .bookmark-icon {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+            transition: all 0.1s ease;
+        }
+
         .poster-container.show-overlay .poster-overlay,
         .poster-container.show-overlay .play-icon,
         .poster-container.show-overlay .options-icon,
         .poster-container.show-overlay .info-icon,
         .poster-container.show-overlay .bookmark-icon {
-            opacity: 1; transform: scale(1); pointer-events: auto;
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
         }
 
+        /* ===== INTERACTIONS - HOVER STATES ===== */
         @media (hover: hover) {
             .poster-container:hover .poster-overlay,
             .poster-container:hover .play-icon,
             .poster-container:hover .options-icon,
             .poster-container:hover .info-icon,
             .poster-container:hover .bookmark-icon {
-                opacity: 1; transform: scale(1); pointer-events: auto;
+                opacity: 1;
+                transform: scale(1);
+                pointer-events: auto;
             }
         }
     </style>
 </head>
 
 <body class="bg-background text-white font-sans antialiased selection:bg-amber-400 selection:text-black">
-    <header class="p-2 sm:py-2 sm:px-6 lg:px-8 flex items-center justify-between fixed top-0 w-full bg-black/10 backdrop-blur-md z-30">
-        <button id="open-app-info-btn" class="flex items-center flex-shrink-0 focus:outline-none cursor-pointer group">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 805 502" aria-label="OnRegardeQuoi logo" class="h-14 w-auto text-amber-400 mr-1 transition-all duration-100 group-hover:text-white group-hover:scale-105">
-                <g transform="translate(0 502) scale(.1 -.1)" fill="currentColor"><path d="M6813 4800c-57-12-91-31-136-77-33-35-87-143-71-143 3 0 49-11 101-25 53-14 96-24 97-23 1 2 7 15 14 31 14 32 67 67 103 67 44 0 94-40 97-80 5-52-15-76-102-121-141-73-167-100-192-207-12-50-11-52 9-57 12-2 53-11 90-20 38-8 74-15 81-15 8 0 19 20 26 45 15 53 40 76 127 115 88 40 128 74 158 133 51 104 20 234-73 304-75 57-236 92-329 73zM358 4653c-14-9-31-27-37-40-8-17-11-435-11-1384v-1361l35-35c20-20 42-33 52-31 17 3 18 74 21 1436 2 1359 1 1432-15 1432-10 0-30-8-45-17zM497 4656c-10-25-8-2828 1-2844 7-10 304-12 1453-10l1444 3-55 34c-30 19-87 58-127 87l-73 54h-1244c-684 0-1252 3-1261 6-46 18-45-16-45 1294 0 1061 2 1235 15 1259 14 28 40 45 54 37 8-5 700-39 1136-56 154-6 642-26 1085-45 443-19 913-39 1045-45 267-10 265-10 265-82v-37l38 21c49 29 52 34 52 95 0 69-13 80-102 87-110 9-937 45-2113 91-214 9-568 24-785 35-217 11-481 23-586 26-175 7-191 6-197-10zM4464 4630c-26-10-40-44-59-145-22-118-25-111 59-129 108-24 146-66 146-160 0-32 6-48 24-65 31-29 56-81 56-116 0-14-9-48-21-75-19-45-20-50-5-78 23-45 20-103-7-143-49-73-125-97-204-64-27 11-39 12-49 4-27-22-15-57 36-108 56-56 66-82 51-137-16-59-46-100-89-125-35-20-41-31-66-108-48-149-97-206-244-280-62-31-62-32-46-54 10-12 44-44 76-72 32-27 58-55 58-62 0-6-14-13-32-15-17-2-33-8-35-14-6-17 55-87 142-165 109-97 114-100 211-114 90-14 164-50 164-82 0-14-9-15-71-9-77 7-139 20-454 95-231 56-342 87-350 101-3 4 12 17 32 27l38 18 110 330c104 314 142 404 168 406 7 1 37 2 67 4 84 4 175 33 215 69 28 24 36 39 37 68 2 54-21 75-88 80-33 3-60 11-65 19-26 42 10 142 67 185 36 28 42 29 149 19 63-6 72-5 93 14 44 43 19 107-54 137-49 21-150 17-203-6-75-35-112-20-67 25 37 37 124 75 172 75 22 0 62-7 89-17l48-16 24 27c31 36 29 59-7 89-74 63-181 63-278 2-102-65-111-70-118-63-14 14 8 60 46 97 71 68 153 96 233 79 40-8 51-7 58 3 16 25 9 58-13 73-26 16-99 30-143 27-47-3-145-54-202-105-71-64-115-134-245-390l-111-219-155-161c-283-295-410-438-480-541-99-148-236-432-244-509-2-24 1-29 22-33 41-6 56-27 42-58-8-18-9-32-2-45 18-34 132-120 366-278 314-210 461-297 766-452 276-140 287-149 309-235 14-56 7-312-16-610-8-104-12-192-7-196 20-21 433-124 627-158 283-48 360-55 655-55 305-1 437 11 690 60 127 25 400 98 434 116 18 10 19 22 13 252-15 600-143 1121-334 1354-55 67-180 169-260 214-70 38-84 57-65 83 4 6 52 37 107 69 98 58 225 172 300 270 31 40 25 56-21 56-12 0-27 6-34 14-9 12-4 20 32 45 74 51 98 72 98 84 0 7-24 24-53 40-143 74-209 178-288 455l-32 114 37 116c62 197 79 304 80 492 0 172-4 199-55 417-29 125-32 132-61 144-26 11-36 9-81-13-87-43-260-209-378-363-25-33-72-104-103-158-32-54-64-101-71-103-7-3-39 2-72 10-104 27-248 31-377 11-62-10-121-15-129-12-8 3-37 45-64 94-105 189-298 420-414 496-61 40-94 50-125 37zM1390 4230v-140h98c53 0 114-3 135-6l37-7v280l-77 7c-42 3-102 6-135 6h-58v-140zM2010 4210v-140h270v267l-77 7c-42 3-102 6-135 6h-58v-140zM2650 4191v-141h260v270h-38c-22 0-80 3-130 6l-92 7v-142zM3280 4175v-135h38c22 0 80-3 130-6l92-7v270l-61 7c-34 3-93 6-130 6h-69v-135zM7335 4127c-48-23-139-111-133-129 2-4 41-30 88-57l85-49 38 34c44 41 80 44 128 11 91-61 44-156-85-172-132-17-190-48-236-128-16-28-30-58-30-64 0-10 166-103 184-103 2 0 9 13 16 29 21 53 51 70 156 92 149 32 193 60 233 149 28 61 28 150 1 206-50 103-197 194-325 201-59 3-78 0-120-20zM6701 4034c-39-33-54-84-38-131 17-51 57-78 118-78 41 0 53 5 79 30 79 80 25 205-88 205-29 0-49-7-71-26zM1392 3743l3-138 133-3 133-3-3 138-3 138-133 3-133 3 3-138zM2010 3726v-134l128-4c70-2 130-3 135-1 4 3 7 65 7 139v134h-270zM2648 3843c-2-4-4-66-4-138l1-130 133-3 132-3v271h-107c-60 0-118 3-129 6-12 3-24 2-26-3zM3280 3696v-135l129-3 130-3 3 130c2 72 2 133 0 138-2 4-61 7-133 7h-129v-134zM7119 3435c-15-8-34-31-44-51-32-67 3-144 75-165 68-21 132 14 150 81 28 103-85 187-181 135zM1390 3250v-140h270v280h-270v-140zM2010 3240v-140h270v134c0 113-2 135-16 140-9 3-69 6-135 6h-119v-140zM2640 3226v-133l68-6c37-4 97-7 135-7h67v280h-270v-134zM1390 2760v-140h270v280h-270v-140zM2010 2750v-140h270v280h-270v-140zM2642 2743l3-138 133-3 132-3v268l-61 7c-34 3-95 6-136 6h-74l3-137zM6832 2603c-26-10-312-477-312-510 0-5 12-20 26-34 14-13 42-46 62-73l35-48 15 38c16 42 56 102 82 121 51 39 142 21 209-42l47-44 116 177c64 97 119 187 123 200 11 38-18 67-102 102-43 18-114 49-158 70-88 40-123 51-143 43zm78-133c27-27 25-56-5-76-23-15-27-15-50 0-29 19-32 51-8 78 21 23 38 23 63-2zm174-86c21-20 20-43-1-66-23-26-59-23-79 7-15 23-15 27 0 50 19 29 56 33 80 9zm-244-66c14-26 13-29-7-49-43-43-111 11-76 60 21 30 63 24 83-11zm135-54c23-9 37-51 25-73-14-28-38-33-71-16-21 12-29 23-29 43 0 45 30 63 75 46zm-230-50c20-20 16-63-8-78-23-15-71 12-75 42-7 47 48 70 83 36zM1390 2280v-140h270v280h-270v-140zM2010 2277v-134l128-6c70-2 131-2 135 2 4 4 6 66 5 137l-3 129-132 3-133 3v-134zM2646 2307c1-50 2-111 3-134l1-42h124c72-1 128 3 131 9 3 6-10 37-31 70-35 58-37 63-31 125l6 65h-204l1-93zM6784 2021c-34-21-60-74-75-156-9-48-7-59 32-156 23-57 53-155 67-216 15-62 31-113 37-112 14 1 225 271 252 322 12 23 24 63 28 89 8 56-10 149-34 179l-18 23-35-55c-66-102-86-103-117 0-30 99-70 123-137 82zM2340 1701c0-76 23-71-322-71h-310l-29-29c-17-17-29-40-29-55v-26h1730v24c0 83-14 86-379 86h-311l-5 23c-2 12-6 35-7 51l-3 28-167 5-168 4v-40z"/></g>
-            </svg>
-        </button>
 
-        <h1 class="font-slackey text-xl tracking-tight hidden md:block">
-            <span>On</span><span class="text-amber-400">Regarde</span><span>Quoi</span>
-        </h1>
+    <!-- ===== HEADER & NAVIGATION ===== -->
+    <header class="fixed inset-0 w-full h-0 z-30 pointer-events-none">
 
-        <div class="flex-grow flex items-center justify-center relative mx-4 min-w-0">
-            <div id="dock-container" class="grid items-center bg-gray-800/20 backdrop-blur-md border border-white/10 rounded-3xl p-1 py-0.5 transition-all duration-300 ease-in-out overflow-x-auto hide-scrollbar">
-                <div id="nav-buttons-container" class="flex items-center gap-0 transition-opacity duration-300 col-start-1 row-start-1 flex-shrink-0">
-                    
-                    <div class="flex items-center gap-0">
-                        <button class="nav-button main-category-button px-1.5 py-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200" data-section="movies" title="Movies"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7"><path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0 1 18 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0 1 18 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 0 1 6 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5" /></svg></button>
-                        <button class="nav-button main-category-button px-1.5 py-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200" data-section="tv" title="TV Shows"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7"><path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" /></svg></button>
+        <!-- Logo Section -->
+        <div id="header-logo" class="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0 flex items-center transition-all duration-300 z-50">
+            <button id="open-app-info-btn" class="flex items-center flex-shrink-0 focus:outline-none cursor-pointer group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 805 502" aria-label="OnRegardeQuoi logo" class="h-12 w-auto text-amber-400 mr-1 transition-all duration-100 group-hover:text-white group-hover:scale-105">
+                    <g transform="translate(0 502) scale(.1 -.1)" fill="currentColor"><path d="M6813 4800c-57-12-91-31-136-77-33-35-87-143-71-143 3 0 49-11 101-25 53-14 96-24 97-23 1 2 7 15 14 31 14 32 67 67 103 67 44 0 94-40 97-80 5-52-15-76-102-121-141-73-167-100-192-207-12-50-11-52 9-57 12-2 53-11 90-20 38-8 74-15 81-15 8 0 19 20 26 45 15 53 40 76 127 115 88 40 128 74 158 133 51 104 20 234-73 304-75 57-236 92-329 73zM358 4653c-14-9-31-27-37-40-8-17-11-435-11-1384v-1361l35-35c20-20 42-33 52-31 17 3 18 74 21 1436 2 1359 1 1432-15 1432-10 0-30-8-45-17zM497 4656c-10-25-8-2828 1-2844 7-10 304-12 1453-10l1444 3-55 34c-30 19-87 58-127 87l-73 54h-1244c-684 0-1252 3-1261 6-46 18-45-16-45 1294 0 1061 2 1235 15 1259 14 28 40 45 54 37 8-5 700-39 1136-56 154-6 642-26 1085-45 443-19 913-39 1045-45 267-10 265-10 265-82v-37l38 21c49 29 52 34 52 95 0 69-13 80-102 87-110 9-937 45-2113 91-214 9-568 24-785 35-217 11-481 23-586 26-175 7-191 6-197-10zM4464 4630c-26-10-40-44-59-145-22-118-25-111 59-129 108-24 146-66 146-160 0-32 6-48 24-65 31-29 56-81 56-116 0-14-9-48-21-75-19-45-20-50-5-78 23-45 20-103-7-143-49-73-125-97-204-64-27 11-39 12-49 4-27-22-15-57 36-108 56-56 66-82 51-137-16-59-46-100-89-125-35-20-41-31-66-108-48-149-97-206-244-280-62-31-62-32-46-54 10-12 44-44 76-72 32-27 58-55 58-62 0-6-14-13-32-15-17-2-33-8-35-14-6-17 55-87 142-165 109-97 114-100 211-114 90-14 164-50 164-82 0-14-9-15-71-9-77 7-139 20-454 95-231 56-342 87-350 101-3 4 12 17 32 27l38 18 110 330c104 314 142 404 168 406 7 1 37 2 67 4 84 4 175 33 215 69 28 24 36 39 37 68 2 54-21 75-88 80-33 3-60 11-65 19-26 42 10 142 67 185 36 28 42 29 149 19 63-6 72-5 93 14 44 43 19 107-54 137-49 21-150 17-203-6-75-35-112-20-67 25 37 37 124 75 172 75 22 0 62-7 89-17l48-16 24 27c31 36 29 59-7 89-74 63-181 63-278 2-102-65-111-70-118-63-14 14 8 60 46 97 71 68 153 96 233 79 40-8 51-7 58 3 16 25 9 58-13 73-26 16-99 30-143 27-47-3-145-54-202-105-71-64-115-134-245-390l-111-219-155-161c-283-295-410-438-480-541-99-148-236-432-244-509-2-24 1-29 22-33 41-6 56-27 42-58-8-18-9-32-2-45 18-34 132-120 366-278 314-210 461-297 766-452 276-140 287-149 309-235 14-56 7-312-16-610-8-104-12-192-7-196 20-21 433-124 627-158 283-48 360-55 655-55 305-1 437 11 690 60 127 25 400 98 434 116 18 10 19 22 13 252-15 600-143 1121-334 1354-55 67-180 169-260 214-70 38-84 57-65 83 4 6 52 37 107 69 98 58 225 172 300 270 31 40 25 56-21 56-12 0-27 6-34 14-9 12-4 20 32 45 74 51 98 72 98 84 0 7-24 24-53 40-143 74-209 178-288 455l-32 114 37 116c62 197 79 304 80 492 0 172-4 199-55 417-29 125-32 132-61 144-26 11-36 9-81-13-87-43-260-209-378-363-25-33-72-104-103-158-32-54-64-101-71-103-7-3-39 2-72 10-104 27-248 31-377 11-62-10-121-15-129-12-8 3-37 45-64 94-105 189-298 420-414 496-61 40-94 50-125 37zM1390 4230v-140h98c53 0 114-3 135-6l37-7v280l-77 7c-42 3-102 6-135 6h-58v-140zM2010 4210v-140h270v267l-77 7c-42 3-102 6-135 6h-58v-140zM2650 4191v-141h260v270h-38c-22 0-80 3-130 6l-92 7v-142zM3280 4175v-135h38c22 0 80-3 130-6l92-7v270l-61 7c-34 3-93 6-130 6h-69v-135zM7335 4127c-48-23-139-111-133-129 2-4 41-30 88-57l85-49 38 34c44 41 80 44 128 11 91-61 44-156-85-172-132-17-190-48-236-128-16-28-30-58-30-64 0-10 166-103 184-103 2 0 9 13 16 29 21 53 51 70 156 92 149 32 193 60 233 149 28 61 28 150 1 206-50 103-197 194-325 201-59 3-78 0-120-20zM6701 4034c-39-33-54-84-38-131 17-51 57-78 118-78 41 0 53 5 79 30 79 80 25 205-88 205-29 0-49-7-71-26zM1392 3743l3-138 133-3 133-3-3 138-3 138-133 3-133 3 3-138zM2010 3726v-134l128-4c70-2 130-3 135-1 4 3 7 65 7 139v134h-270zM2648 3843c-2-4-4-66-4-138l1-130 133-3 132-3v271h-107c-60 0-118 3-129 6-12 3-24 2-26-3zM3280 3696v-135l129-3 130-3 3 130c2 72 2 133 0 138-2 4-61 7-133 7h-129v-134zM7119 3435c-15-8-34-31-44-51-32-67 3-144 75-165 68-21 132 14 150 81 28 103-85 187-181 135zM1390 3250v-140h270v280h-270v-140zM2010 3240v-140h270v134c0 113-2 135-16 140-9 3-69 6-135 6h-119v-140zM2640 3226v-133l68-6c37-4 97-7 135-7h67v280h-270v-134zM1390 2760v-140h270v280h-270v-140zM2010 2750v-140h270v280h-270v-140zM2642 2743l3-138 133-3 132-3v268l-61 7c-34 3-95 6-136 6h-74l3-137zM6832 2603c-26-10-312-477-312-510 0-5 12-20 26-34 14-13 42-46 62-73l35-48 15 38c16 42 56 102 82 121 51 39 142 21 209-42l47-44 116 177c64 97 119 187 123 200 11 38-18 67-102 102-43 18-114 49-158 70-88 40-123 51-143 43zm78-133c27-27 25-56-5-76-23-15-27-15-50 0-29 19-32 51-8 78 21 23 38 23 63-2zm174-86c21-20 20-43-1-66-23-26-59-23-79 7-15 23-15 27 0 50 19 29 56 33 80 9zm-244-66c14-26 13-29-7-49-43-43-111 11-76 60 21 30 63 24 83-11zm135-54c23-9 37-51 25-73-14-28-38-33-71-16-21 12-29 23-29 43 0 45 30 63 75 46zm-230-50c20-20 16-63-8-78-23-15-71 12-75 42-7 47 48 70 83 36zM1390 2280v-140h270v280h-270v-140zM2010 2277v-134l128-6c70-2 131-2 135 2 4 4 6 66 5 137l-3 129-132 3-133 3v-134zM2646 2307c1-50 2-111 3-134l1-42h124c72-1 128 3 131 9 3 6-10 37-31 70-35 58-37 63-31 125l6 65h-204l1-93zM6784 2021c-34-21-60-74-75-156-9-48-7-59 32-156 23-57 53-155 67-216 15-62 31-113 37-112 14 1 225 271 252 322 12 23 24 63 28 89 8 56-10 149-34 179l-18 23-35-55c-66-102-86-103-117 0-30 99-70 123-137 82zM2340 1701c0-76 23-71-322-71h-310l-29-29c-17-17-29-40-29-55v-26h1730v24c0 83-14 86-379 86h-311l-5 23c-2 12-6 35-7 51l-3 28-167 5-168 4v-40z"/></g>
+                </svg>
+            </button>
+            <h1 class="font-slackey text-xl tracking-tight block">
+                <span>On</span><span class="text-amber-400">Regarde</span><span>Quoi</span>
+            </h1>
+        </div>
+
+        <!-- Navigation Dock -->
+        <div class="pointer-events-auto fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-auto md:top-4 md:left-8 md:translate-x-0 z-50 transition-all duration-300 w-max">
+            <div id="dock-container" class="grid items-center bg-black/80 backdrop-blur-xl border border-white/10 rounded-full px-3 py-2 shadow-2xl overflow-x-auto hide-scrollbar">
+
+                <!-- Navigation Buttons -->
+                <div id="nav-buttons-container" class="col-start-1 row-start-1 flex items-center justify-start h-full transition-opacity duration-300 w-full md:w-auto gap-2">
+
+                    <!-- Main Category Buttons -->
+                    <div class="flex items-center gap-2">
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-section="movies" title="Movies"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" /></svg></button>
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-section="tv" title="TV Shows"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" /></svg></button>
                     </div>
 
-                    <div id="search-separator" class="w-px h-6 bg-white/20 mx-0.5 transition-opacity hidden"></div>
+                    <!-- Visual Separator -->
+                    <div class="w-px h-6 bg-white/10 flex-shrink-0"></div>
 
-                    <div id="shared-subcategories" class="flex items-center gap-0.5 p-0.5 border border-amber-400/30 bg-amber-400/15 rounded-xl">
-                        <button class="nav-button sub-category-button px-0.5 py-1 text-gray-300 hover:text-amber-400 transition-colors duration-200" data-category="trending" title="Trending Now"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg></button>
-                        <button class="nav-button sub-category-button px-0.5 py-1 text-gray-300 hover:text-amber-400 transition-colors duration-200" data-category="soon" title="Coming Soon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg></button>
-                        <button class="nav-button sub-category-button px-0.5 py-1 text-gray-300 hover:text-amber-400 transition-colors duration-200" data-category="greats" title="All-Time Greats"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" /></svg></button>
+                    <!-- Sub-Category Buttons (Trending, Soon, Greats) -->
+                    <div id="shared-subcategories" class="flex items-center gap-2">
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-category="trending" title="Trending Now"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg></button>
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-category="soon" title="Coming Soon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg></button>
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-category="greats" title="All-Time Greats"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" /></svg></button>
                     </div>
 
-                    <div id="search-separator" class="w-px h-6 bg-white/20 mx-0.5 transition-opacity hidden"></div>
+                    <!-- Visual Separator (Search) -->
+                    <div id="search-separator" class="w-px h-6 bg-white/10 flex-shrink-0 transition-opacity"></div>
 
-                    <div class="flex items-center gap-0">
-                        <button class="nav-button main-category-button px-1.5 py-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200" data-section="bookmarks" title="My List"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7"><path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" /></svg></button>
-                        <button id="search-toggle-btn" class="nav-button px-1.5 py-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200 flex-shrink-0" title="Toggle Search"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-7"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></button>
+                    <!-- Bookmarks & Search -->
+                    <div class="flex items-center gap-2">
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-400 transition-all duration-200" data-section="bookmarks" title="Bookmarks"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" /></svg></button>
+                        <button id="search-toggle-btn" class="nav-button p-2 rounded-full text-gray-400 hover:text-amber-400 transition-colors duration-200 flex-shrink-0" title="Toggle Search"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></button>
                     </div>
                 </div>
 
-                <div id="search-input-container" class="hidden relative items-center w-full col-start-1 row-start-1">
+                <!-- Search Input (hidden by default) -->
+                <div id="search-input-container" class="col-start-1 row-start-1 hidden relative items-center w-full z-10">
                     <input id="new-search-field-input" type="text" placeholder="Search..." class="bg-transparent focus:outline-none text-white w-full py-1.5 px-3">
                     <button id="close-search-btn" class="hidden absolute p-1 rounded-full text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none ml-2 flex-shrink-0" title="Close Search" style="top: 50%; transform: translateY(-50%);"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
                 </div>
@@ -120,16 +179,22 @@
         </div>
     </header>
 
-    <main id="main-content" class="pt-24 px-4 pb-4 sm:px-6 sm:pb-6 lg:px-8 lg:pb-8"></main>
+    <!-- ===== MAIN CONTENT AREA ===== -->
+    <main id="main-content" class="pt-24 px-4 pb-24 md:pb-8 sm:px-6 lg:px-8"></main>
 
-    <div id="load-more-container" class="fixed bottom-8 right-6 z-20"></div>
+    <!-- ===== LOAD MORE BUTTON ===== -->
+    <div id="load-more-container" class="fixed bottom-24 md:bottom-8 right-6 z-20"></div>
 
+    <!-- ===== MODALS ===== -->
+
+    <!-- Video Player Modal -->
     <div id="video-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-40 opacity-0 pointer-events-none p-4 cursor-pointer transition-opacity duration-200">
         <div class="w-full max-w-4xl aspect-video cursor-default rounded-lg overflow-hidden shadow-[0_0_0_2px_theme('colors.amber.400')]">
             <iframe id="video-player" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
     </div>
 
+    <!-- Trailer List Modal -->
     <div id="trailer-list-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
         <div id="trailer-list-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
             <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
@@ -139,6 +204,7 @@
         </div>
     </div>
 
+    <!-- Info Modal -->
     <div id="info-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
         <div id="info-modal-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
             <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
@@ -148,6 +214,7 @@
         </div>
     </div>
 
+    <!-- App Info Modal (About, Updates, Acknowledgments) -->
     <div id="app-info-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
         <div id="app-info-modal-container" class="rounded-lg shadow-lg w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-8 sm:mt-12">
             <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
@@ -164,6 +231,11 @@
                     <p class="mt-4 text-xs text-gray-400"><a href="#" id="force-refresh-btn" class="opacity-20 hover:opacity-100 transition-opacity" title="Clear all your bookmarks and cached data for movies and TV shows. This is optional, but you might find it helpful!">Reset ↻</a></p>
                 </div>
                 <div id="whats-new-content" class="tab-content hidden">
+                    <h3 class="text-lg font-bold mb-2">v1.3 (November 26, 2025)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Changed the behavior of the Dock</li>
+                        <li>Code optimization</li>
+                    </ul>
                     <h3 class="text-lg font-bold mb-2">v1.2 (November 21, 2025)</h3>
                     <ul class="list-disc list-inside mb-4">
                         <li><i>onregardequoi.com</i> is now the official domain</li>
@@ -195,18 +267,29 @@
         </div>
     </div>
 
+    <!-- ===== APPLICATION SCRIPT ===== -->
     <script type="module">
-        // ==========================================
-        // CONFIGURATION & STATE MANAGEMENT
-        // ==========================================
-        const LOCAL_DEV_API_KEY = '';
-        const TMDB_DIRECT_BASE_URL = 'https://api.themoviedb.org/3';
-        const VERCEL_PROXY_BASE_URL = '/api/tmdb-api';
-        const POSTER_SIZE = window.innerWidth < 768 ? 'w342' : 'w500';
-        const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/${POSTER_SIZE}`;
-        const YOUTUBE_EMBED_URL = 'https://www.youtube-nocookie.com/embed/';
+        // ======================================
+        // CONFIGURATION & CONSTANTS
+        // ======================================
 
-        // Cache expiration times for different content types
+        // API Configuration
+        const API_CONFIG = {
+            devKey: '',
+            tmdbDirectUrl: 'https://api.themoviedb.org/3',
+            vercelProxyUrl: '/api/tmdb-api',
+            youtubeEmbedUrl: 'https://www.youtube-nocookie.com/embed/',
+        };
+
+        // UI Configuration
+        const UI_CONFIG = {
+            posterSize: window.innerWidth < 768 ? 'w342' : 'w500',
+        };
+
+        // Derived constants
+        const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/${UI_CONFIG.posterSize}`;
+
+        // Cache expiration times (in milliseconds)
         const CACHE_TTLS = {
             trending: 12 * 60 * 60 * 1000,  // 12 hours
             soon: 24 * 60 * 60 * 1000,      // 24 hours
@@ -214,14 +297,69 @@
         };
 
         // Default app data structure
-        const defaultAppData = {
-            movies: { trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }, soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }, greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 } },
-            tv: { trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }, soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }, greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 } }
+        const DEFAULT_APP_DATA = {
+            movies: {
+                trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }
+            },
+            tv: {
+                trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }
+            }
         };
 
-        // Global app state
+        // API parameter configurations for different content types
+        const API_PARAMS_CONFIG = {
+            movies: {
+                trending: {
+                    'primary_release_date.gte': getFormattedDate(-90),
+                    'primary_release_date.lte': getFormattedDate(),
+                    'vote_average.gte': 5,
+                    'vote_count.gte': 100,
+                    'sort_by': 'popularity.desc'
+                },
+                soon: {
+                    'primary_release_date.gte': getFormattedDate(1),
+                    'primary_release_date.lte': getFormattedDate(0, 6),
+                    'sort_by': 'popularity.desc',
+                    'with_original_language': 'en|fr'
+                },
+                greats: {
+                    'sort_by': 'vote_average.desc',
+                    'vote_count.gte': 5000
+                }
+            },
+            tv: {
+                trending: {
+                    'first_air_date.gte': getFormattedDate(0, -6),
+                    'first_air_date.lte': getFormattedDate(),
+                    'vote_average.gte': 5,
+                    'vote_count.gte': 100,
+                    'sort_by': 'popularity.desc'
+                },
+                soon: {
+                    'first_air_date.gte': getFormattedDate(1),
+                    'first_air_date.lte': getFormattedDate(0, 0, 1),
+                    'sort_by': 'popularity.desc',
+                    'with_original_language': 'en|fr'
+                },
+                greats: {
+                    'sort_by': 'vote_average.desc',
+                    'vote_count.gte': 2000
+                }
+            }
+        };
+
+        // ======================================
+        // STATE MANAGEMENT
+        // ======================================
+        // Centralized state object tracking app data, UI state,
+        // user bookmarks, and search state.
+
         const state = {
-            appData: defaultAppData,
+            appData: DEFAULT_APP_DATA,
             bookmarks: JSON.parse(localStorage.getItem('onregardequoi_bookmarks')) || [],
             activeSection: null,
             activeCategory: 'trending',
@@ -230,15 +368,18 @@
             textMeasureSpan: null
         };
 
-        // ==========================================
+        // ======================================
         // DOM SELECTORS
-        // ==========================================
+        // ======================================
+
+        // Query helper
         const $ = (selector) => document.querySelector(selector);
 
         // Main containers
         const mainEl = $('#main-content');
         const loadMoreContainerEl = $('#load-more-container');
         const dockContainer = $('#dock-container');
+        const headerLogo = $('#header-logo');
 
         // Navigation elements
         const searchToggleBtn = $('#search-toggle-btn');
@@ -249,18 +390,22 @@
         const sharedSubcategoriesEl = $('#shared-subcategories');
         const searchSeparator = $('#search-separator');
 
-        // Modal elements
+        // Modal elements (video player)
         const videoModalEl = $('#video-modal');
         const videoPlayerEl = $('#video-player');
+
+        // Modal elements (trailer list)
         const trailerListModalEl = $('#trailer-list-modal');
         const trailerListContentEl = $('#trailer-list-content');
         const trailerListTitleEl = $('#trailer-list-title');
+
+        // Modal elements (info)
         const infoModalEl = $('#info-modal');
         const infoModalContentEl = $('#info-modal-content');
         const infoModalTitleEl = $('#info-modal-title');
-        const appInfoModalEl = $('#app-info-modal');
 
-        // App info modal tabs
+        // Modal elements (app info)
+        const appInfoModalEl = $('#app-info-modal');
         const openAppInfoBtn = $('#open-app-info-btn');
         const aboutTabBtn = $('#about-tab-btn');
         const whatsNewTabBtn = $('#whats-new-tab-btn');
@@ -270,39 +415,69 @@
         const acknowledgmentContent = $('#acknowledgment-content');
         const forceRefreshBtn = $('#force-refresh-btn');
 
-        // ==========================================
-        // API & CACHE FUNCTIONS
-        // ==========================================
+        // ======================================
+        // UTILITY & HELPER FUNCTIONS
+        // ======================================
 
-        // Generate formatted dates for API queries
-        const getFormattedDate = (d = 0, m = 0, y = 0) => {
+        // Generate formatted dates for API queries (YYYY-MM-DD format)
+        function getFormattedDate(daysOffset = 0, monthsOffset = 0, yearsOffset = 0) {
             const date = new Date();
-            date.setDate(date.getDate() + d);
-            date.setMonth(date.getMonth() + m);
-            date.setFullYear(date.getFullYear() + y);
+            date.setDate(date.getDate() + daysOffset);
+            date.setMonth(date.getMonth() + monthsOffset);
+            date.setFullYear(date.getFullYear() + yearsOffset);
             return date.toISOString().split('T')[0];
-        };
+        }
 
-        // API parameter configurations for different content types
-        const apiParamsConfig = {
-            movies: {
-                trending: { 'primary_release_date.gte': getFormattedDate(-90), 'primary_release_date.lte': getFormattedDate(), 'vote_average.gte': 5, 'vote_count.gte': 100, 'sort_by': 'popularity.desc' },
-                soon: { 'primary_release_date.gte': getFormattedDate(1), 'primary_release_date.lte': getFormattedDate(0, 6), 'sort_by': 'popularity.desc', 'with_original_language': 'en|fr' },
-                greats: { 'sort_by': 'vote_average.desc', 'vote_count.gte': 5000 }
-            },
-            tv: {
-                trending: { 'first_air_date.gte': getFormattedDate(0, -6), 'first_air_date.lte': getFormattedDate(), 'vote_average.gte': 5, 'vote_count.gte': 100, 'sort_by': 'popularity.desc' },
-                soon: { 'first_air_date.gte': getFormattedDate(1), 'first_air_date.lte': getFormattedDate(0, 0, 1), 'sort_by': 'popularity.desc', 'with_original_language': 'en|fr' },
-                greats: { 'sort_by': 'vote_average.desc', 'vote_count.gte': 2000 }
-            }
-        };
+        // Get SVG icon by name (used in poster cards and modals)
+        function getIcon(name, classes) {
+            const paths = {
+                movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
+                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
+                bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" />'
+            };
+            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
+        }
+
+        // Update close button position based on input text width
+        function updateCloseButtonPosition() {
+            if (!state.textMeasureSpan) return;
+            const typedText = newSearchFieldInput.value;
+            const textToMeasure = typedText.length > 0 ? typedText : newSearchFieldInput.placeholder;
+            state.textMeasureSpan.textContent = textToMeasure;
+            const textWidth = state.textMeasureSpan.offsetWidth;
+            const inputPaddingLeft = parseFloat(window.getComputedStyle(newSearchFieldInput).paddingLeft);
+            closeSearchBtn.style.left = `${inputPaddingLeft + textWidth}px`;
+        }
+
+        // Create hidden span for measuring text width
+        function createTextMeasurementSpan() {
+            const span = document.createElement('span');
+            const inputStyle = window.getComputedStyle(newSearchFieldInput);
+            Object.assign(span.style, {
+                fontFamily: inputStyle.fontFamily,
+                fontSize: inputStyle.fontSize,
+                fontWeight: inputStyle.fontWeight,
+                letterSpacing: inputStyle.letterSpacing,
+                position: 'absolute',
+                visibility: 'hidden',
+                height: 'auto',
+                width: 'auto',
+                whiteSpace: 'pre'
+            });
+            document.body.appendChild(span);
+            state.textMeasureSpan = span;
+        }
+
+        // ======================================
+        // API & CACHE FUNCTIONS
+        // ======================================
 
         // Generic API fetch function (handles both direct and proxy calls)
-        const apiFetch = async (tmdbEndpoint, params = {}) => {
+        async function apiFetch(tmdbEndpoint, params = {}) {
             try {
-                const baseUrl = LOCAL_DEV_API_KEY ? TMDB_DIRECT_BASE_URL : VERCEL_PROXY_BASE_URL;
-                if (LOCAL_DEV_API_KEY) {
-                    const allParams = { api_key: LOCAL_DEV_API_KEY, language: 'en-US', ...params };
+                const baseUrl = API_CONFIG.devKey ? API_CONFIG.tmdbDirectUrl : API_CONFIG.vercelProxyUrl;
+                if (API_CONFIG.devKey) {
+                    const allParams = { api_key: API_CONFIG.devKey, language: 'en-US', ...params };
                     const url = new URL(baseUrl + tmdbEndpoint);
                     url.search = new URLSearchParams(allParams).toString();
                     const response = await fetch(url);
@@ -321,12 +496,13 @@
                 console.error(`API fetch error for ${tmdbEndpoint}:`, error);
                 return null;
             }
-        };
+        }
 
         // Get trailers for a movie/TV show, prioritizing official trailers
-        const getTrailers = async (type, id) => {
+        async function getTrailers(type, id) {
             const data = await apiFetch(`/${type}/${id}/videos`);
             if (!data?.results?.length) return [];
+
             const priority = (v) => {
                 const n = v.name.toLowerCase();
                 if (['trailer', 'teaser'].includes(v.type.toLowerCase()) && !['promo', 'spot', 'bts'].some(kw => n.includes(kw))) {
@@ -337,30 +513,42 @@
                 }
                 return 1;
             };
-            return data.results.filter(v => v.site === 'YouTube').sort((a, b) => priority(b) - priority(a));
-        };
+
+            return data.results
+                .filter(v => v.site === 'YouTube')
+                .sort((a, b) => priority(b) - priority(a));
+        }
 
         // Get best trailer (first in priority order)
-        const getBestTrailer = async (type, id) => (await getTrailers(type, id))[0] || null;
+        async function getBestTrailer(type, id) {
+            const trailers = await getTrailers(type, id);
+            return trailers[0] || null;
+        }
 
         // Get detailed information for a movie/TV show
-        const getDetails = async (type, id) => await apiFetch(`/${type}/${id}`);
+        async function getDetails(type, id) {
+            return await apiFetch(`/${type}/${id}`);
+        }
 
-        // Cache management functions
-        const saveCache = () => localStorage.setItem('onregardequoi_cache', JSON.stringify(state.appData));
-        const loadCache = () => {
+        // Cache management - save to localStorage
+        function saveCache() {
+            localStorage.setItem('onregardequoi_cache', JSON.stringify(state.appData));
+        }
+
+        // Cache management - load from localStorage
+        function loadCache() {
             try {
                 const cachedData = localStorage.getItem('onregardequoi_cache');
                 if (cachedData) state.appData = JSON.parse(cachedData);
             } catch (error) {
                 console.error("Failed to load cache:", error);
-                state.appData = defaultAppData;
+                state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
             }
-        };
+        }
 
         // Clear all cache and bookmarks
-        const forceClearCache = () => {
-            state.appData = JSON.parse(JSON.stringify(defaultAppData));
+        function forceClearCache() {
+            state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
             saveCache();
             state.bookmarks = [];
             localStorage.removeItem('onregardequoi_bookmarks');
@@ -371,62 +559,259 @@
                 fetchContent(false);
             }
             closeModal(appInfoModalEl);
-        };
+        }
 
-        // ==========================================
-        // UI RENDERING & MANAGEMENT
-        // ==========================================
+        // ======================================
+        // MODAL MANAGEMENT
+        // ======================================
 
-        // Update close button position based on input text width
-        const updateCloseButtonPosition = () => {
-            if (!state.textMeasureSpan) return;
-            const typedText = newSearchFieldInput.value;
-            const textToMeasure = typedText.length > 0 ? typedText : newSearchFieldInput.placeholder;
-            state.textMeasureSpan.textContent = textToMeasure;
-            const textWidth = state.textMeasureSpan.offsetWidth;
-            const inputPaddingLeft = parseFloat(window.getComputedStyle(newSearchFieldInput).paddingLeft);
-            closeSearchBtn.style.left = `${inputPaddingLeft + textWidth}px`;
-        };
+        // Open modal (remove visibility classes)
+        function openModal(modal) {
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
 
-        // Create hidden span for text width measurement
-        const createTextMeasurementSpan = () => {
-            const span = document.createElement('span');
-            const inputStyle = window.getComputedStyle(newSearchFieldInput);
-            Object.assign(span.style, {
-                fontFamily: inputStyle.fontFamily, fontSize: inputStyle.fontSize,
-                fontWeight: inputStyle.fontWeight, letterSpacing: inputStyle.letterSpacing,
-                position: 'absolute', visibility: 'hidden', height: 'auto',
-                width: 'auto', whiteSpace: 'pre'
+        // Close modal (add visibility classes)
+        function closeModal(modal) {
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Open trailer in video player
+        function openTrailer(videoKey) {
+            if (videoKey) {
+                videoPlayerEl.src = `${API_CONFIG.youtubeEmbedUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
+                openModal(videoModalEl);
+            }
+        }
+
+        // Close video player and clear iframe
+        function closeTrailer() {
+            closeModal(videoModalEl);
+            setTimeout(() => videoPlayerEl.src = 'about:blank', 300);
+        }
+
+        // Show trailer list modal with available videos
+        function showTrailerList(title, trailers) {
+            trailerListTitleEl.textContent = `Videos for ${title}`;
+            trailerListContentEl.innerHTML = trailers?.length
+                ? trailers.map(t => `<div class="video-item px-4 py-3 cursor-pointer flex justify-between items-center rounded-md hover:bg-amber-400 hover:text-white transition-colors" data-key="${t.key}" title="${t.name}"><span class="truncate pr-2">${t.name}</span><span class="video-type-tag text-xs bg-gray-700 text-gray-300 rounded px-1.5 py-0.5 whitespace-nowrap">${t.type}</span></div>`).join('')
+                : `<div class="p-4 text-gray-400">No videos found.</div>`;
+            openModal(trailerListModalEl);
+        }
+
+        // Show info modal with detailed information
+        async function showInfoModal(title, details, type, id) {
+            const encodedTitle = encodeURIComponent(title);
+            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
+            const externalLinksHTML = `
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on IMDb">IMDb</a>
+                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten</a>
+                    <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
+                </div>
+            `;
+
+            infoModalTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">${title}</span>${externalLinksHTML}</div>`;
+
+            let content = '<div class="text-gray-400">Details not available.</div>';
+            if (details) {
+                const credits = await apiFetch(`/${type}/${id}/credits`);
+                const director = credits?.crew?.find(c => c.job === 'Director')?.name || 'N/A';
+                const cast = credits?.cast?.slice(0, 5).map(a => a.name).join(', ') || 'N/A';
+                const currencyFormatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                });
+
+                const infoMap = {
+                    "Year": (details.release_date || details.first_air_date || '').substring(0, 4) || 'N/A',
+                    "Genres": details.genres?.map(g => g.name).join(', ') || 'N/A',
+                    "Runtime": details.runtime ? `${details.runtime} min` : (details.episode_run_time?.[0] ? `${details.episode_run_time[0]} min/ep` : 'N/A'),
+                    "Rating": details.vote_average ? `${details.vote_average.toFixed(1)}/10 (${details.vote_count} votes)` : 'N/A',
+                    "Status": details.status || 'N/A',
+                    "Director": director,
+                    "Cast": cast,
+                    "Budget": details.budget > 0 ? currencyFormatter.format(details.budget) : null,
+                    "Revenue": details.revenue > 0 ? currencyFormatter.format(details.revenue) : null,
+                    "Production": details.production_companies?.map(c => c.name).join(', ') || null,
+                    "Seasons": type === 'tv' && details.number_of_seasons ? details.number_of_seasons : null,
+                    "Episodes": type === 'tv' && details.number_of_episodes ? details.number_of_episodes : null,
+                };
+
+                content = Object.entries(infoMap)
+                    .filter(([_, v]) => v && v !== 'N/A')
+                    .map(([k, v]) => `<div><strong>${k}:</strong> <span class="text-gray-400">${v}</span></div>`)
+                    .join('') + `<div class="mt-2"><strong>Synopsis:</strong> <span class="text-gray-400 leading-relaxed">${details.overview || 'No synopsis.'}</span></div>`;
+            }
+
+            infoModalContentEl.innerHTML = `<div class="space-y-2">${content}</div>`;
+            openModal(infoModalEl);
+        }
+
+        // Switch between app info modal tabs
+        function switchAppInfoTab(activeTabId) {
+            const tabs = [
+                { id: 'about-tab-btn', btn: aboutTabBtn, content: aboutContent },
+                { id: 'whats-new-tab-btn', btn: whatsNewTabBtn, content: whatsNewContent },
+                { id: 'acknowledgment-tab-btn', btn: acknowledgmentTabBtn, content: acknowledgmentContent }
+            ];
+
+            tabs.forEach(tab => {
+                const isActive = tab.id === activeTabId;
+                tab.btn.classList.toggle('text-white', isActive);
+                tab.btn.classList.toggle('text-gray-400', !isActive);
+                tab.btn.classList.toggle('border-amber-400', isActive);
+                tab.btn.classList.toggle('border-transparent', !isActive);
+                tab.content.classList.toggle('hidden', !isActive);
             });
-            document.body.appendChild(span);
-            state.textMeasureSpan = span;
-        };
+        }
 
-        // Get SVG icon by name
-        const getIcon = (name, classes) => {
-            const paths = {
-                movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 0 1-1.125-1.125M3.375 19.5h1.5C5.496 19.5 6 18.996 6 18.375m-3.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-1.5A1.125 1.125 0 0 1 18 18.375M20.625 4.5H3.375m17.25 0c.621 0 1.125.504 1.125 1.125M20.625 4.5h-1.5C18.504 4.5 18 5.004 18 5.625m3.75 0v1.5c0 .621-.504 1.125-1.125 1.125M3.375 4.5c-.621 0-1.125.504-1.125 1.125M3.375 4.5h1.5C5.496 4.5 6 5.004 6 5.625m-3.75 0v1.5c0 .621.504 1.125 1.125 1.125m0 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m1.5-3.75C5.496 8.25 6 7.746 6 7.125v-1.5M4.875 8.25C5.496 8.25 6 8.754 6 9.375v1.5m0-5.25v5.25m0-5.25C6 5.004 6.504 4.5 7.125 4.5h9.75c.621 0 1.125.504 1.125 1.125m1.125 2.625h1.5m-1.5 0A1.125 1.125 0 0 1 18 7.125v-1.5m1.125 2.625c-.621 0-1.125.504-1.125 1.125v1.5m2.625-2.625c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125M18 5.625v5.25M7.125 12h9.75m-9.75 0A1.125 1.125 0 0 1 6 10.875M7.125 12C6.504 12 6 12.504 6 13.125m0-2.25C6 11.496 5.496 12 4.875 12M18 10.875c0 .621-.504 1.125-1.125 1.125M18 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m-12 5.25v-5.25m0 5.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125m-12 0v-1.5c0-.621-.504-1.125-1.125-1.125M18 18.375v-5.25m0 5.25v-1.5c0-.621.504-1.125 1.125-1.125M18 13.125v1.5c0 .621.504 1.125 1.125 1.125M18 13.125c0-.621.504-1.125 1.125-1.125M6 13.125v1.5c0 .621-.504 1.125-1.125 1.125M6 13.125C6 12.504 5.496 12 4.875 12m-1.5 0h1.5m-1.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M19.125 12h1.5m0 0c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h1.5m14.25 0h1.5" />',
-                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z" />',
-                bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z" />'
-            };
-            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
-        };
+        // ======================================
+        // CORE APPLICATION LOGIC
+        // ======================================
+
+        // Fetch content from API or cache
+        async function fetchContent(append = false) {
+            if (state.isSearching) return;
+
+            const mediaType = state.activeSection === 'movies' ? 'movie' : 'tv';
+            const category = state.activeCategory;
+            const cache = state.appData[state.activeSection][category];
+            const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS[category];
+
+            // If not appending and cache exists and is fresh, use it
+            if (!append && cache.items.length > 0 && !isCacheStale) {
+                renderContent(cache.items);
+                resetLoadMoreButton();
+                return;
+            }
+
+            // Reset cache if stale
+            if (!append && isCacheStale) {
+                Object.assign(cache, { items: [], nextPage: 1, hasMore: true });
+            }
+
+            // Don't load more if we've reached the end
+            if (!cache.hasMore && append) return;
+
+            // Fetch from API
+            const params = { ...API_PARAMS_CONFIG[state.activeSection][category], page: cache.nextPage };
+            const data = await apiFetch(`/discover/${mediaType}`, params);
+
+            if (data?.results?.length > 0) {
+                cache.items.push(...data.results.filter(item => item.poster_path));
+                cache.nextPage++;
+                cache.hasMore = data.page < data.total_pages;
+                if (!append) cache.timestamp = Date.now();
+            } else {
+                cache.hasMore = false;
+            }
+
+            renderContent(cache.items);
+            resetLoadMoreButton();
+            saveCache();
+        }
+
+        // Set active section (movies, tv, bookmarks)
+        async function setActiveSection(section) {
+            if (state.isSearching) return;
+
+            // Apply visual changes immediately
+            document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === section));
+
+            if (section === 'bookmarks') {
+                state.activeSection = section;
+                sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
+                if (state.bookmarks.length === 0) {
+                    mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
+                } else {
+                    renderContent(state.bookmarks);
+                }
+                resetLoadMoreButton();
+                return;
+            }
+
+            state.activeSection = section;
+            sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
+            await fetchContent(false);
+        }
+
+        // Open search bar
+        function openSearchBar() {
+            state.isSearching = true;
+            navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
+            searchInputContainer.classList.remove('hidden');
+            searchInputContainer.classList.add('flex');
+            newSearchFieldInput.focus();
+            mainEl.innerHTML = '';
+            resetLoadMoreButton();
+            closeSearchBtn.classList.remove('hidden');
+            updateCloseButtonPosition();
+        }
+
+        // Close search bar
+        async function closeSearchBar() {
+            state.isSearching = false;
+            searchInputContainer.classList.add('hidden');
+            searchInputContainer.classList.remove('flex');
+            navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
+            newSearchFieldInput.value = '';
+            closeSearchBtn.classList.add('hidden');
+
+            // Reapply active classes when search closes
+            document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === state.activeSection));
+            if (state.activeSection !== 'bookmarks') {
+                sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
+            }
+
+            if (state.activeSection === 'bookmarks') {
+                setActiveSection('bookmarks');
+            } else {
+                await fetchContent(false);
+            }
+        }
+
+        // Perform search with debouncing
+        async function performSearch(query) {
+            clearTimeout(state.debounceTimer);
+            if (!query) {
+                mainEl.innerHTML = '';
+                return;
+            }
+
+            mainEl.innerHTML = '<div class="text-center text-gray-400">Searching...</div>';
+            state.debounceTimer = setTimeout(async () => {
+                const data = await apiFetch('/search/multi', { query });
+                const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
+                results.sort((a, b) => b.popularity - a.popularity);
+
+                if (results.length > 0) {
+                    renderContent(results);
+                } else {
+                    mainEl.innerHTML = '<p class="text-center text-gray-400">No results found.</p>';
+                }
+            }, 350);
+        }
+
+        // ======================================
+        // UI RENDERING & MANAGEMENT
+        // ======================================
 
         // Create HTML for a single poster card
-        const createPosterHTML = (item) => {
+        function createPosterHTML(item) {
             const type = item.media_type || (item.title ? 'movie' : 'tv');
             const title = item.title || item.name;
             const year = (item.release_date || item.first_air_date || '').substring(0, 4);
             const tooltip = `${title}${year ? ` (${year})` : ''}`;
             const isBookmarked = state.bookmarks.some(b => b.id == item.id);
-            
+
             let badgeHTML = '';
             if (item.media_type) {
                 const icon = getIcon(item.media_type === 'movie' ? 'movie' : 'tv', 'w-4 h-4 text-black');
                 badgeHTML = `<div class="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full z-10" title="${item.media_type === 'movie' ? 'Movie' : 'TV Show'}">${icon}</div>`;
             }
 
-            // Updated to use Tailwind ring utility for hover border instead of custom CSS
             return `<div class="poster-container transition-transform duration-100 hover:scale-105 hover:z-10" data-id="${item.id}" data-type="${type}" data-title="${title}" data-poster="${item.poster_path}" title="${tooltip}">
                 <div class="poster relative rounded-lg overflow-hidden shadow-lg bg-gray-900 aspect-[2/3] ring-0 hover:ring-2 hover:ring-amber-400 transition-shadow duration-100">
                     ${badgeHTML}
@@ -453,10 +838,10 @@
                     </div>
                 </div>
             </div>`;
-        };
+        }
 
         // Render poster grid
-        const renderContent = (itemsToRender) => {
+        function renderContent(itemsToRender) {
             if (!itemsToRender) return;
             let grid = mainEl.querySelector('.grid');
             if (!grid) {
@@ -466,234 +851,52 @@
                 mainEl.appendChild(grid);
             }
             grid.innerHTML = itemsToRender.map(createPosterHTML).join('');
-        };
+        }
 
         // Setup load more button
-        const setupLoadMoreButton = () => {
+        function setupLoadMoreButton() {
             if ($('#load-more-btn')) return;
             const button = document.createElement('button');
             button.id = 'load-more-btn';
-            // Updated with Tailwind classes instead of .glass-button
             button.className = 'bg-gray-700/50 backdrop-blur-md border border-white/10 rounded-full p-3 shadow-lg transition-all duration-200 hover:bg-amber-400 hover:scale-110 hover:text-black text-white group';
             loadMoreContainerEl.appendChild(button);
-        };
+        }
 
         // Update load more button state
-        const resetLoadMoreButton = () => {
+        function resetLoadMoreButton() {
             const button = $('#load-more-btn');
             if (!button) return;
+
             const shouldHide = state.isSearching || state.activeSection === 'bookmarks';
             button.classList.toggle('hidden', shouldHide);
             if (shouldHide) return;
+
             const cache = state.appData[state.activeSection][state.activeCategory];
             button.disabled = !cache.hasMore;
-            
-            // Replace button.style.cursor with Tailwind classes
             button.classList.toggle('cursor-pointer', cache.hasMore);
             button.classList.toggle('cursor-not-allowed', !cache.hasMore);
-            
             button.title = cache.hasMore ? 'Load More' : 'No more results';
-            button.innerHTML = cache.hasMore 
-                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-
 
-        width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>` 
+            button.innerHTML = cache.hasMore
+                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>`
                 : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 1 1 5.636 5.636m12.728 12.728L5.636 5.636" /></svg>`;
-        };
+        }
 
+        // ======================================
+        // EVENT HANDLERS - POSTER INTERACTIONS
+        // ======================================
 
-        // ==========================================
-        // MODAL MANAGEMENT
-        // ==========================================
-
-        const openModal = (modal) => modal.classList.remove('opacity-0', 'pointer-events-none');
-        const closeModal = (modal) => modal.classList.add('opacity-0', 'pointer-events-none');
-
-        // Open trailer in video player
-        const openTrailer = (videoKey) => {
-            if (videoKey) {
-                videoPlayerEl.src = `${YOUTUBE_EMBED_URL}${videoKey}?autoplay=1&controls=1&rel=0`;
-                openModal(videoModalEl);
-            }
-        };
-
-        // Close video player
-        const closeTrailer = () => {
-            closeModal(videoModalEl);
-            setTimeout(() => videoPlayerEl.src = 'about:blank', 300);
-        };
-
-        // Show trailer list modal
-        const showTrailerList = (title, trailers) => {
-            trailerListTitleEl.textContent = `Videos for ${title}`;
-            // Updated with tailwind classes for list items
-            trailerListContentEl.innerHTML = trailers?.length 
-                ? trailers.map(t => `<div class="video-item px-4 py-3 cursor-pointer flex justify-between items-center rounded-md hover:bg-amber-400 hover:text-white transition-colors" data-key="${t.key}" title="${t.name}"><span class="truncate pr-2">${t.name}</span><span class="video-type-tag text-xs bg-gray-700 text-gray-300 rounded px-1.5 py-0.5 whitespace-nowrap">${t.type}</span></div>`).join('') 
-                : `<div class="p-4 text-gray-400">No videos found.</div>`;
-            openModal(trailerListModalEl);
-        };
-
-        // Show info modal with details
-        const showInfoModal = async (title, details, type, id) => {
-            const encodedTitle = encodeURIComponent(title);
-            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
-            const externalLinksHTML = `
-                <div class="flex flex-wrap gap-2 mt-2">
-                    <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on IMDb">IMDb</a>
-                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten</a>
-                    <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
-                </div>
-            `;
-            infoModalTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">${title}</span>${externalLinksHTML}</div>`;
-            let content = '<div class="text-gray-400">Details not available.</div>';
-            if (details) {
-                const credits = await apiFetch(`/${type}/${id}/credits`);
-                const director = credits?.crew?.find(c => c.job === 'Director')?.name || 'N/A';
-                const cast = credits?.cast?.slice(0, 5).map(a => a.name).join(', ') || 'N/A';
-                const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                const infoMap = {
-                    "Year": (details.release_date || details.first_air_date || '').substring(0, 4) || 'N/A',
-                    "Genres": details.genres?.map(g => g.name).join(', ') || 'N/A',
-                    "Runtime": details.runtime ? `${details.runtime} min` : (details.episode_run_time?.[0] ? `${details.episode_run_time[0]} min/ep` : 'N/A'),
-                    "Rating": details.vote_average ? `${details.vote_average.toFixed(1)}/10 (${details.vote_count} votes)` : 'N/A', 
-                    "Status": details.status || 'N/A', 
-                    "Director": director, 
-                    "Cast": cast,
-                    "Budget": details.budget > 0 ? currencyFormatter.format(details.budget) : null, 
-                    "Revenue": details.revenue > 0 ? currencyFormatter.format(details.revenue) : null,
-                    "Production": details.production_companies?.map(c => c.name).join(', ') || null, 
-                    "Seasons": type === 'tv' && details.number_of_seasons ? details.number_of_seasons : null,
-                    "Episodes": type === 'tv' && details.number_of_episodes ? details.number_of_episodes : null,
-                };
-                content = Object.entries(infoMap).filter(([_, v]) => v && v !== 'N/A').map(([k, v]) => `<div><strong>${k}:</strong> <span class="text-gray-400">${v}</span></div>`).join('') + `<div class="mt-2"><strong>Synopsis:</strong> <span class="text-gray-400 leading-relaxed">${details.overview || 'No synopsis.'}</span></div>`;
-            }
-            infoModalContentEl.innerHTML = `<div class="space-y-2">${content}</div>`;
-            openModal(infoModalEl);
-        };
-
-        // Switch app info modal tabs
-        const switchAppInfoTab = (activeTabId) => {
-            const tabs = [ { id: 'about-tab-btn', btn: aboutTabBtn, content: aboutContent }, { id: 'whats-new-tab-btn', btn: whatsNewTabBtn, content: whatsNewContent }, { id: 'acknowledgment-tab-btn', btn: acknowledgmentTabBtn, content: acknowledgmentContent } ];
-            tabs.forEach(tab => {
-                const isActive = tab.id === activeTabId;
-                tab.btn.classList.toggle('text-white', isActive);
-                tab.btn.classList.toggle('text-gray-400', !isActive);
-                tab.btn.classList.toggle('border-amber-400', isActive);
-                tab.btn.classList.toggle('border-transparent', !isActive);
-                tab.content.classList.toggle('hidden', !isActive);
-            });
-        };
-
-        // ==========================================
-        // CORE APPLICATION LOGIC
-        // ==========================================
-
-        // Fetch content from API or cache
-        const fetchContent = async (append = false) => {
-            if (state.isSearching) return;
-            const mediaType = state.activeSection === 'movies' ? 'movie' : 'tv';
-            const category = state.activeCategory;
-            const cache = state.appData[state.activeSection][category];
-            const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS[category];
-            if (!append && cache.items.length > 0 && !isCacheStale) {
-                renderContent(cache.items);
-                resetLoadMoreButton();
-                return;
-            }
-            if (!append && isCacheStale) {
-                Object.assign(cache, { items: [], nextPage: 1, hasMore: true });
-            }
-            if (!cache.hasMore && append) return;
-            const params = { ...apiParamsConfig[state.activeSection][category], page: cache.nextPage };
-            const data = await apiFetch(`/discover/${mediaType}`, params);
-            if (data?.results?.length > 0) {
-                cache.items.push(...data.results.filter(item => item.poster_path));
-                cache.nextPage++;
-                cache.hasMore = data.page < data.total_pages;
-                if (!append) cache.timestamp = Date.now();
-            } else {
-                cache.hasMore = false;
-            }
-            renderContent(cache.items);
-            resetLoadMoreButton();
-            saveCache();
-        };
-
-        // Set active section (movies, tv, bookmarks)
-        const setActiveSection = async (section) => {
-            if (state.isSearching || state.activeSection === section) return;
-            document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === section));
-            if (section === 'bookmarks') {
-                state.activeSection = section;
-                sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
-                if (state.bookmarks.length === 0) {
-                    mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
-                } else {
-                    renderContent(state.bookmarks);
-                }
-                resetLoadMoreButton();
-                return;
-            }
-            state.activeSection = section;
-            sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
-            await fetchContent(false);
-        };
-
-        // Open search bar
-        const openSearchBar = () => {
-            state.isSearching = true;
-            navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
-            searchSeparator.classList.add('opacity-0', 'pointer-events-none');
-            searchInputContainer.classList.remove('hidden');
-            searchInputContainer.classList.add('flex');
-            newSearchFieldInput.focus();
-            mainEl.innerHTML = '';
-            resetLoadMoreButton();
-            closeSearchBtn.classList.remove('hidden');
-            updateCloseButtonPosition();
-        };
-
-        // Close search bar
-        const closeSearchBar = async () => {
-            state.isSearching = false;
-            searchInputContainer.classList.add('hidden');
-            searchInputContainer.classList.remove('flex');
-            navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
-            searchSeparator.classList.remove('opacity-0', 'pointer-events-none');
-            newSearchFieldInput.value = '';
-            closeSearchBtn.classList.add('hidden');
-            if (state.activeSection === 'bookmarks') {
-                setActiveSection('bookmarks');
-            } else {
-                await fetchContent(false);
-            }
-        };
-
-        // Perform search with debouncing
-        const performSearch = async (query) => {
-            clearTimeout(state.debounceTimer);
-            if (!query) { mainEl.innerHTML = ''; return; }
-            mainEl.innerHTML = '<div class="text-center text-gray-400">Searching...</div>';
-            state.debounceTimer = setTimeout(async () => {
-                const data = await apiFetch('/search/multi', { query });
-                const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
-                results.sort((a, b) => b.popularity - a.popularity);
-                if (results.length > 0) renderContent(results);
-                else mainEl.innerHTML = '<p class="text-center text-gray-400">No results found.</p>';
-            }, 350);
-        };
-
-        // ==========================================
-        // EVENT HANDLERS
-        // ==========================================
-
-        // Handle poster clicks
-        const handlePosterClick = async (e) => {
+        // Handle poster card clicks (play, bookmark, info, etc.)
+        async function handlePosterClick(e) {
             const poster = e.target.closest('.poster-container');
             if (!poster) return;
+
             const action = e.target.closest('[data-action]')?.dataset.action;
             const { id, type, title, poster: posterPath } = poster.dataset;
+
             if (action) {
-                poster.classList.remove('show-overlay'); 
+                poster.classList.remove('show-overlay');
+
                 if (action === 'play') {
                     openTrailer((await getBestTrailer(type, id))?.key);
                 } else if (action === 'options') {
@@ -703,6 +906,7 @@
                 } else if (action === 'bookmark') {
                     const index = state.bookmarks.findIndex(b => b.id == id);
                     const btn = poster.querySelector('[data-action="bookmark"]');
+
                     if (index === -1) {
                         state.bookmarks.push({ id, type, title, poster_path: posterPath, media_type: type });
                         btn.classList.remove('text-black');
@@ -716,65 +920,106 @@
                             mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
                         }
                     }
+
                     localStorage.setItem('onregardequoi_bookmarks', JSON.stringify(state.bookmarks));
                 }
                 return;
             }
+
+            // Toggle overlay visibility
             if (poster.classList.contains('show-overlay')) {
                 poster.classList.remove('show-overlay');
             } else {
                 document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
                 poster.classList.add('show-overlay');
             }
-        };
+        }
 
-        // Handle sub-category clicks
-        const handleCategoryClick = async (e) => {
+        // Handle sub-category button clicks
+        async function handleCategoryClick(e) {
             const button = e.target.closest('.sub-category-button');
             if (!button || button.classList.contains('active')) return;
+
             button.parentElement.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
             state.activeCategory = button.dataset.category;
+
             if (state.activeSection === 'bookmarks') {
                 await setActiveSection('movies');
             } else {
                 await fetchContent(false);
             }
-        };
+        }
 
-        // ==========================================
-        // INITIALIZATION
-        // ==========================================
+        // ======================================
+        // EVENT LISTENER SETUP
+        // ======================================
 
-        const setupEventListeners = () => {
-            document.querySelectorAll('.main-category-button').forEach(btn => btn.addEventListener('click', () => setActiveSection(btn.dataset.section)));
+        // Setup navigation listeners
+        function setupNavigationListeners() {
+            document.querySelectorAll('.main-category-button').forEach(btn => {
+                btn.addEventListener('click', () => setActiveSection(btn.dataset.section));
+            });
             sharedSubcategoriesEl.addEventListener('click', handleCategoryClick);
-            searchToggleBtn.addEventListener('click', () => state.isSearching ? closeSearchBar() : openSearchBar());
+        }
+
+        // Setup search listeners
+        function setupSearchListeners() {
+            searchToggleBtn.addEventListener('click', () => {
+                state.isSearching ? closeSearchBar() : openSearchBar();
+            });
             closeSearchBtn.addEventListener('click', closeSearchBar);
             newSearchFieldInput.addEventListener('input', () => {
                 performSearch(newSearchFieldInput.value.trim());
                 updateCloseButtonPosition();
             });
+        }
+
+        // Setup modal listeners
+        function setupModalListeners() {
+            [trailerListModalEl, infoModalEl, appInfoModalEl].forEach(modal => {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) closeModal(modal);
+                });
+            });
+
+            videoModalEl.addEventListener('click', (e) => {
+                if (e.target === videoModalEl) closeTrailer();
+            });
+
+            openAppInfoBtn.addEventListener('click', () => openModal(appInfoModalEl));
+            aboutTabBtn.addEventListener('click', () => switchAppInfoTab('about-tab-btn'));
+            whatsNewTabBtn.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
+            acknowledgmentTabBtn.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
+            forceRefreshBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                forceClearCache();
+            });
+
+            trailerListContentEl.addEventListener('click', e => {
+                const item = e.target.closest('[data-key]');
+                if (item) {
+                    closeModal(trailerListModalEl);
+                    openTrailer(item.dataset.key);
+                }
+            });
+        }
+
+        // Setup content & interaction listeners
+        function setupContentListeners() {
             mainEl.addEventListener('click', handlePosterClick);
-            loadMoreContainerEl.addEventListener('click', e => e.target.closest('#load-more-btn') && fetchContent(true));
+            loadMoreContainerEl.addEventListener('click', e => {
+                e.target.closest('#load-more-btn') && fetchContent(true);
+            });
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.poster-container')) {
                     document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
                 }
             });
-            [trailerListModalEl, infoModalEl, appInfoModalEl].forEach(modal => {
-                modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(modal) });
-            });
-            videoModalEl.addEventListener('click', (e) => { if(e.target === videoModalEl) closeTrailer() });
-            openAppInfoBtn.addEventListener('click', () => openModal(appInfoModalEl));
-            aboutTabBtn.addEventListener('click', () => switchAppInfoTab('about-tab-btn'));
-            whatsNewTabBtn.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
-            acknowledgmentTabBtn.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
-            forceRefreshBtn.addEventListener('click', (e) => { e.preventDefault(); forceClearCache(); });
-            trailerListContentEl.addEventListener('click', e => {
-                const item = e.target.closest('[data-key]');
-                if (item) { closeModal(trailerListModalEl); openTrailer(item.dataset.key); }
-            });
+        }
+
+        // Setup keyboard listeners
+        function setupKeyboardListeners() {
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
                     [videoModalEl, trailerListModalEl, infoModalEl, appInfoModalEl].forEach(closeModal);
@@ -782,22 +1027,52 @@
                     if (state.isSearching) closeSearchBar();
                 }
             });
-            dockContainer.addEventListener('scroll', () => {});
+        }
+
+        // Setup layout & scroll listeners
+        function setupLayoutListeners() {
+            dockContainer.addEventListener('scroll', () => {
+                // Dock scroll handler
+            });
+
             window.addEventListener('resize', () => {
                 updateCloseButtonPosition();
             });
-        };
 
-        // Initialize app
-        const init = async () => {
+            // Fade logo on scroll
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    headerLogo.classList.add('opacity-0', 'pointer-events-none');
+                } else {
+                    headerLogo.classList.remove('opacity-0', 'pointer-events-none');
+                }
+            });
+        }
+
+        // Master event listener setup function
+        function setupEventListeners() {
+            setupNavigationListeners();
+            setupSearchListeners();
+            setupModalListeners();
+            setupContentListeners();
+            setupKeyboardListeners();
+            setupLayoutListeners();
+        }
+
+        // ======================================
+        // INITIALIZATION
+        // ======================================
+
+        async function init() {
             loadCache();
             setupLoadMoreButton();
             await setActiveSection('movies');
             createTextMeasurementSpan();
             setupEventListeners();
             switchAppInfoTab('about-tab-btn');
-        };
+        }
 
+        // Start the application
         init();
     </script>
 </body>
