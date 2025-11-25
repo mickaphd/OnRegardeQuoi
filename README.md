@@ -33,9 +33,9 @@ Simply visit **[onregardequoi.com](https://www.onregardequoi.com/)** and start e
 Run this project locally with a free API key from [The Movie Database (TMDB)](https://www.themoviedb.org/signup):
 
 1. Download the `index.html` file
-2. Edit the file and paste your API key into the `LOCAL_DEV_API_KEY` constant:
+2. Edit the file and paste your API key into the `devKey` constant:
 ```javascript
-   const LOCAL_DEV_API_KEY = 'YOUR_TMDB_API_KEY_GOES_HERE';
+   devKey = 'YOUR_TMDB_API_KEY_GOES_HERE';
 ```
 3. Run the `index.html` file in your web browser
 
