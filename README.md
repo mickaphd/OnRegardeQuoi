@@ -25,13 +25,7 @@
 
 ## 🎨 Screenshots
 
-<img src="https://github.com/user-attachments/assets/cf352f4e-10ff-4bd8-b6b7-73d7b9ccc2bc" width="30%" />
-<br>
-<img src="https://github.com/user-attachments/assets/03c72a51-5581-492a-a8a5-84567834de34" width="30%" />
-<br>
-<img src="https://github.com/user-attachments/assets/aed40ded-487f-441e-bef3-decae18ce21e" width="30%" />
-<br>
-<img src="https://github.com/user-attachments/assets/65f38a68-fc84-4758-8930-8212a58de5f7" width="30%" />
+<img width="1058" height="678" alt="Screenshot 2026-01-22 at 17 44 51" src="https://github.com/user-attachments/assets/dfd7b686-2fcd-41b3-b8e7-f541d8051e55" />
 
 ## 🚀 Getting Started
 
@@ -39,18 +33,27 @@
 
 Simply visit **[onregardequoi.com](https://www.onregardequoi.com/)** and start exploring! No setup required.
 
-### Option 2: Run Locally
+### Option 2: Use the Desktop apps
+
+Use the amazing [Pake](https://github.com/tw93/Pake) command line to create a lightweight and fast desktop app for OnRegardeQuoi on macOS, Windows, or Linux. 
+Check the Pake GitHub for more information about this very useful tool.
+Additionally, you can download these apps directly from these links:
+-  macOS:
+- 💻 Windows:
+- 🐧 Linux:
+
+### Option 3: Run Locally
 
 Run this project locally with a free API key from [The Movie Database (TMDB)](https://www.themoviedb.org/signup):
 
-1. Download the `index.html` file
-2. Edit the file and paste your API key into the `devKey` constant:
+1. Download all the files
+2. Edit the `index.html` file and paste your API key into the `devKey` constant:
 ```javascript
    devKey = 'YOUR_TMDB_API_KEY_GOES_HERE';
 ```
 3. Run the `index.html` file in your web browser
 
-### Option 3: Deploy Your Own Instance
+### Option 4: Deploy Your Own Instance
 
 Deploy your own instance for free on Vercel:
 
@@ -94,3 +97,4 @@ Found a bug or have a feature request? [Open an issue](https://github.com/mickap
 
 - [The Movie Database (TMDB)](https://www.themoviedb.org/) – Comprehensive movie and TV show data
 - [Vercel](https://vercel.com/) – Seamless and free hosting
+- [Pake](https://github.com/tw93/Pake) - Turn any webpage into a desktop app 
