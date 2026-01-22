@@ -84,14 +84,21 @@
                     <!-- Bookmarks & Search -->
                     <div class="flex items-center gap-2">
                         <button class="nav-button main-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-section="bookmarks" title="Bookmarks"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" /></svg></button>
-                        <button id="search-toggle-btn" class="nav-button p-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200 cursor-pointer flex-shrink-0" title="Toggle Search"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg></button>
+                        <button id="search-toggle-btn" class="nav-button p-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200 cursor-pointer flex-shrink-0" title="Toggle Search">
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                            <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6 hidden"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
                     </div>
                 </div>
 
                 <!-- Search Input (hidden by default) -->
-                <div id="search-input-container" class="col-start-1 row-start-1 hidden relative items-center w-full z-10">
+                <div id="search-input-container" class="col-start-1 row-start-1 hidden relative items-center w-full z-10 flex">
                     <input id="new-search-field-input" type="text" placeholder="Search..." class="bg-transparent focus:outline-none text-white w-full py-1.5 px-3">
-                    <button id="close-search-btn" class="hidden absolute p-1 rounded-full text-gray-300 cursor-pointer hover:text-white transition-colors duration-200 focus:outline-none ml-2 flex-shrink-0" title="Close Search" style="top: 50%; transform: translateY(-50%);"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
+                    <button id="close-search-btn" class="nav-button active p-2 rounded-full cursor-pointer flex-shrink-0" title="Close Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
                 </div>
             </div>
         </div>
@@ -149,14 +156,13 @@
                     <p class="mt-4 text-xs text-gray-400"><a href="#" id="force-refresh-btn" class="opacity-20 hover:opacity-100 transition-opacity" title="Clear all your bookmarks and cached data for movies and TV shows. This is optional, but you might find it helpful!">Reset ↻</a></p>
                 </div>
                 <div id="whats-new-content" class="tab-content hidden">
-
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.4 (January 22, 2026)</h3>
                     <ul class="list-disc list-inside mb-4">
                         <li>Tailwind CSS optimization: migrated from CDN to compiled output.css for significantly faster load times</li>
                         <li>Simplified header with external logo.svg integration</li>
                         <li>New favicon and icon sets for iOS, Android, and other platforms</li>
                         <li>New shortcuts for direct searches on YouTube and Dailymotion</li>
-                        <li>Improved code maintainability and clarity</li>
+                        <li>Improved the behavior of the close search bar button</li>
                     </ul>
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.3 (November 26, 2025)</h3>
                     <ul class="list-disc list-inside mb-4">
@@ -201,7 +207,7 @@
         // CONFIGURATION & CONSTANTS
         // ======================================
 
-        // API Configuration
+        // API Configuration - handles both direct and proxy requests
         const API_CONFIG = {
             devKey: '',
             tmdbDirectUrl: 'https://api.themoviedb.org/3',
@@ -209,22 +215,22 @@
             youtubeEmbedUrl: 'https://www.youtube-nocookie.com/embed/',
         };
 
-        // UI Configuration
+        // UI Configuration - responsive poster sizes
         const UI_CONFIG = {
             posterSize: window.innerWidth < 768 ? 'w342' : 'w500',
         };
 
-        // Derived constants
+        // Derived constant for image URLs
         const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/${UI_CONFIG.posterSize}`;
 
-        // Cache expiration times (in milliseconds)
+        // Cache expiration times (in milliseconds) - different TTL for each category
         const CACHE_TTLS = {
             trending: 12 * 60 * 60 * 1000,  // 12 hours
             soon: 24 * 60 * 60 * 1000,      // 24 hours
             greats: 48 * 60 * 60 * 1000     // 48 hours
         };
 
-        // Default app data structure
+        // Default app data structure - used to initialize and reset state
         const DEFAULT_APP_DATA = {
             movies: {
                 trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
@@ -238,7 +244,7 @@
             }
         };
 
-        // API parameter configurations for different content types
+        // API parameter configurations for different content types and categories
         const API_PARAMS_CONFIG = {
             movies: {
                 trending: {
@@ -280,7 +286,7 @@
             }
         };
 
-        // SVG icons for poster card action buttons (optimization: pre-compiled)
+        // SVG icons for poster card action buttons (optimization: pre-compiled for performance)
         const POSTER_BUTTON_ICONS = {
             options: '<svg class="options-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>',
             info: '<svg class="info-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>'
@@ -289,7 +295,7 @@
         // ======================================
         // STATE MANAGEMENT
         // ======================================
-        // Centralized state object tracking app data, UI state, user bookmarks, and search state.
+        // Centralized state object tracking app data, UI state, user bookmarks, and search state
 
         const state = {
             appData: DEFAULT_APP_DATA,
@@ -297,15 +303,14 @@
             activeSection: null,
             activeCategory: 'trending',
             debounceTimer: null,
-            isSearching: false,
-            textMeasureSpan: null
+            isSearching: false
         };
 
         // ======================================
         // DOM SELECTORS
         // ======================================
 
-        // Query helper
+        // Query helper - shorthand for querySelector
         const $ = (selector) => document.querySelector(selector);
 
         // Main containers
@@ -316,12 +321,12 @@
 
         // Navigation elements
         const searchToggleBtn = $('#search-toggle-btn');
+        const searchIcon = $('#search-icon');
+        const closeIcon = $('#close-icon');
         const navButtonsContainer = $('#nav-buttons-container');
         const searchInputContainer = $('#search-input-container');
         const newSearchFieldInput = $('#new-search-field-input');
-        const closeSearchBtn = $('#close-search-btn');
         const sharedSubcategoriesEl = $('#shared-subcategories');
-        const searchSeparator = $('#search-separator');
 
         // Modal elements (video player)
         const videoModalEl = $('#video-modal');
@@ -353,6 +358,7 @@
         // ======================================
 
         // Generate formatted dates for API queries (YYYY-MM-DD format)
+        // Used for filtering content by release/air date
         function getFormattedDate(daysOffset = 0, monthsOffset = 0, yearsOffset = 0) {
             const date = new Date();
             date.setDate(date.getDate() + daysOffset);
@@ -362,6 +368,7 @@
         }
 
         // Get SVG icon by name (used in poster cards and modals)
+        // Returns a complete SVG element as a string
         function getIcon(name, classes) {
             const paths = {
                 movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
@@ -371,38 +378,8 @@
             return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
         }
 
-        // Update close button position based on input text width
-        function updateCloseButtonPosition() {
-            if (!state.textMeasureSpan || !newSearchFieldInput || !closeSearchBtn) return;
-            const typedText = newSearchFieldInput.value;
-            const textToMeasure = typedText.length > 0 ? typedText : newSearchFieldInput.placeholder;
-            state.textMeasureSpan.textContent = textToMeasure;
-            const textWidth = state.textMeasureSpan.offsetWidth;
-            const inputPaddingLeft = parseFloat(window.getComputedStyle(newSearchFieldInput).paddingLeft);
-            closeSearchBtn.style.left = `${inputPaddingLeft + textWidth}px`;
-        }
-
-        // Create hidden span for measuring text width
-        function createTextMeasurementSpan() {
-            if (!newSearchFieldInput) return;
-            const span = document.createElement('span');
-            const inputStyle = window.getComputedStyle(newSearchFieldInput);
-            Object.assign(span.style, {
-                fontFamily: inputStyle.fontFamily,
-                fontSize: inputStyle.fontSize,
-                fontWeight: inputStyle.fontWeight,
-                letterSpacing: inputStyle.letterSpacing,
-                position: 'absolute',
-                visibility: 'hidden',
-                height: 'auto',
-                width: 'auto',
-                whiteSpace: 'pre'
-            });
-            document.body.appendChild(span);
-            state.textMeasureSpan = span;
-        }
-
         // Utility: Set tab state (optimization: reduces code duplication)
+        // Toggles visibility and styling of tab buttons and content
         function setTabState(tabBtn, tabContent, isActive) {
             if (!tabBtn || !tabContent) return;
             tabBtn.classList.toggle('text-white', isActive);
@@ -416,7 +393,8 @@
         // API & CACHE FUNCTIONS
         // ======================================
 
-        // Generic API fetch function (handles both direct and proxy calls)
+        // Generic API fetch function - handles both direct and proxy calls
+        // Supports API key authentication or server-side proxy routing
         async function apiFetch(tmdbEndpoint, params = {}) {
             try {
                 const baseUrl = API_CONFIG.devKey ? API_CONFIG.tmdbDirectUrl : API_CONFIG.vercelProxyUrl;
@@ -437,16 +415,16 @@
                     return await response.json();
                 }
             } catch (error) {
-                console.error(`API fetch error for ${tmdbEndpoint}:`, error);
+                console.error(`API error: ${error}`);
                 return null;
             }
         }
 
         // Get trailers for a movie/TV show, prioritizing official trailers
+        // Returns array sorted by quality/relevance
         async function getTrailers(type, id) {
             const data = await apiFetch(`/${type}/${id}/videos`);
             if (!data?.results?.length) return [];
-
             const priority = (v) => {
                 const n = v.name.toLowerCase();
                 if (['trailer', 'teaser'].includes(v.type.toLowerCase()) && !['promo', 'spot', 'bts'].some(kw => n.includes(kw))) {
@@ -457,10 +435,7 @@
                 }
                 return 1;
             };
-
-            return data.results
-                .filter(v => v.site === 'YouTube')
-                .sort((a, b) => priority(b) - priority(a));
+            return data.results.filter(v => v.site === 'YouTube').sort((a, b) => priority(b) - priority(a));
         }
 
         // Get best trailer (first in priority order)
@@ -470,6 +445,7 @@
         }
 
         // Get detailed information for a movie/TV show
+        // Includes genres, runtime, ratings, cast, crew, etc.
         async function getDetails(type, id) {
             return await apiFetch(`/${type}/${id}`);
         }
@@ -480,29 +456,24 @@
         }
 
         // Cache management - load from localStorage
+        // Handles errors gracefully by resetting to default if corrupted
         function loadCache() {
             try {
                 const cachedData = localStorage.getItem('onregardequoi_cache');
                 if (cachedData) state.appData = JSON.parse(cachedData);
             } catch (error) {
-                console.error("Failed to load cache:", error);
+                console.error("Cache error:", error);
                 state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
             }
         }
 
-        // Clear all cache and bookmarks
+        // Clear all cache and bookmarks - used for debugging and user reset
         function forceClearCache() {
             state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
-            saveCache();
             state.bookmarks = [];
-            localStorage.removeItem('onregardequoi_bookmarks');
-            alert('Cache and Bookmarks have been reset. Reloading...');
-            if (state.activeSection === 'bookmarks') {
-                setActiveSection('movies');
-            } else {
-                fetchContent(false);
-            }
-            closeModal(appInfoModalEl);
+            localStorage.clear();
+            alert('Cache and Bookmarks reset. Reloading...');
+            location.reload();
         }
 
         // ======================================
@@ -521,7 +492,7 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
-        // Open trailer in video player
+        // Open trailer in video player modal
         function openTrailer(videoKey) {
             if (videoKey && videoPlayerEl) {
                 videoPlayerEl.src = `${API_CONFIG.youtubeEmbedUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
@@ -529,18 +500,16 @@
             }
         }
 
-        // Close video player and clear iframe
+        // Close video player modal and clear iframe source
         function closeTrailer() {
             closeModal(videoModalEl);
-            setTimeout(() => {
-                if (videoPlayerEl) videoPlayerEl.src = 'about:blank';
-            }, 300);
+            setTimeout(() => { if (videoPlayerEl) videoPlayerEl.src = 'about:blank'; }, 300);
         }
 
-        // Show trailer list modal with available videos
+        // Show trailer list modal with available videos for a title
+        // Includes external links to YouTube and Dailymotion searches
         function showTrailerList(title, trailers) {
             if (!trailerListTitleEl || !trailerListContentEl) return;
-            
             const encodedTitle = encodeURIComponent(title);
             const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
             const externalLinksHTML = `
@@ -549,7 +518,6 @@
                     <a href="https://www.dailymotion.com/search/${encodedTitle}%20trailer" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Dailymotion">Dailymotion</a>
                 </div>
             `;
-
             trailerListTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">Videos for ${title}</span>${externalLinksHTML}</div>`;
             trailerListContentEl.innerHTML = trailers?.length
                 ? trailers.map(t => `<div class="video-item px-4 py-3 cursor-pointer flex justify-between items-center rounded-md hover:bg-amber-400 hover:text-white transition-colors" data-key="${t.key}" title="${t.name}"><span class="truncate pr-2">${t.name}</span><span class="video-type-tag text-xs bg-gray-700 text-gray-300 rounded px-1.5 py-0.5 whitespace-nowrap">${t.type}</span></div>`).join('')
@@ -557,7 +525,8 @@
             openModal(trailerListModalEl);
         }
 
-        // Show info modal with detailed information
+        // Show info modal with detailed information about a title
+        // Fetches and displays credits, ratings, synopsis, and external links
         async function showInfoModal(title, details, type, id) {
             if (!infoModalTitleEl || !infoModalContentEl) return;
             const encodedTitle = encodeURIComponent(title);
@@ -569,20 +538,14 @@
                     <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
                 </div>
             `;
-
             infoModalTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">${title}</span>${externalLinksHTML}</div>`;
-
+            
             let content = '<div class="text-gray-400">Details not available.</div>';
             if (details) {
                 const credits = await apiFetch(`/${type}/${id}/credits`);
                 const director = credits?.crew?.find(c => c.job === 'Director')?.name || 'N/A';
                 const cast = credits?.cast?.slice(0, 5).map(a => a.name).join(', ') || 'N/A';
-                const currencyFormatter = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                });
+                const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
 
                 const infoMap = {
                     "Year": (details.release_date || details.first_air_date || '').substring(0, 4) || 'N/A',
@@ -609,14 +572,14 @@
             openModal(infoModalEl);
         }
 
-        // Switch between app info modal tabs (optimization: uses utility function)
+        // Switch between app info modal tabs
+        // Handles About, Updates, and Acknowledgment sections
         function switchAppInfoTab(activeTabId) {
             const tabs = [
                 { id: 'about-tab-btn', btn: aboutTabBtn, content: aboutContent },
                 { id: 'whats-new-tab-btn', btn: whatsNewTabBtn, content: whatsNewContent },
                 { id: 'acknowledgment-tab-btn', btn: acknowledgmentTabBtn, content: acknowledgmentContent }
             ];
-
             tabs.forEach(tab => {
                 const isActive = tab.id === activeTabId;
                 setTabState(tab.btn, tab.content, isActive);
@@ -624,34 +587,30 @@
         }
 
         // ======================================
-        // CORE APPLICATION LOGIC
+        // CONTENT LOADING & RENDERING
         // ======================================
 
         // Fetch content from API or cache
+        // Handles pagination and cache validation
         async function fetchContent(append = false) {
             if (state.isSearching) return;
-
             const mediaType = state.activeSection === 'movies' ? 'movie' : 'tv';
             const category = state.activeCategory;
             const cache = state.appData[state.activeSection][category];
             const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS[category];
 
-            // If not appending and cache exists and is fresh, use it
             if (!append && cache.items.length > 0 && !isCacheStale) {
                 renderContent(cache.items);
                 resetLoadMoreButton();
                 return;
             }
 
-            // Reset cache if stale
             if (!append && isCacheStale) {
                 Object.assign(cache, { items: [], nextPage: 1, hasMore: true });
             }
 
-            // Don't load more if we've reached the end
             if (!cache.hasMore && append) return;
 
-            // Fetch from API
             const params = { ...API_PARAMS_CONFIG[state.activeSection][category], page: cache.nextPage };
             const data = await apiFetch(`/discover/${mediaType}`, params);
 
@@ -670,10 +629,9 @@
         }
 
         // Set active section (movies, tv, bookmarks)
+        // Updates UI and loads appropriate content
         async function setActiveSection(section) {
             if (state.isSearching) return;
-
-            // Apply visual changes immediately
             document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === section));
 
             if (section === 'bookmarks') {
@@ -693,9 +651,8 @@
             await fetchContent(false);
         }
 
-        // Open search bar
+        // Open search bar - hides navigation, shows search input
         function openSearchBar() {
-            if (!navButtonsContainer || !searchInputContainer || !newSearchFieldInput || !closeSearchBtn) return;
             state.isSearching = true;
             navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
             searchInputContainer.classList.remove('hidden');
@@ -703,21 +660,20 @@
             newSearchFieldInput.focus();
             mainEl.innerHTML = '';
             resetLoadMoreButton();
-            closeSearchBtn.classList.remove('hidden');
-            updateCloseButtonPosition();
+            searchIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
         }
 
-        // Close search bar
+        // Close search bar - restores navigation and content
         async function closeSearchBar() {
-            if (!searchInputContainer || !navButtonsContainer || !newSearchFieldInput || !closeSearchBtn) return;
             state.isSearching = false;
             searchInputContainer.classList.add('hidden');
             searchInputContainer.classList.remove('flex');
             navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
             newSearchFieldInput.value = '';
-            closeSearchBtn.classList.add('hidden');
+            searchIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
 
-            // Reapply active classes when search closes
             document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === state.activeSection));
             if (state.activeSection !== 'bookmarks') {
                 sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
@@ -731,19 +687,18 @@
         }
 
         // Perform search with debouncing
+        // Filters multi-type results (movies and TV shows only)
         async function performSearch(query) {
             clearTimeout(state.debounceTimer);
             if (!query) {
                 mainEl.innerHTML = '';
                 return;
             }
-
             mainEl.innerHTML = '<div class="text-center text-gray-400">Searching...</div>';
             state.debounceTimer = setTimeout(async () => {
                 const data = await apiFetch('/search/multi', { query });
                 const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
                 results.sort((a, b) => b.popularity - a.popularity);
-
                 if (results.length > 0) {
                     renderContent(results);
                 } else {
@@ -752,11 +707,8 @@
             }, 350);
         }
 
-        // ======================================
-        // UI RENDERING & MANAGEMENT
-        // ======================================
-
         // Create HTML for a single poster card
+        // Includes all action buttons (play, bookmark, options, info)
         function createPosterHTML(item) {
             const type = item.media_type || (item.title ? 'movie' : 'tv');
             const title = item.title || item.name;
@@ -789,13 +741,12 @@
                         <button data-action="info" class="absolute bottom-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="More Information">
                             ${POSTER_BUTTON_ICONS.info}
                         </button>
-
                     </div>
                 </div>
             </div>`;
         }
 
-        // Render poster grid
+        // Render poster grid with items
         function renderContent(itemsToRender) {
             if (!itemsToRender || !mainEl) return;
             let grid = mainEl.querySelector('.grid');
@@ -818,41 +769,36 @@
             loadMoreContainerEl.appendChild(button);
         }
 
-        // Update load more button state
+        // Update load more button state based on pagination
         function resetLoadMoreButton() {
             const button = $('#load-more-btn');
             if (!button) return;
-
             const shouldHide = state.isSearching || state.activeSection === 'bookmarks';
             button.classList.toggle('hidden', shouldHide);
             if (shouldHide) return;
-
             const cache = state.appData[state.activeSection][state.activeCategory];
             button.disabled = !cache.hasMore;
             button.classList.toggle('cursor-pointer', cache.hasMore);
             button.classList.toggle('cursor-not-allowed', !cache.hasMore);
             button.title = cache.hasMore ? 'Load More' : 'No more results';
-
             button.innerHTML = cache.hasMore
                 ? `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>`
                 : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 1 1 5.636 5.636m12.728 12.728L5.636 5.636" /></svg>`;
         }
 
         // ======================================
-        // EVENT HANDLERS - POSTER INTERACTIONS
+        // EVENT HANDLERS
         // ======================================
 
-        // Handle poster card clicks (play, bookmark, info, etc.)
+        // Handle poster card clicks (play, bookmark, info, options)
         async function handlePosterClick(e) {
             const poster = e.target.closest('.poster-container');
             if (!poster) return;
-
             const action = e.target.closest('[data-action]')?.dataset.action;
             const { id, type, title, poster: posterPath } = poster.dataset;
 
             if (action) {
                 poster.classList.remove('show-overlay');
-
                 if (action === 'play') {
                     openTrailer((await getBestTrailer(type, id))?.key);
                 } else if (action === 'options') {
@@ -862,7 +808,6 @@
                 } else if (action === 'bookmark') {
                     const index = state.bookmarks.findIndex(b => b.id == id);
                     const btn = poster.querySelector('[data-action="bookmark"]');
-
                     if (index === -1) {
                         state.bookmarks.push({ id, type, title, poster_path: posterPath, media_type: type });
                         btn.classList.remove('text-black');
@@ -876,13 +821,10 @@
                             mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
                         }
                     }
-
                     localStorage.setItem('onregardequoi_bookmarks', JSON.stringify(state.bookmarks));
                 }
                 return;
             }
-
-            // Toggle overlay visibility
             if (poster.classList.contains('show-overlay')) {
                 poster.classList.remove('show-overlay');
             } else {
@@ -891,15 +833,13 @@
             }
         }
 
-        // Handle sub-category button clicks
+        // Handle sub-category button clicks (trending, soon, greats)
         async function handleCategoryClick(e) {
             const button = e.target.closest('.sub-category-button');
             if (!button || button.classList.contains('active')) return;
-
             button.parentElement.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
             state.activeCategory = button.dataset.category;
-
             if (state.activeSection === 'bookmarks') {
                 await setActiveSection('movies');
             } else {
@@ -908,39 +848,27 @@
         }
 
         // ======================================
-        // EVENT LISTENER SETUP
+        // SETUP & INITIALIZATION
         // ======================================
 
-        // Setup navigation listeners
-        function setupNavigationListeners() {
+        // Master event listener setup function
+        function setupEventListeners() {
             document.querySelectorAll('.main-category-button').forEach(btn => {
                 btn.addEventListener('click', () => setActiveSection(btn.dataset.section));
             });
-            if (sharedSubcategoriesEl) {
-                sharedSubcategoriesEl.addEventListener('click', handleCategoryClick);
-            }
-        }
+            sharedSubcategoriesEl.addEventListener('click', handleCategoryClick);
 
-        // Setup search listeners
-        function setupSearchListeners() {
-            if (searchToggleBtn) {
-                searchToggleBtn.addEventListener('click', () => {
-                    state.isSearching ? closeSearchBar() : openSearchBar();
-                });
-            }
+            searchToggleBtn.addEventListener('click', () => {
+                state.isSearching ? closeSearchBar() : openSearchBar();
+            });
+            const closeSearchBtn = $('#close-search-btn');
             if (closeSearchBtn) {
                 closeSearchBtn.addEventListener('click', closeSearchBar);
             }
-            if (newSearchFieldInput) {
-                newSearchFieldInput.addEventListener('input', () => {
-                    performSearch(newSearchFieldInput.value.trim());
-                    updateCloseButtonPosition();
-                });
-            }
-        }
+            newSearchFieldInput.addEventListener('input', () => {
+                performSearch(newSearchFieldInput.value.trim());
+            });
 
-        // Setup modal listeners
-        function setupModalListeners() {
             [trailerListModalEl, infoModalEl, appInfoModalEl].forEach(modal => {
                 if (modal) {
                     modal.addEventListener('click', (e) => {
@@ -948,7 +876,6 @@
                     });
                 }
             });
-
             if (videoModalEl) {
                 videoModalEl.addEventListener('click', (e) => {
                     if (e.target === videoModalEl) closeTrailer();
@@ -958,21 +885,13 @@
             if (openAppInfoBtn) {
                 openAppInfoBtn.addEventListener('click', () => openModal(appInfoModalEl));
             }
-            if (aboutTabBtn) {
-                aboutTabBtn.addEventListener('click', () => switchAppInfoTab('about-tab-btn'));
-            }
-            if (whatsNewTabBtn) {
-                whatsNewTabBtn.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
-            }
-            if (acknowledgmentTabBtn) {
-                acknowledgmentTabBtn.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
-            }
-            if (forceRefreshBtn) {
-                forceRefreshBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    forceClearCache();
-                });
-            }
+            aboutTabBtn?.addEventListener('click', () => switchAppInfoTab('about-tab-btn'));
+            whatsNewTabBtn?.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
+            acknowledgmentTabBtn?.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
+            forceRefreshBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                forceClearCache();
+            });
 
             if (trailerListContentEl) {
                 trailerListContentEl.addEventListener('click', e => {
@@ -983,27 +902,17 @@
                     }
                 });
             }
-        }
 
-        // Setup content & interaction listeners
-        function setupContentListeners() {
-            if (mainEl) {
-                mainEl.addEventListener('click', handlePosterClick);
-            }
-            if (loadMoreContainerEl) {
-                loadMoreContainerEl.addEventListener('click', e => {
-                    e.target.closest('#load-more-btn') && fetchContent(true);
-                });
-            }
+            mainEl.addEventListener('click', handlePosterClick);
+            loadMoreContainerEl?.addEventListener('click', e => {
+                e.target.closest('#load-more-btn') && fetchContent(true);
+            });
             document.addEventListener('click', (e) => {
                 if (!e.target.closest('.poster-container')) {
                     document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
                 }
             });
-        }
 
-        // Setup keyboard listeners
-        function setupKeyboardListeners() {
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
                     [videoModalEl, trailerListModalEl, infoModalEl, appInfoModalEl].forEach(closeModal);
@@ -1011,51 +920,21 @@
                     if (state.isSearching) closeSearchBar();
                 }
             });
-        }
 
-        // Setup layout & scroll listeners
-        function setupLayoutListeners() {
-            if (dockContainer) {
-                dockContainer.addEventListener('scroll', () => {
-                    // Dock scroll handler
-                });
-            }
-
-            window.addEventListener('resize', () => {
-                updateCloseButtonPosition();
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    headerLogo.classList.add('opacity-0', 'pointer-events-none');
+                } else {
+                    headerLogo.classList.remove('opacity-0', 'pointer-events-none');
+                }
             });
-
-            // Fade logo on scroll
-            if (headerLogo) {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 50) {
-                        headerLogo.classList.add('opacity-0', 'pointer-events-none');
-                    } else {
-                        headerLogo.classList.remove('opacity-0', 'pointer-events-none');
-                    }
-                });
-            }
         }
 
-        // Master event listener setup function
-        function setupEventListeners() {
-            setupNavigationListeners();
-            setupSearchListeners();
-            setupModalListeners();
-            setupContentListeners();
-            setupKeyboardListeners();
-            setupLayoutListeners();
-        }
-
-        // ======================================
-        // INITIALIZATION
-        // ======================================
-
+        // Initialize the application
         async function init() {
             loadCache();
             setupLoadMoreButton();
             await setActiveSection('movies');
-            createTextMeasurementSpan();
             setupEventListeners();
             switchAppInfoTab('about-tab-btn');
         }
