@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* ===== CUSTOM THEME ===== */
+:root {
+  --color-background: #080808;
+}
+
+.bg-background {
+  background-color: var(--color-background);
+}
+
+/* ===== TYPOGRAPHY ===== */
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+h1, .font-slackey {
+  font-family: 'Slackey', cursive;
+}
+
+/* ===== UTILITIES - SCROLLBAR ===== */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ===== COMPONENTS - BUTTONS ===== */
+.nav-button,
+.sub-category-button {
+  transition: all 0.2s ease;
+}
+
+.nav-button.active,
+.sub-category-button.active {
+  color: #FBBF24 !important;
+  background-color: rgba(251, 191, 36, 0.15) !important;
+}
+
+.nav-button:not(.active):hover,
+.sub-category-button:not(.active):hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #FBBF24;
+}
+
+/* ===== COMPONENTS - POSTER OVERLAY ===== */
+.poster-overlay,
+.play-icon,
+.options-icon,
+.info-icon,
+.bookmark-icon {
+  opacity: 0;
+  transform: scale(0.8);
+  pointer-events: none;
+  transition: all 0.1s ease;
+}
+
+.poster-container.show-overlay .poster-overlay,
+.poster-container.show-overlay .play-icon,
+.poster-container.show-overlay .options-icon,
+.poster-container.show-overlay .info-icon,
+.poster-container.show-overlay .bookmark-icon {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* ===== INTERACTIONS - HOVER STATES ===== */
+/* On desktop only, show overlay on hover. On mobile, use show-overlay class */
+@media (hover: hover) {
+  .poster-container:hover .poster-overlay,
+  .poster-container:hover .play-icon,
+  .poster-container:hover .options-icon,
+  .poster-container:hover .info-icon,
+  .poster-container:hover .bookmark-icon {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+}

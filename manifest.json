@@ -1,0 +1,13 @@
+{
+  "name": "OnRegardeQuoi",
+  "short_name": "Trailers",
+  "icons": [
+    {"src": "ressources/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "ressources/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "ressources/icon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ],
+  "theme_color": "#080808",
+  "background_color": "#080808",
+  "start_url": "/",
+  "display": "standalone"
+}
