@@ -23,7 +23,7 @@
 - **Watch Later** – Bookmark your selection to view them later
 - **Where to Watch** – Find where to stream, buy, or rent through JustWatch integration
 - **Quick Search Integration** – Add OnRegardeQuoi as a custom search engine in your browser, Raycast, Alfred, etc. `https://www.onregardequoi.com/?q={query}`
-- **No Account** - No account is required and no cookies are used.
+- **No Account** - No account is required and no cookies are used
   
 ## 🎨 Screenshots
 
