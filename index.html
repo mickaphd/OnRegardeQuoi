@@ -888,9 +888,9 @@
                 <div class="flex flex-col items-center pt-6 fade-in px-4 w-full">
                      <div class="grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 mx-auto">
                         ${SEARCH_SHORTCUTS.map((shortcut, index) => `
-                            <button class="shortcut-btn flex flex-col items-center gap-1 bg-[#1e1e1e] hover:bg-amber-400 hover:text-black border border-white/10 hover:border-transparent p-2 rounded-lg transition-all duration-200 group" data-index="${index}" title="${shortcut.label}">
-                                <span class="text-xl">${shortcut.icon}</span>
-                                <span class="text-[9px] text-center leading-tight">${shortcut.label}</span>
+                            <button class="shortcut-btn flex flex-col items-center gap-2 bg-[#1e1e1e] hover:bg-amber-400 hover:text-black border border-white/10 hover:border-transparent p-4 rounded-lg transition-all duration-200 group min-w-[120px]" data-index="${index}" title="${shortcut.label}">
+                                <span class="text-2xl">${shortcut.icon}</span>
+                                <span class="text-xs text-center leading-tight font-medium">${shortcut.label}</span>
                             </button>
                         `).join('')}
                     </div>
