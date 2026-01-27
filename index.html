@@ -886,7 +886,7 @@
 
             mainEl.innerHTML = `
                 <div class="flex flex-col items-center pt-6 fade-in px-4 w-full">
-                     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 w-max mx-auto">
+                     <div class="grid grid-cols-2 md:grid-cols-5 gap-2 sm:gap-3 w-max md:w-max mx-auto">
                         ${SEARCH_SHORTCUTS.map((shortcut, index) => `
                             <button class="shortcut-btn flex flex-col items-center gap-1 bg-[#1e1e1e] hover:bg-amber-400 hover:text-black border border-white/10 hover:border-transparent p-2 rounded-lg transition-all duration-200 group" data-index="${index}" title="${shortcut.label}">
                                 <span class="text-xl">${shortcut.icon}</span>
@@ -896,7 +896,7 @@
                     </div>
                 </div>
             `;
-            
+
             const loadMoreBtn = $('#load-more-btn');
             if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
         }
