@@ -207,9 +207,10 @@
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.5 (January 28, 2026)</h3>
                     <ul class="list-disc list-inside mb-4">
                         <li>Integrated JustWatch for streaming availability</li>  
+                        <li>Added support for URL query parameters (?q=) for direct searches (Browser, Raycast, Alfred, etc.)</li>
+                        <li>Enhanced search functionality so you can search for actors and years</li>
                         <li>Introduced new category shortcuts for quick filtering (Action, Horror, Comedy, etc.)</li>  
-                        <li>Added support for URL query parameters (?q=) for direct searches and sharing</li> 
-                        <li>Generated desktop apps using Pake (available on GitHub)</li>  
+                        <li>Generated desktop apps using Pake (available on GitHub for macOS and Windows)</li>  
                     </ul>
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.4 (January 22, 2026)</h3>
                     <ul class="list-disc list-inside mb-4">
@@ -955,7 +956,7 @@
             }
         }
 
-        // Perform search with debouncing
+        // SEARCH - supports movies, TV shows, actors, and years
         async function performSearch(query) {
             clearTimeout(state.debounceTimer);
             if (!query) {
@@ -965,17 +966,104 @@
             state.currentShortcutIndex = null;
             mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">Searching...</div>';
             state.debounceTimer = setTimeout(async () => {
+                // Check if query is a year (4 digits)
+                const yearMatch = query.match(/^\d{4}$/);
+                if (yearMatch) {
+                    await searchByYear(parseInt(yearMatch[0]));
+                    return;
+                }
+
+                // Standard multi search for movies, TV shows, and people
                 const data = await apiFetch('/search/multi', { query });
-                const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
-                results.sort((a, b) => b.popularity - a.popularity);
-                if (results.length > 0) {
-                    renderContent(results);
+                if (!data?.results) {
+                    mainEl.innerHTML = '<p class="text-center text-gray-400 mt-10">No results found.</p>';
+                    return;
+                }
+
+                // Separate results by type
+                const moviesTv = data.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path);
+                const people = data.results.filter(i => i.media_type === 'person');
+
+                // Start with direct movie/TV results
+                let results = [...moviesTv];
+
+                // If we found people, fetch their filmography
+                if (people.length > 0) {
+                    for (const person of people.slice(0, 3)) { // Top 3 actor matches
+                        try {
+                            const credits = await apiFetch(`/person/${person.id}/combined_credits`);
+                            if (credits?.cast) {
+                                const actorWorks = credits.cast
+                                    .filter(item => (item.media_type === 'movie' || item.media_type === 'tv') && item.poster_path)
+                                    .map(item => ({
+                                        ...item,
+                                        media_type: item.media_type || 'movie'
+                                    }));
+                                results.push(...actorWorks);
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching credits for ${person.name}:`, error);
+                        }
+                    }
+                }
+
+                // Remove duplicates (same movie/show might appear multiple times from different actors)
+                const uniqueResults = [...new Map(results.map(item => [item.id, item])).values()];
+
+                // Sort by popularity
+                uniqueResults.sort((a, b) => b.popularity - a.popularity);
+
+                // Render results
+                if (uniqueResults.length > 0) {
+                    renderContent(uniqueResults);
                     const loadMoreBtn = $('#load-more-btn');
                     if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
                 } else {
                     mainEl.innerHTML = '<p class="text-center text-gray-400 mt-10">No results found.</p>';
                 }
             }, 350);
+        }
+
+        // Search for movies and TV shows by year
+        async function searchByYear(year) {
+            try {
+                // Fetch movies from the specified year
+                const movieData = await apiFetch('/discover/movie', {
+                    'primary_release_date.gte': `${year}-01-01`,
+                    'primary_release_date.lte': `${year}-12-31`,
+                    'sort_by': 'popularity.desc',
+                    'vote_count.gte': 100
+                });
+
+                // Fetch TV shows from the specified year
+                const tvData = await apiFetch('/discover/tv', {
+                    'first_air_date.gte': `${year}-01-01`,
+                    'first_air_date.lte': `${year}-12-31`,
+                    'sort_by': 'popularity.desc',
+                    'vote_count.gte': 100
+                });
+
+                // Combine and filter results
+                let results = [
+                    ...(movieData?.results || []).map(m => ({ ...m, media_type: 'movie' })),
+                    ...(tvData?.results || []).map(t => ({ ...t, media_type: 'tv' }))
+                ].filter(item => item.poster_path);
+
+                // Sort by popularity
+                results.sort((a, b) => b.popularity - a.popularity);
+
+                // Render results
+                if (results.length > 0) {
+                    renderContent(results);
+                    const loadMoreBtn = $('#load-more-btn');
+                    if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+                } else {
+                    mainEl.innerHTML = `<p class="text-center text-gray-400 mt-10">No results found.</p>`;
+                }
+            } catch (error) {
+                console.error('Error searching by year:', error);
+                mainEl.innerHTML = '<p class="text-center text-gray-400 mt-10">Error searching by year. Please try again.</p>';
+            }
         }
 
         // Create HTML for a single poster card
