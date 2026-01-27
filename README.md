@@ -2,7 +2,7 @@
 <p align="center">
   <img width="250" height="180" alt="OnRegardeQuoi" src="https://github.com/user-attachments/assets/62c02ac3-a72c-4aa3-81d6-4b27440c8fc4" />
   <br /><br />
-  <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.4
+  <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.5
   <br />
   <a href="https://www.onregardequoi.com/"><strong>onregardequoi.com</strong></a>
 </p>
