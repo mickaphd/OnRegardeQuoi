@@ -112,3 +112,9 @@ Found a bug or have a feature request? [Open an issue](https://github.com/mickap
 - [JustWatch](https://www.justwatch.com/)- Streaming availability
 - [Vercel](https://vercel.com/) – Seamless and free hosting
 - [Pake](https://github.com/tw93/Pake) - Turn any webpage into a desktop app 
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project relies on third-party APIs and services such as TMDB, JustWatch, etc.
+Users must comply with each service's terms of service when using this application.
