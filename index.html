@@ -83,7 +83,7 @@
         <!-- Logo Section -->
         <div id="header-logo" class="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0 flex items-center justify-center md:justify-start transition-all duration-300 z-50">
             <button id="open-app-info-btn" class="flex items-center flex-shrink-0 cursor-pointer group focus:outline-none">
-                <img src="ressources/logo.svg" alt="OnRegardeQuoi logo" class="h-12 w-auto transition-all duration-100 group-hover:scale-105 group-hover:brightness-125">
+                <img src="ressources/logo.svg" alt="OnRegardeQuoi logo" class="h-12 w-auto transition-all duration-100 group-hover:scale-105">
             </button>
             <h1 class="font-slackey text-xl tracking-tight block ml-2">
                 <span>On</span><span class="text-amber-400">Regarde</span><span>Quoi</span>
@@ -260,6 +260,32 @@
     <!-- ===== APPLICATION SCRIPT ===== -->
     <script type="module">
         // ======================================
+        // SVG ICONS & COMMON STYLES
+        // ======================================
+
+        // Centralized SVG Icons (removes duplication across the app)
+        const SVG_ICONS = {
+            movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
+            tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
+            bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" />',
+            options: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />',
+            info: '<path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />',
+            watch: '<path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />'
+        };
+
+        // Helper function to create SVG elements (reusable)
+        function createSVG(iconName, classes = 'size-6') {
+            const path = SVG_ICONS[iconName];
+            if (!path) return '';
+            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${path}</svg>`;
+        }
+
+        // Centralized Common Styles
+        const COMMON_STYLES = {
+            externalLink: "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none"
+        };
+
+        // ======================================
         // CONFIGURATION & CONSTANTS
         // ======================================
 
@@ -370,13 +396,6 @@
 
         ];
 
-        // SVG icons for poster card action buttons (optimization: pre-compiled)
-        const POSTER_BUTTON_ICONS = {
-            options: '<svg class="options-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>',
-            info: '<svg class="info-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>',
-            watch: '<svg class="watch-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>'
-        };
-
         // ======================================
         // STATE MANAGEMENT
         // ======================================
@@ -466,16 +485,6 @@
             date.setMonth(date.getMonth() + monthsOffset);
             date.setFullYear(date.getFullYear() + yearsOffset);
             return date.toISOString().split('T')[0];
-        }
-
-        // Get SVG icon by name (used in poster cards and modals)
-        function getIcon(name, classes) {
-            const paths = {
-                movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
-                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
-                bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" />'
-            };
-            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
         }
 
         // Toggles visibility and styling of tab buttons and content
@@ -616,11 +625,10 @@
         function showTrailerList(title, trailers) {
             if (!trailerListTitleEl || !trailerListContentEl) return;
             const encodedTitle = encodeURIComponent(title);
-            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
             const externalLinksHTML = `
                 <div class="flex flex-wrap gap-2 mt-2">
-                    <a href="https://www.youtube.com/results?search_query=${encodedTitle}+trailer" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on YouTube">YouTube</a>
-                    <a href="https://www.dailymotion.com/search/${encodedTitle}%20trailer" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Dailymotion">Dailymotion</a>
+                    <a href="https://www.youtube.com/results?search_query=${encodedTitle}+trailer" target="_blank" rel="noopener noreferrer" class="${COMMON_STYLES.externalLink}" title="Search on YouTube">YouTube</a>
+                    <a href="https://www.dailymotion.com/search/${encodedTitle}%20trailer" target="_blank" rel="noopener noreferrer" class="${COMMON_STYLES.externalLink}" title="Search on Dailymotion">Dailymotion</a>
                 </div>
             `;
             trailerListTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">Videos for ${title}</span>${externalLinksHTML}</div>`;
@@ -634,12 +642,11 @@
         async function showInfoModal(title, details, type, id) {
             if (!infoModalTitleEl || !infoModalContentEl) return;
             const encodedTitle = encodeURIComponent(title);
-            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
             const externalLinksHTML = `
                 <div class="flex flex-wrap gap-2 mt-2">
-                    <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on IMDb">IMDb</a>
-                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten Tomatoes</a>
-                    <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
+                    <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${COMMON_STYLES.externalLink}" title="Search on IMDb">IMDb</a>
+                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${COMMON_STYLES.externalLink}" title="Search on Rotten Tomatoes">Rotten Tomatoes</a>
+                    <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${COMMON_STYLES.externalLink}" title="Search on Metacritic">Metacritic</a>
                 </div>
             `;
             infoModalTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">${title}</span>${externalLinksHTML}</div>`;
@@ -680,16 +687,22 @@
         async function showWatchModal(title, providers) {
             if (!watchModalEl || !watchModalContentEl || !watchCountrySelector) return;
             
-            const availableCountries = providers ? Object.keys(providers).sort() : [];
+            const availableCountries = providers ? Object.keys(providers) : [];
             const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
-            
+
             let options = [...availableCountries];
             if (state.userCountry && !options.includes(state.userCountry)) {
                 options.push(state.userCountry);
             }
             if (options.length === 0) options.push('US');
-            options.sort();
-            
+
+            // Sort by displayed country name
+            options.sort((a, b) => {
+                const nameA = countryNames.of(a) || a;
+                const nameB = countryNames.of(b) || b;
+                return nameA.localeCompare(nameB);
+            });
+
             watchCountrySelector.innerHTML = options.map(code => {
                 const name = countryNames.of(code) || code;
                 return `<option value="${code}" class="bg-[#1e1e1e] text-white" ${code === state.userCountry ? 'selected' : ''}>${name}</option>`;
@@ -975,7 +988,7 @@
 
             let badgeHTML = '';
             if (item.media_type) {
-                const icon = getIcon(item.media_type === 'movie' ? 'movie' : 'tv', 'w-4 h-4 text-black');
+                const icon = createSVG(item.media_type === 'movie' ? 'movie' : 'tv', 'w-4 h-4 text-black');
                 badgeHTML = `<div class="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full z-10" title="${item.media_type === 'movie' ? 'Movie' : 'TV Show'}">${icon}</div>`;
             }
 
@@ -990,41 +1003,38 @@
                             </svg>
                         </button>
                         <button data-action="bookmark" class="bookmark-icon absolute top-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors z-10 ${isBookmarked ? 'text-amber-400 fill-current' : 'text-black'}" title="Bookmark">
-                            ${getIcon('bookmark', 'w-4 h-4')}
+                            ${createSVG('bookmark', 'w-4 h-4')}
                         </button>
                         <button data-action="options" class="absolute bottom-2 right-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Find More Videos">
-                            ${POSTER_BUTTON_ICONS.options}
+                            ${createSVG('options', 'w-4 h-4 text-black')}
                         </button>
                         <button data-action="watch" class="absolute bottom-2 left-1/2 -translate-x-1/2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Where to Watch">
-                            ${POSTER_BUTTON_ICONS.watch}
+                            ${createSVG('watch', 'w-4 h-4 text-black')}
                         </button>
                         <button data-action="info" class="absolute bottom-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="More Information">
-                            ${POSTER_BUTTON_ICONS.info}
+                            ${createSVG('info', 'w-4 h-4 text-black')}
                         </button>
                     </div>
                 </div>
             </div>`;
         }
 
-        // Render poster grid (FIXED: ensures proper grid classes are always applied)
+        // Render poster grid with responsive columns
         function renderContent(itemsToRender) {
             if (!itemsToRender || !mainEl) return;
             
-            // Clear main element completely first to avoid residual shortcut UI
-            // This ensures the grid is always clean
+            // Create or reuse grid container
             let grid = mainEl.querySelector('.grid');
             if (!grid) {
-                // Completely reset content to force new grid creation with correct classes
                 mainEl.innerHTML = '';
                 grid = document.createElement('div');
-                // FORCE responsive classes here - this fixes the "4 columns" bug
                 grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
                 mainEl.appendChild(grid);
             }
             
-            // Re-verify class list in case it was modified
-            if (grid.className.indexOf('xl:grid-cols-8') === -1) {
-                 grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+            // Ensure responsive classes persist
+            if (!grid.className.includes('xl:grid-cols-8')) {
+                grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
             }
 
             grid.innerHTML = itemsToRender.map(createPosterHTML).join('');
@@ -1238,7 +1248,7 @@
                 const query = params.get('q');
 
                 if (query) {
-        // FIX: Set the default "Home" state to movies, so the "X" button knows where to go
+        // Set the default "Home" state to movies, so the "X" button knows where to go
                     state.activeSection = 'movies'; 
                 
                     // Then open search immediately
@@ -1258,4 +1268,3 @@
 
 </body>
 </html>
-
