@@ -1,11 +1,12 @@
 # OnRegardeQuoi
 <p align="center">
-  <img width="250" height="180" alt="OnRegardeQuoi" src="https://github.com/user-attachments/assets/62c02ac3-a72c-4aa3-81d6-4b27440c8fc4" />
+  <img width="250" height="180" alt="OnRegardeQuoi" src="https://github.com/user-attachments/assets/970c9eaf-095d-48c2-ba5a-748968525c48" />
   <br /><br />
   <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.5
   <br />
-  <a href="https://www.onregardequoi.com/"><strong>onregardequoi.com</strong></a>
+  <a href="https://www.onregardequoi.com/"><strong>www.onregardequoi.com</strong></a>
 </p>
+
 
 **OnRegardeQuoi** is a free, open-source, and minimalist web app that helps you discover movies and TV shows through their trailers. 
 <br>It takes its name from the French phrase <i>On regarde quoi ?</i> meaning <i>What are we watching?</i>
