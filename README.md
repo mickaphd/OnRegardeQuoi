@@ -67,7 +67,7 @@ Use the amazing [Pake](https://github.com/tw93/Pake) command line to create your
 Check the Pake GitHub for more information about this very useful tool.
 Additionally, you can download these desktop apps that I created myself:
 - 🍎 macOS: [Download](https://github.com/mickaphd/Pake/actions/runs/21400998265/artifacts/5273300455)
-- 💻 Windows: [Download](https://github.com/mickaphd/Pake/actions/runs/21402379220/artifacts/5273967324)
+- 💻 Windows: [Download](https://github.com/mickaphd/Pake/actions/runs/21402379220/artifacts/5274401405)
 
 ### Option 3: Run Locally
 
