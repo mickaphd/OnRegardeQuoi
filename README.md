@@ -11,8 +11,6 @@
 <br>It takes its name from the French phrase <i>On regarde quoi ?</i> meaning <i>What are we watching?</i>
 <br>The goal is to provide a simple and light trailer-focused experience, not to replace more comprehensive movie databases.
 
----
-
 ## ✨ Features
 
 - **Browse Movies & TV Shows** – Easily switch between movies and TV Shows
@@ -53,7 +51,7 @@
 <details>
 <summary><strong>🖥️ Raycast</strong></summary>
 <img width="20%" alt="macOS App" src="https://github.com/user-attachments/assets/087de7a2-6f89-4751-9918-345c27fd76c2"/>
-<img width="50%" alt="macOS App" src="https://github.com/user-attachments/assets/5bf42bfd-0657-4ec8-b862-d4818fdc62f3"/>
+<img width="70%" alt="macOS App" src="https://github.com/user-attachments/assets/5bf42bfd-0657-4ec8-b862-d4818fdc62f3"/>
 </details>
 
 ## 🚀 Getting Started
