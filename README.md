@@ -93,11 +93,11 @@ Deploy your own instance for free on Vercel:
 
 ## 🎯 How Content is Selected
 
-**OnRegardeQuoi** uses specific filters for each category to ensure high-quality and relevant content, such as a minimum rating or vote count. This is why listings may differ from those on the main TMDB website. These criteria will certainly evolve over time (Feel free to share your thoughts on this matter; I'm open to suggestions!).
+**OnRegardeQuoi** uses specific filters for each category to ensure high-quality and relevant content, such as a minimum rating or vote count. This is why listings may differ from those on the main TMDB website. These criteria will certainly evolve over time (feel free to share your thoughts on this matter; I'm clearly open to suggestions!).
 
 ## 🔒 Privacy Policy
 
-- **No Personal Data** – There is no collection, storage, or transmission of any information, and no cookies or trackers are used. Only the privacy friendly script [GoatCounter](https://github.com/arp242/goatcounter) is tested 
+- **No Personal Data** – There is no collection, storage, or transmission of any information, and no cookies or trackers are used. Only the privacy friendly script [GoatCounter](https://github.com/arp242/goatcounter) is tested (which is blocked by uBlock Origin anyway 😄) 
 - **Local Storage** – Movie and TV show data cached locally on your device for performance. Can be cleared anytime from browser settings or the app's "Refresh ↻" button
 - **Third-Party Services** – Videos stream via YouTube's privacy-enhanced mode (`youtube-nocookie.com`), subject to YouTube's privacy policy obviously..
 
