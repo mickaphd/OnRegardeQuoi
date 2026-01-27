@@ -1,20 +1,26 @@
-<!-- OnRegardeQuoi.com: an open-source and minimalist web app for discovering movies and TV shows -->
+<!-- OnRegardeQuoi.com: a minimalist and open-source web app for discovering movies and TV shows -->
 <!-- Made with ❤ by micka from Paris -->
-<!-- v1.4 -->
+<!-- v1.5 -->
 
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+    
     <!-- ===== META BASICS ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An open-source and minimalist web app for discovering movies and TV shows through their trailers.">
+    <meta name="description" content="OnRegardeQuoi is a minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta name="keywords" content="movies, tv shows, trailers, what to watch, cinema, streaming, netflix, hbo, amazon, film discovery, movie recommendations">
     <meta name="theme-color" content="#080808">
-    <title>OnRegardeQuoi</title>
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.onregardequoi.com/">
+    <title>OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers</title>
 
     <!-- ===== FONTS ===== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" as="style">
     <link href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" rel="stylesheet">
 
     <!-- ===== ICONS & PWA ===== -->
@@ -22,29 +28,58 @@
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="ressources/apple-icon-180.png">
     <meta name="msapplication-config" content="browserconfig.xml">
-    
-    <!-- Open Graph (for social media sharing) -->
-    <meta property="og:image" content="ressources/icon.png">
-    
-    <!-- iOS PWA: enables "Add to Home Screen" installation -->
+
+    <!-- ===== SOCIAL SHARING (Open Graph & Twitter) ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.onregardequoi.com/">
+    <meta property="og:title" content="OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers">
+    <meta property="og:description" content="Minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta property="og:image" content="https://www.onregardequoi.com/ressources/icon.png">
+    <meta property="og:image:alt" content="OnRegardeQuoi logo">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers">
+    <meta name="twitter:description" content="Minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta name="twitter:image" content="https://www.onregardequoi.com/ressources/icon.png">
+
+    <!-- ===== iOS PWA ===== -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    <!-- iOS: controls status bar appearance (dark/translucent) -->
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    <!-- iOS: custom app name on home screen -->
     <meta name="apple-mobile-web-app-title" content="Trailers">
 
-    <!-- Tailwind CSS compiled output -->
+    <!-- ===== STYLES ===== -->
     <link rel="stylesheet" href="./output.css">
-</head>
 
+    <!-- ===== STRUCTURED DATA (JSON-LD) ===== -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "OnRegardeQuoi.com",
+      "url": "https://www.onregardequoi.com",
+      "description": "A minimalist, open-source web app to discover and search for movies and TV shows.",
+      "applicationCategory": "Entertainment",
+      "operatingSystem": "All",
+      "image": "https://www.onregardequoi.com/ressources/icon.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <!-- ===== GOATCOUNTER ===== -->
+    <script data-goatcounter="https://mickaphd.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js">        
+    </script>
+
+</head>
 
 <body class="bg-background text-white font-sans antialiased selection:bg-amber-400 selection:text-black">
 
     <!-- ===== HEADER & NAVIGATION ===== -->
     <header class="fixed inset-0 w-full h-0 z-30 pointer-events-none">
-        
+
         <!-- Logo Section -->
         <div id="header-logo" class="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0 flex items-center justify-center md:justify-start transition-all duration-300 z-50">
             <button id="open-app-info-btn" class="flex items-center flex-shrink-0 cursor-pointer group focus:outline-none">
@@ -61,7 +96,7 @@
 
                 <!-- Navigation Buttons -->
                 <div id="nav-buttons-container" class="col-start-1 row-start-1 flex items-center justify-start h-full transition-opacity duration-300 w-full md:w-auto gap-2">
-
+                    
                     <!-- Main Category Buttons -->
                     <div class="flex items-center gap-2">
                         <button class="nav-button main-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-section="movies" title="Movies"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" /></svg></button>
@@ -69,7 +104,7 @@
                     </div>
 
                     <!-- Visual Separator -->
-                    <div class="w-px h-6 bg-white/10 flex-shrink-0"></div>
+                    <div class="w-px h-10 bg-white/10 flex-shrink-0"></div>
 
                     <!-- Sub-Category Buttons (Trending, Soon, Greats) -->
                     <div id="shared-subcategories" class="flex items-center gap-2">
@@ -78,8 +113,8 @@
                         <button class="nav-button sub-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-category="greats" title="All-Time Greats"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" /></svg></button>
                     </div>
 
-                    <!-- Visual Separator (Search) -->
-                    <div id="search-separator" class="w-px h-6 bg-white/10 flex-shrink-0 transition-opacity"></div>
+                    <!-- Visual Separator -->
+                    <div id="search-separator" class="w-px h-10 bg-white/10 flex-shrink-0 transition-opacity"></div>
 
                     <!-- Bookmarks & Search -->
                     <div class="flex items-center gap-2">
@@ -139,6 +174,19 @@
         </div>
     </div>
 
+    <!-- Where To Watch Modal -->
+    <div id="watch-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
+        <div id="watch-modal-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
+            <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0 gap-4">
+                <h2 class="text-xl font-bold text-white whitespace-nowrap">Where to Watch</h2>
+                <div class="flex-grow"></div>
+                <select id="watch-country-selector" style="background-color: #1e1e1e; color: white;" class="text-xs border border-white/20 rounded px-2 py-1 outline-none focus:border-amber-400 cursor-pointer">
+                    </select>
+            </div>
+            <div id="watch-modal-content" class="overflow-y-auto text-white text-sm p-4"></div>
+        </div>
+    </div>
+
     <!-- App Info Modal (About, Updates, Acknowledgments) -->
     <div id="app-info-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
         <div id="app-info-modal-container" class="rounded-lg shadow-lg w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-8 sm:mt-12">
@@ -146,7 +194,7 @@
                 <div class="flex">
                     <button id="about-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">About</button>
                     <button id="whats-new-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Updates</button>
-                    <button id="acknowledgment-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Acknowledgment</button>
+                    <button id="acknowledgment-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Acknowledgments</button>
                 </div>
             </div>
             <div class="overflow-y-auto text-white text-sm p-4 flex-grow">
@@ -156,6 +204,13 @@
                     <p class="mt-4 text-xs text-gray-400"><a href="#" id="force-refresh-btn" class="opacity-20 hover:opacity-100 transition-opacity" title="Clear all your bookmarks and cached data for movies and TV shows. This is optional, but you might find it helpful!">Reset ↻</a></p>
                 </div>
                 <div id="whats-new-content" class="tab-content hidden">
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.5 (January 28, 2026)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Integrated JustWatch for streaming availability</li>  
+                        <li>Introduced new category shortcuts for quick filtering (Action, Horror, Comedy, etc.)</li>  
+                        <li>Added support for URL query parameters (?q=) for direct searches and sharing</li> 
+                        <li>Generated desktop apps using Pake (available on GitHub)</li>  
+                    </ul>
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.4 (January 22, 2026)</h3>
                     <ul class="list-disc list-inside mb-4">
                         <li>Tailwind CSS optimization: migrated from CDN to compiled output.css for significantly faster load times</li>
@@ -179,7 +234,7 @@
                     <ul class="list-disc list-inside mb-4">
                         <li>New shortcuts for IMDb, Rotten Tomatoes and Metacritic</li>
                         <li>New favicons/icons for all browsers, devices and platforms</li>
-                        <li>Implemented a "Smart Hover & Tap" model that feels more native and predictable on all devices (mobile, desktop, and hybrids)</li>
+                        <li>Implemented a "Smart Hover & Tap" model that feels more native and predictable on all devices</li>
                         <li>Code cleaning and optimization</li>
                     </ul>
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.0 (September 23, 2025)</h3>
@@ -192,9 +247,10 @@
                 </div>
                 <div id="acknowledgment-content" class="tab-content hidden">
                     <ul class="list-disc list-inside">
-                        <li><a href="https://www.themoviedb.org/" target="_blank" class="text-amber-400 hover:underline">The Movie Database (TMDB)</a> for movie and TV show data</li>
-                        <li><a href="https://vercel.com/" target="_blank" class="text-amber-400 hover:underline">Vercel</a> for seamless hosting and deployment</li>
-                        <li><a href="https://github.com/tw93/Pake" target="_blank" class="text-amber-400 hover:underline">Pake</a> for turning this web app into light and fast desktop apps</li>
+                        <li><a href="https://www.themoviedb.org/" target="_blank" class="text-amber-400 hover:underline">The Movie Database</a> for movie and TV show data</li>
+                        <li><a href="https://www.justwatch.com/" target="_blank" class="text-amber-400 hover:underline">JustWatch</a> (via TMDB API) for streaming availability</li>
+                        <li><a href="https://www.vercel.com/" target="_blank" class="text-amber-400 hover:underline">Vercel</a> for seamless hosting and deployment</li>
+                        <li><a href="https://github.com/tw93/Pake" target="_blank" class="text-amber-400 hover:underline">Pake</a> for turning this web app into light desktop apps</li>
                     </ul>
                 </div>
             </div>
@@ -207,7 +263,7 @@
         // CONFIGURATION & CONSTANTS
         // ======================================
 
-        // API Configuration - handles both direct and proxy requests
+        // API Configuration
         const API_CONFIG = {
             devKey: '',
             tmdbDirectUrl: 'https://api.themoviedb.org/3',
@@ -215,19 +271,20 @@
             youtubeEmbedUrl: 'https://www.youtube-nocookie.com/embed/',
         };
 
-        // UI Configuration - responsive poster sizes
+        // UI Configuration
         const UI_CONFIG = {
             posterSize: window.innerWidth < 768 ? 'w342' : 'w500',
         };
 
-        // Derived constant for image URLs
+        // Derived constant
         const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/${UI_CONFIG.posterSize}`;
 
-        // Cache expiration times (in milliseconds) - different TTL for each category
+        // Cache expiration times (in milliseconds)
         const CACHE_TTLS = {
             trending: 12 * 60 * 60 * 1000,  // 12 hours
             soon: 24 * 60 * 60 * 1000,      // 24 hours
-            greats: 48 * 60 * 60 * 1000     // 48 hours
+            greats: 48 * 60 * 60 * 1000,    // 48 hours
+            shortcuts: 48 * 60 * 60 * 1000  // 48 hours
         };
 
         // Default app data structure - used to initialize and reset state
@@ -241,7 +298,9 @@
                 trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
                 soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
                 greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }
-            }
+            },
+            // Shortcuts caching
+            shortcuts: {} 
         };
 
         // API parameter configurations for different content types and categories
@@ -286,40 +345,88 @@
             }
         };
 
-        // SVG icons for poster card action buttons (optimization: pre-compiled for performance)
+        // Search Shortcuts Configuration - Quick access to curated movie and TV show collections
+        const SEARCH_SHORTCUTS = [
+            // ===== MOVIES BY GENRE =====
+            { label: "Action Movies", icon: "💥", type: "movie", params: { with_genres: '28', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Comedy Movies", icon: "😂", type: "movie", params: { with_genres: '35', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Horror Movies", icon: "😱", type: "movie", params: { with_genres: '27', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Sci-Fi Movies", icon: "👽", type: "movie", params: { with_genres: '878', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Drama Movies", icon: "🎭", type: "movie", params: { with_genres: '18', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Thriller Movies", icon: "🔪", type: "movie", params: { with_genres: '53', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            
+            // ===== MOVIES BY REGION =====
+            { label: "French Cinema", icon: "🇫🇷", type: "movie", params: { with_original_language: 'fr', 'vote_average.gte': 6, 'vote_count.gte': 400, sort_by: 'popularity.desc' } },
+            { label: "British Cinema", icon: "🇬🇧", type: "movie", params: { with_origin_country: 'GB', 'vote_average.gte': 6, 'vote_count.gte': 400, sort_by: 'popularity.desc' } },            
+            // ===== FAMILY & KIDS =====
+            { label: "Kids & Family Movies", icon: "👶", type: "movie", params: { with_genres: '16,10751', 'vote_average.gte': 6, 'vote_count.gte': 300, sort_by: 'popularity.desc' } },
+            
+            // ===== TV SHOWS BY REGION =====
+            { label: "French Shows", icon: "🇫🇷", type: "tv", params: { with_origin_country: 'FR', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "British Shows", icon: "🇬🇧", type: "tv", params: { with_origin_country: 'GB', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "Spanish Shows", icon: "🇪🇸", type: "tv", params: { with_origin_country: 'ES', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "German Shows", icon: "🇩🇪", type: "tv", params: { with_origin_country: 'DE', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "Korean Shows", icon: "🇰🇷", type: "tv", params: { with_origin_country: 'KR', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+
+        ];
+
+        // SVG icons for poster card action buttons (optimization: pre-compiled)
         const POSTER_BUTTON_ICONS = {
             options: '<svg class="options-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>',
-            info: '<svg class="info-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>'
+            info: '<svg class="info-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>',
+            watch: '<svg class="watch-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>'
         };
 
         // ======================================
         // STATE MANAGEMENT
         // ======================================
-        // Centralized state object tracking app data, UI state, user bookmarks, and search state
 
+        // Detects user's country from browser language (e.g., "en-US" → "US")
+        // Falls back to 'US' if detection fails
+        const getDefaultCountry = () => {
+            try {
+                const country = navigator.language.split('-')[1];
+                return country ? country.toUpperCase() : 'US';
+            } catch {
+                return 'US';
+            }
+        };
+
+        // Centralized state object tracking app data, UI state, user bookmarks, and search state
         const state = {
+            // All fetched movies/TV shows organized by type (movies/tv) and category (trending/soon/greats)
             appData: DEFAULT_APP_DATA,
+            
+            // User's saved movies/TV shows (persisted in localStorage)
             bookmarks: JSON.parse(localStorage.getItem('onregardequoi_bookmarks')) || [],
+            
+            // User's country code for streaming availability ("US", "FR", "GB", etc.)
+            userCountry: localStorage.getItem('onregardequoi_country') || getDefaultCountry(),
+            
+            // Active main section: 'movies', 'tv', or 'bookmarks'
             activeSection: null,
+            
+            // Active subcategory: 'trending', 'soon', or 'greats'
             activeCategory: 'trending',
+            
+            // Timer ID for debouncing search input (prevents excessive API calls)
             debounceTimer: null,
-            isSearching: false
+            
+            // Whether search/filter mode is currently active
+            isSearching: false,
+            
+            // Index of currently selected search shortcut (null = none, 0-14 = shortcut index)
+            currentShortcutIndex: null 
         };
 
         // ======================================
         // DOM SELECTORS
         // ======================================
-
-        // Query helper - shorthand for querySelector
         const $ = (selector) => document.querySelector(selector);
-
-        // Main containers
         const mainEl = $('#main-content');
         const loadMoreContainerEl = $('#load-more-container');
         const dockContainer = $('#dock-container');
         const headerLogo = $('#header-logo');
-
-        // Navigation elements
         const searchToggleBtn = $('#search-toggle-btn');
         const searchIcon = $('#search-icon');
         const closeIcon = $('#close-icon');
@@ -327,22 +434,17 @@
         const searchInputContainer = $('#search-input-container');
         const newSearchFieldInput = $('#new-search-field-input');
         const sharedSubcategoriesEl = $('#shared-subcategories');
-
-        // Modal elements (video player)
         const videoModalEl = $('#video-modal');
         const videoPlayerEl = $('#video-player');
-
-        // Modal elements (trailer list)
         const trailerListModalEl = $('#trailer-list-modal');
         const trailerListContentEl = $('#trailer-list-content');
         const trailerListTitleEl = $('#trailer-list-title');
-
-        // Modal elements (info)
         const infoModalEl = $('#info-modal');
         const infoModalContentEl = $('#info-modal-content');
         const infoModalTitleEl = $('#info-modal-title');
-
-        // Modal elements (app info)
+        const watchModalEl = $('#watch-modal');
+        const watchModalContentEl = $('#watch-modal-content');
+        const watchCountrySelector = $('#watch-country-selector');
         const appInfoModalEl = $('#app-info-modal');
         const openAppInfoBtn = $('#open-app-info-btn');
         const aboutTabBtn = $('#about-tab-btn');
@@ -358,7 +460,6 @@
         // ======================================
 
         // Generate formatted dates for API queries (YYYY-MM-DD format)
-        // Used for filtering content by release/air date
         function getFormattedDate(daysOffset = 0, monthsOffset = 0, yearsOffset = 0) {
             const date = new Date();
             date.setDate(date.getDate() + daysOffset);
@@ -368,7 +469,6 @@
         }
 
         // Get SVG icon by name (used in poster cards and modals)
-        // Returns a complete SVG element as a string
         function getIcon(name, classes) {
             const paths = {
                 movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
@@ -378,7 +478,6 @@
             return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
         }
 
-        // Utility: Set tab state (optimization: reduces code duplication)
         // Toggles visibility and styling of tab buttons and content
         function setTabState(tabBtn, tabContent, isActive) {
             if (!tabBtn || !tabContent) return;
@@ -394,7 +493,6 @@
         // ======================================
 
         // Generic API fetch function - handles both direct and proxy calls
-        // Supports API key authentication or server-side proxy routing
         async function apiFetch(tmdbEndpoint, params = {}) {
             try {
                 const baseUrl = API_CONFIG.devKey ? API_CONFIG.tmdbDirectUrl : API_CONFIG.vercelProxyUrl;
@@ -421,7 +519,6 @@
         }
 
         // Get trailers for a movie/TV show, prioritizing official trailers
-        // Returns array sorted by quality/relevance
         async function getTrailers(type, id) {
             const data = await apiFetch(`/${type}/${id}/videos`);
             if (!data?.results?.length) return [];
@@ -445,29 +542,38 @@
         }
 
         // Get detailed information for a movie/TV show
-        // Includes genres, runtime, ratings, cast, crew, etc.
         async function getDetails(type, id) {
             return await apiFetch(`/${type}/${id}`);
         }
 
+        // Get streaming/watch providers for a movie/TV show
+        async function getWatchProviders(type, id) {
+            const data = await apiFetch(`/${type}/${id}/watch/providers`);
+            return data?.results || null;
+        }
+        
         // Cache management - save to localStorage
         function saveCache() {
             localStorage.setItem('onregardequoi_cache', JSON.stringify(state.appData));
         }
 
         // Cache management - load from localStorage
-        // Handles errors gracefully by resetting to default if corrupted
         function loadCache() {
             try {
                 const cachedData = localStorage.getItem('onregardequoi_cache');
-                if (cachedData) state.appData = JSON.parse(cachedData);
+                if (cachedData) {
+                    const parsed = JSON.parse(cachedData);
+                    // Merge caching structures in case DEFAULT_APP_DATA changed (new version)
+                    state.appData = { ...DEFAULT_APP_DATA, ...parsed };
+                    if (!state.appData.shortcuts) state.appData.shortcuts = {}; 
+                }
             } catch (error) {
                 console.error("Cache error:", error);
                 state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
             }
         }
 
-        // Clear all cache and bookmarks - used for debugging and user reset
+        // Clear all cache and bookmarks
         function forceClearCache() {
             state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
             state.bookmarks = [];
@@ -492,7 +598,7 @@
             modal.classList.add('opacity-0', 'pointer-events-none');
         }
 
-        // Open trailer in video player modal
+        // Open trailer in video player
         function openTrailer(videoKey) {
             if (videoKey && videoPlayerEl) {
                 videoPlayerEl.src = `${API_CONFIG.youtubeEmbedUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
@@ -500,14 +606,13 @@
             }
         }
 
-        // Close video player modal and clear iframe source
+        // Close video player and clear iframe
         function closeTrailer() {
             closeModal(videoModalEl);
             setTimeout(() => { if (videoPlayerEl) videoPlayerEl.src = 'about:blank'; }, 300);
         }
 
-        // Show trailer list modal with available videos for a title
-        // Includes external links to YouTube and Dailymotion searches
+        // Show trailer list modal with available videos
         function showTrailerList(title, trailers) {
             if (!trailerListTitleEl || !trailerListContentEl) return;
             const encodedTitle = encodeURIComponent(title);
@@ -525,8 +630,7 @@
             openModal(trailerListModalEl);
         }
 
-        // Show info modal with detailed information about a title
-        // Fetches and displays credits, ratings, synopsis, and external links
+        // Show info modal with detailed information
         async function showInfoModal(title, details, type, id) {
             if (!infoModalTitleEl || !infoModalContentEl) return;
             const encodedTitle = encodeURIComponent(title);
@@ -534,7 +638,7 @@
             const externalLinksHTML = `
                 <div class="flex flex-wrap gap-2 mt-2">
                     <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on IMDb">IMDb</a>
-                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten</a>
+                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten Tomatoes</a>
                     <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
                 </div>
             `;
@@ -572,8 +676,84 @@
             openModal(infoModalEl);
         }
 
-        // Switch between app info modal tabs
-        // Handles About, Updates, and Acknowledgment sections
+        // Show where to watch modal with streaming providers
+        async function showWatchModal(title, providers) {
+            if (!watchModalEl || !watchModalContentEl || !watchCountrySelector) return;
+            
+            const availableCountries = providers ? Object.keys(providers).sort() : [];
+            const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+            
+            let options = [...availableCountries];
+            if (state.userCountry && !options.includes(state.userCountry)) {
+                options.push(state.userCountry);
+            }
+            if (options.length === 0) options.push('US');
+            options.sort();
+            
+            watchCountrySelector.innerHTML = options.map(code => {
+                const name = countryNames.of(code) || code;
+                return `<option value="${code}" class="bg-[#1e1e1e] text-white" ${code === state.userCountry ? 'selected' : ''}>${name}</option>`;
+            }).join('');
+
+            watchCountrySelector.classList.remove('hidden');
+
+            const renderWatchContent = (countryCode) => {
+                const data = providers?.[countryCode];
+                if (!data) {
+                    const countryName = countryNames.of(countryCode) || countryCode;
+                    watchModalContentEl.innerHTML = `
+                        <div class="py-8">
+                            <p class="text-gray-500 text-sm">Hmm, this item doesn't seem available for streaming, renting, or buying in <b>${countryName}</b> at the moment.</p><br>
+                            <p class="text-gray-500 text-sm">Maybe it's still in theaters if you are in the "Trending" category, or simply not out yet if you are in the "Soon" category.</p><br>
+                            <p class="text-gray-500 text-sm">Eventually, JustWatch doesn't have the information, or perhaps every provider has removed it!</p>
+                        </div>`;
+                    return;
+                }
+
+                const renderSection = (title, items) => {
+                    if (!items || items.length === 0) return '';
+                    const icons = items.map(p => `
+                        <div class="flex flex-col items-center gap-1 w-16 text-center">
+                            <img src="https://image.tmdb.org/t/p/w92${p.logo_path}" alt="${p.provider_name}" class="w-12 h-12 rounded-lg shadow-sm" loading="lazy">
+                            <span class="text-[10px] text-gray-300 leading-tight line-clamp-2">${p.provider_name}</span>
+                        </div>
+                    `).join('');
+                    return `<div class="mb-4"><h3 class="font-bold text-amber-400 text-sm mb-2 uppercase">${title}</h3><div class="flex flex-wrap gap-3">${icons}</div></div>`;
+                };
+
+                const streamHTML = renderSection('Stream', data.flatrate);
+                const rentHTML = renderSection('Rent', data.rent);
+                const buyHTML = renderSection('Buy', data.buy);
+                
+                const footer = `<div class="mt-6 flex justify-center text-white text-xs">
+                    Powered by&nbsp;<a href="${data.link}" target="_blank" class="text-amber-400 hover:underline">JustWatch</a>
+                </div>`;
+
+                if (streamHTML || rentHTML || buyHTML) {
+                    watchModalContentEl.innerHTML = `<div>${streamHTML}${rentHTML}${buyHTML}${footer}</div>`;
+                } else {
+                    const countryName = countryNames.of(countryCode) || countryCode;
+                    watchModalContentEl.innerHTML = `
+                        <div class="text-center py-8">
+                            <p class="text-gray-300 font-bold text-lg mb-2">Not available in ${countryName}</p>
+                            <p class="text-gray-500 text-sm">Maybe it's still in theaters? Go check it out!<br>Or... time to move to another country? ✈️</p>
+                        </div>`;
+                }
+            };
+
+            renderWatchContent(watchCountrySelector.value);
+
+            watchCountrySelector.onchange = (e) => {
+                const newCountry = e.target.value;
+                state.userCountry = newCountry;
+                localStorage.setItem('onregardequoi_country', newCountry);
+                renderWatchContent(newCountry);
+            };
+
+            openModal(watchModalEl);
+        }
+
+        // Switch between app info modal tabs (optimization: uses utility function)
         function switchAppInfoTab(activeTabId) {
             const tabs = [
                 { id: 'about-tab-btn', btn: aboutTabBtn, content: aboutContent },
@@ -591,8 +771,13 @@
         // ======================================
 
         // Fetch content from API or cache
-        // Handles pagination and cache validation
         async function fetchContent(append = false) {
+            // Check cache for shortcut first if active
+            if (state.isSearching && state.currentShortcutIndex !== null) {
+                await fetchShortcutContent(append);
+                return;
+            }
+
             if (state.isSearching) return;
             const mediaType = state.activeSection === 'movies' ? 'movie' : 'tv';
             const category = state.activeCategory;
@@ -628,8 +813,51 @@
             saveCache();
         }
 
+        // Fetch shortcut content with persistent caching per shortcut index
+        async function fetchShortcutContent(append = false) {
+            const index = state.currentShortcutIndex;
+            if (index === null) return;
+            
+            // Initialize cache object for this shortcut index if it doesn't exist
+            if (!state.appData.shortcuts[index]) {
+                state.appData.shortcuts[index] = { items: [], nextPage: 1, hasMore: true, timestamp: 0 };
+            }
+            
+            const cache = state.appData.shortcuts[index];
+            const shortcutDef = SEARCH_SHORTCUTS[index];
+            const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS.shortcuts;
+
+            if (isCacheStale && !append) {
+                 Object.assign(cache, { items: [], nextPage: 1, hasMore: true, timestamp: 0 });
+            }
+
+            if (!append && cache.items.length > 0) {
+                 renderContent(cache.items);
+                 resetLoadMoreButton();
+                 return;
+            }
+
+            if (!cache.hasMore && append) return;
+
+            const params = { ...shortcutDef.params, page: cache.nextPage };
+            const data = await apiFetch(`/discover/${shortcutDef.type}`, params);
+
+             if (data?.results?.length > 0) {
+                const newItems = data.results.filter(item => item.poster_path);
+                cache.items.push(...newItems);
+                cache.nextPage++;
+                cache.hasMore = data.page < data.total_pages;
+                if (!append) cache.timestamp = Date.now();
+            } else {
+                cache.hasMore = false;
+            }
+
+            renderContent(cache.items);
+            resetLoadMoreButton();
+            saveCache();
+        }
+
         // Set active section (movies, tv, bookmarks)
-        // Updates UI and loads appropriate content
         async function setActiveSection(section) {
             if (state.isSearching) return;
             document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === section));
@@ -651,22 +879,49 @@
             await fetchContent(false);
         }
 
-        // Open search bar - hides navigation, shows search input
+        // Render Search Shortcuts
+        function renderSearchShortcuts() {
+            if (!mainEl) return;
+            state.currentShortcutIndex = null;
+
+            mainEl.innerHTML = `
+                <div class="flex flex-col items-center pt-6 fade-in px-4 w-full">
+                     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 w-max mx-auto">
+                        ${SEARCH_SHORTCUTS.map((shortcut, index) => `
+                            <button class="shortcut-btn flex flex-col items-center gap-1 bg-[#1e1e1e] hover:bg-amber-400 hover:text-black border border-white/10 hover:border-transparent p-2 rounded-lg transition-all duration-200 group" data-index="${index}" title="${shortcut.label}">
+                                <span class="text-xl">${shortcut.icon}</span>
+                                <span class="text-[9px] text-center leading-tight">${shortcut.label}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            const loadMoreBtn = $('#load-more-btn');
+            if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+        }
+
+        // Open search bar
         function openSearchBar() {
             state.isSearching = true;
             navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
             searchInputContainer.classList.remove('hidden');
             searchInputContainer.classList.add('flex');
             newSearchFieldInput.focus();
-            mainEl.innerHTML = '';
-            resetLoadMoreButton();
+            renderSearchShortcuts();
             searchIcon.classList.add('hidden');
             closeIcon.classList.remove('hidden');
         }
 
-        // Close search bar - restores navigation and content
+        // Close search bar
         async function closeSearchBar() {
             state.isSearching = false;
+            state.currentShortcutIndex = null;
+            
+
+        // Clean the URL query parameter silently without reloading after a browser/raycast search
+                window.history.replaceState({}, document.title, window.location.pathname);
+
             searchInputContainer.classList.add('hidden');
             searchInputContainer.classList.remove('flex');
             navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
@@ -674,6 +929,7 @@
             searchIcon.classList.remove('hidden');
             closeIcon.classList.add('hidden');
 
+            // Force main content restoration logic
             document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === state.activeSection));
             if (state.activeSection !== 'bookmarks') {
                 sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
@@ -687,28 +943,29 @@
         }
 
         // Perform search with debouncing
-        // Filters multi-type results (movies and TV shows only)
         async function performSearch(query) {
             clearTimeout(state.debounceTimer);
             if (!query) {
-                mainEl.innerHTML = '';
+                renderSearchShortcuts();
                 return;
             }
-            mainEl.innerHTML = '<div class="text-center text-gray-400">Searching...</div>';
+            state.currentShortcutIndex = null;
+            mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">Searching...</div>';
             state.debounceTimer = setTimeout(async () => {
                 const data = await apiFetch('/search/multi', { query });
                 const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
                 results.sort((a, b) => b.popularity - a.popularity);
                 if (results.length > 0) {
                     renderContent(results);
+                    const loadMoreBtn = $('#load-more-btn');
+                    if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
                 } else {
-                    mainEl.innerHTML = '<p class="text-center text-gray-400">No results found.</p>';
+                    mainEl.innerHTML = '<p class="text-center text-gray-400 mt-10">No results found.</p>';
                 }
             }, 350);
         }
 
         // Create HTML for a single poster card
-        // Includes all action buttons (play, bookmark, options, info)
         function createPosterHTML(item) {
             const type = item.media_type || (item.title ? 'movie' : 'tv');
             const title = item.title || item.name;
@@ -738,6 +995,9 @@
                         <button data-action="options" class="absolute bottom-2 right-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Find More Videos">
                             ${POSTER_BUTTON_ICONS.options}
                         </button>
+                        <button data-action="watch" class="absolute bottom-2 left-1/2 -translate-x-1/2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Where to Watch">
+                            ${POSTER_BUTTON_ICONS.watch}
+                        </button>
                         <button data-action="info" class="absolute bottom-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="More Information">
                             ${POSTER_BUTTON_ICONS.info}
                         </button>
@@ -746,16 +1006,27 @@
             </div>`;
         }
 
-        // Render poster grid with items
+        // Render poster grid (FIXED: ensures proper grid classes are always applied)
         function renderContent(itemsToRender) {
             if (!itemsToRender || !mainEl) return;
+            
+            // Clear main element completely first to avoid residual shortcut UI
+            // This ensures the grid is always clean
             let grid = mainEl.querySelector('.grid');
             if (!grid) {
-                grid = document.createElement('div');
-                grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+                // Completely reset content to force new grid creation with correct classes
                 mainEl.innerHTML = '';
+                grid = document.createElement('div');
+                // FORCE responsive classes here - this fixes the "4 columns" bug
+                grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
                 mainEl.appendChild(grid);
             }
+            
+            // Re-verify class list in case it was modified
+            if (grid.className.indexOf('xl:grid-cols-8') === -1) {
+                 grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+            }
+
             grid.innerHTML = itemsToRender.map(createPosterHTML).join('');
         }
 
@@ -769,14 +1040,27 @@
             loadMoreContainerEl.appendChild(button);
         }
 
-        // Update load more button state based on pagination
+        // Update load more button state
         function resetLoadMoreButton() {
             const button = $('#load-more-btn');
             if (!button) return;
-            const shouldHide = state.isSearching || state.activeSection === 'bookmarks';
+            
+            // Hide button if: (1) doing text search, (2) in bookmarks, or (3) viewing shortcuts menu
+            const isShortcutMenuVisible = state.isSearching && state.currentShortcutIndex === null;
+            const shouldHide = (state.isSearching && !isShortcutMenuVisible && state.currentShortcutIndex === null) || state.activeSection === 'bookmarks' || isShortcutMenuVisible;
+            
             button.classList.toggle('hidden', shouldHide);
+            
             if (shouldHide) return;
-            const cache = state.appData[state.activeSection][state.activeCategory];
+            
+            // Determine which cache/state to check
+            let cache;
+            if (state.currentShortcutIndex !== null) {
+                cache = state.appData.shortcuts[state.currentShortcutIndex];
+            } else {
+                cache = state.appData[state.activeSection][state.activeCategory];
+            }
+
             button.disabled = !cache.hasMore;
             button.classList.toggle('cursor-pointer', cache.hasMore);
             button.classList.toggle('cursor-not-allowed', !cache.hasMore);
@@ -790,8 +1074,18 @@
         // EVENT HANDLERS
         // ======================================
 
-        // Handle poster card clicks (play, bookmark, info, options)
+        // Handle poster card clicks (play, bookmark, info, etc.)
         async function handlePosterClick(e) {
+            // Handle Shortcut Clicks (New)
+            const shortcutBtn = e.target.closest('.shortcut-btn');
+            if (shortcutBtn) {
+                const index = parseInt(shortcutBtn.dataset.index);
+                state.currentShortcutIndex = index;
+                mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">Loading...</div>';
+                await fetchShortcutContent(false);
+                return;
+            }
+
             const poster = e.target.closest('.poster-container');
             if (!poster) return;
             const action = e.target.closest('[data-action]')?.dataset.action;
@@ -805,6 +1099,8 @@
                     showTrailerList(title, await getTrailers(type, id));
                 } else if (action === 'info') {
                     showInfoModal(title, await getDetails(type, id), type, id);
+                } else if (action === 'watch') {
+                    showWatchModal(title, await getWatchProviders(type, id));
                 } else if (action === 'bookmark') {
                     const index = state.bookmarks.findIndex(b => b.id == id);
                     const btn = poster.querySelector('[data-action="bookmark"]');
@@ -833,7 +1129,7 @@
             }
         }
 
-        // Handle sub-category button clicks (trending, soon, greats)
+        // Handle sub-category button clicks
         async function handleCategoryClick(e) {
             const button = e.target.closest('.sub-category-button');
             if (!button || button.classList.contains('active')) return;
@@ -851,7 +1147,7 @@
         // SETUP & INITIALIZATION
         // ======================================
 
-        // Master event listener setup function
+        // Setup all event listeners
         function setupEventListeners() {
             document.querySelectorAll('.main-category-button').forEach(btn => {
                 btn.addEventListener('click', () => setActiveSection(btn.dataset.section));
@@ -869,7 +1165,7 @@
                 performSearch(newSearchFieldInput.value.trim());
             });
 
-            [trailerListModalEl, infoModalEl, appInfoModalEl].forEach(modal => {
+            [trailerListModalEl, infoModalEl, watchModalEl, appInfoModalEl].forEach(modal => {
                 if (modal) {
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) closeModal(modal);
@@ -915,7 +1211,7 @@
 
             document.addEventListener('keydown', e => {
                 if (e.key === 'Escape') {
-                    [videoModalEl, trailerListModalEl, infoModalEl, appInfoModalEl].forEach(closeModal);
+                    [videoModalEl, trailerListModalEl, infoModalEl, watchModalEl, appInfoModalEl].forEach(closeModal);
                     closeTrailer();
                     if (state.isSearching) closeSearchBar();
                 }
@@ -930,17 +1226,35 @@
             });
         }
 
-        // Initialize the application
-        async function init() {
-            loadCache();
-            setupLoadMoreButton();
-            await setActiveSection('movies');
-            setupEventListeners();
-            switchAppInfoTab('about-tab-btn');
-        }
+    // Initialize the application
+            async function init() {
+                        loadCache();
+                setupLoadMoreButton();
+                setupEventListeners(); // Ensure listeners are ready before triggering search
+                switchAppInfoTab('about-tab-btn');
 
-        // Start the application
-        init();
+                // Check URL for search query (e.g., ?q=batman)
+                const params = new URLSearchParams(window.location.search);
+                const query = params.get('q');
+
+                if (query) {
+        // FIX: Set the default "Home" state to movies, so the "X" button knows where to go
+                    state.activeSection = 'movies'; 
+                
+                    // Then open search immediately
+                    openSearchBar();
+                    newSearchFieldInput.value = query;
+                    performSearch(query);
+                } else {
+                    // No query: Load the default homepage (Trending Movies)
+                    await setActiveSection('movies');
+                }
+            }
+
+            // Start the application
+            init();
+
     </script>
+
 </body>
 </html>
