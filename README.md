@@ -109,6 +109,6 @@ Found a bug or have a feature request? [Open an issue](https://github.com/mickap
 ## 🙏 Acknowledgment
 
 - [The Movie Database (TMDB)](https://www.themoviedb.org/) – Comprehensive movie and TV show data
-- [JustWatch](https://www.justwatch.com/)(via TMDB API) for streaming availability
+- [JustWatch](https://www.justwatch.com/)- Streaming availability
 - [Vercel](https://vercel.com/) – Seamless and free hosting
 - [Pake](https://github.com/tw93/Pake) - Turn any webpage into a desktop app 
