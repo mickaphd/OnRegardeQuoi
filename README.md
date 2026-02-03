@@ -61,13 +61,10 @@
 
 Simply visit **[onregardequoi.com](https://www.onregardequoi.com/)** and start exploring, no setup required.
 
-### Option 2: Use the Desktop apps
+### Option 2: Generate a desktop app
 
 Use the amazing [Pake](https://github.com/tw93/Pake) command line to create your own lightweight and fast desktop app for OnRegardeQuoi on macOS, Windows, or Linux. 
 Check the Pake GitHub for more information about this very useful tool.
-Additionally, you can download these desktop apps that I created myself:
-- 🍎 macOS: [Download](https://github.com/mickaphd/Pake/actions/runs/21400998265/artifacts/5273300455)
-- 💻 Windows: [Download](https://github.com/mickaphd/Pake/actions/runs/21402379220/artifacts/5274401405)
 
 ### Option 3: Run Locally
 
