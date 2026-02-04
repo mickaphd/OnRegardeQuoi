@@ -488,27 +488,59 @@
             }
         }
 
-        // Get trailers for a movie/TV show, prioritizing official trailers
+        // ======================================
+        // OPTIMIZED TRAILER FUNCTIONS
+        // ======================================
+
+        // Priority weights for sorting the list (Option A: Clean List)
+        const TYPE_WEIGHTS = { 'Trailer': 4, 'Teaser': 3, 'Clip': 2, 'Featurette': 1, 'Behind the Scenes': 0, 'Bloopers': 0 };
+
+        // Organizes all videos: Trailers first > Teasers > Clips > Others
         async function getTrailers(type, id) {
             const data = await apiFetch(`/${type}/${id}/videos`);
             if (!data?.results?.length) return [];
-            const priority = (v) => {
-                const n = v.name.toLowerCase();
-                if (['trailer', 'teaser'].includes(v.type.toLowerCase()) && !['promo', 'spot', 'bts'].some(kw => n.includes(kw))) {
-                    if (n.includes('official trailer')) return 5;
-                    if (v.official) return 4;
-                    if (v.type === 'Trailer') return 3;
-                    return 2;
-                }
-                return 1;
-            };
-            return data.results.filter(v => v.site === 'YouTube').sort((a, b) => priority(b) - priority(a));
+
+            return data.results
+                .filter(v => v.site === 'YouTube')
+                .sort((a, b) => {
+                    // 1. Primary Sort: By Category Priority (Trailer vs Teaser)
+                    const weightA = TYPE_WEIGHTS[a.type] || 0;
+                    const weightB = TYPE_WEIGHTS[b.type] || 0;
+                    if (weightA !== weightB) return weightB - weightA;
+
+                    // 2. Secondary Sort: "Official" keyword floats to top of its category
+                    const officialA = a.name.toLowerCase().includes('official');
+                    const officialB = b.name.toLowerCase().includes('official');
+                    if (officialA !== officialB) return officialB - officialA;
+
+                    // 3. Fallback: Newest upload first
+                    return new Date(b.published_at) - new Date(a.published_at);
+                });
         }
 
-        // Get best trailer (first in priority order)
+        // Finds the single best video to play (Strict Rules)
         async function getBestTrailer(type, id) {
-            const trailers = await getTrailers(type, id);
-            return trailers[0] || null;
+            const list = await getTrailers(type, id);
+            if (!list.length) return null;
+
+            // Rule 1: "The One" - Strict "Official Trailer" (Excludes "2", "UK", "Final", "Teaser" in name)
+            // It looks for "official trailer" but skips if it sees numbers or "promo" right after.
+            const holyGrail = list.find(t => {
+                const n = t.name.toLowerCase();
+                return t.type === 'Trailer' && n.includes('official trailer') && !n.match(/( \d|#\d|uk|french|final|promo)/);
+            });
+            if (holyGrail) return holyGrail;
+
+            // Rule 2: Any "Official Trailer" (Accepts "Official Trailer 2", "Final", etc.)
+            const anyOfficial = list.find(t => t.type === 'Trailer' && t.name.toLowerCase().includes('official'));
+            if (anyOfficial) return anyOfficial;
+
+            // Rule 3: Any standard Trailer (First one in the sorted list)
+            const anyTrailer = list.find(t => t.type === 'Trailer');
+            if (anyTrailer) return anyTrailer;
+
+            // Rule 4: Fallback to best Teaser (List is already sorted, so index 0 is best available)
+            return list[0];
         }
 
         // Get detailed information for a movie/TV show
