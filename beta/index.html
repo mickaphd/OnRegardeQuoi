@@ -570,10 +570,27 @@
 
         // Open trailer in video player (using lite-youtube-embed)
         function openTrailer(videoKey) {
-            if (videoKey && videoPlayerContainer) {
-                // FIXED: Added max-width:100% to override library's 720px limit
-                videoPlayerContainer.innerHTML = `<lite-youtube videoid="${videoKey}" playlabel="Play Trailer" style="width:100%; height:100%; max-width:100%;" nocookie></lite-youtube>`;
-                openModal(videoModalEl);
+		if (videoKey && videoPlayerContainer) {
+                			 		// PARAMS EXPLAINED:
+                					// modestbranding=1  -> Hides the YouTube logo from the control bar
+                					// rel=0             -> Shows related videos ONLY from the same channel (cleanest option possible)
+                					// controls=1        -> Keeps volume/seek/pause controls
+                					// iv_load_policy=3  -> Hides video annotations/popups
+                					// autoplay=1        -> Ensures the iframe autoplays once loaded
+                
+               						 const cleanParams = "modestbranding=1&rel=0&controls=1&iv_load_policy=3&autoplay=1";
+
+                					videoPlayerContainer.innerHTML = `<lite-youtube videoid="${videoKey}" playlabel="Play Trailer" style="width:100%; height:100%; max-width:100%;" params="${cleanParams}" nocookie></lite-youtube>`;
+                
+                					openModal(videoModalEl);
+
+                					// AUTOPLAY HACK:
+              						// We wait 50ms for the element to render, then programmatically "click" it.
+                					// This forces the heavy YouTube player to load and start immediately.
+                					setTimeout(() => {
+                    						const player = videoPlayerContainer.querySelector('lite-youtube');
+                    						if (player) player.click();
+                					}, 50);
             }
         }
 
