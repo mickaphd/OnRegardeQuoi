@@ -576,8 +576,8 @@
                 // rel=0             -> Clean ending (same channel videos only)
                 // controls=1        -> Keeps player controls
                 // iv_load_policy=3  -> No annotations
-                // autoplay=1        -> Auto-start
-                const cleanParams = "modestbranding=1&rel=0&controls=1&iv_load_policy=3&autoplay=1";
+                // (Note: autoplay=1 is added automatically by the library when we click it)
+                const cleanParams = "modestbranding=1&rel=0&controls=1&iv_load_policy=3";
 
                 // STYLE CHANGES:
                 // background-image: none; -> PREVENTS the poster image download (optimization)
@@ -588,7 +588,8 @@
                 openModal(videoModalEl);
 
                 // AUTOPLAY:
-                // Programmatically click the player to start video immediately
+                // Programmatically "click" the component to load the player instantly.
+                // This mimics a user click, triggering the video to load and play.
                 setTimeout(() => {
                     const player = videoPlayerContainer.querySelector('lite-youtube');
                     if (player) player.click();
