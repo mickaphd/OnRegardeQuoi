@@ -676,10 +676,15 @@
         // Open trailer in video player (Updated for Lite YouTube Embed)
         function openTrailer(videoKey) {
             if (videoKey && videoPlayerContainerEl) {
-                videoPlayerContainerEl.innerHTML = `<lite-youtube videoid="${videoKey}" params="autoplay=1"></lite-youtube>`;
+                // OLD (might not work):
+                // videoPlayerContainerEl.innerHTML = `<lite-youtube videoid="${videoKey}" params="autoplay=1"></lite-youtube>`;
+                
+                // NEW (correct syntax):
+                videoPlayerContainerEl.innerHTML = `<lite-youtube videoid="${videoKey}"></lite-youtube>`;
                 openModal(videoModalEl);
             }
         }
+
 
         // Close video player and clear iframe (Updated for Lite YouTube Embed)
         function closeTrailer() {
