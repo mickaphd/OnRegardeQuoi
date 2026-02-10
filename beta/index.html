@@ -311,7 +311,7 @@
     </div>
 
     <!-- Lite YouTube Embed JS -->
-    <script type="module" src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.4/src/lite-yt-embed.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.3.4/src/lite-yt-embed.js"></script>
 
     <!-- ===== APPLICATION SCRIPT ===== -->
     <script type="module">
@@ -679,16 +679,16 @@
                 // Clear previous content
                 videoPlayerContainerEl.innerHTML = '';
                 
-                // Create the element properly
-                const liteYouTube = document.createElement('lite-youtube');
-                liteYouTube.setAttribute('videoid', videoKey);
-                liteYouTube.setAttribute('playlabel', 'Play Video');
+                // Create the element programmatically to ensure it initializes
+                const el = document.createElement('lite-youtube');
+                el.setAttribute('videoid', videoKey);
+                el.setAttribute('params', 'autoplay=1&rel=0'); // Added rel=0 for better privacy/cleanliness
                 
-                videoPlayerContainerEl.appendChild(liteYouTube);
+                videoPlayerContainerEl.appendChild(el);
                 openModal(videoModalEl);
             }
         }
-        
+
         // Close video player and clear iframe (Updated for Lite YouTube Embed)
         function closeTrailer() {
             closeModal(videoModalEl);
