@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="OnRegardeQuoi is a minimalist, open-source web app to discover and search for movies and TV shows.">
@@ -41,25 +41,23 @@
 
     <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "OnRegardeQuoi.com",
-      "url": "https://www.onregardequoi.com",
-      "description": "A minimalist, open-source web app to discover and search for movies and TV shows.",
-      "applicationCategory": "Entertainment",
-      "operatingSystem": "All",
-      "image": "https://www.onregardequoi.com/ressources/icon.png",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "OnRegardeQuoi.com",
+        "url": "https://www.onregardequoi.com",
+        "description": "A minimalist, open-source web app to discover and search for movies and TV shows.",
+        "applicationCategory": "Entertainment",
+        "operatingSystem": "All",
+        "image": "https://www.onregardequoi.com/ressources/icon.png",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
     }
     </script>
 
-    <script data-goatcounter="https://mickaphd.goatcounter.com/count"
-            async src="//gc.zgo.at/count.js">        
-    </script>
+    <script data-goatcounter="https://mickaphd.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 </head>
 
@@ -151,7 +149,7 @@
                 <h2 class="text-xl font-bold text-white whitespace-nowrap">Where to Watch</h2>
                 <div class="flex-grow"></div>
                 <select id="watch-country-selector" style="background-color: #1e1e1e; color: white;" class="text-xs border border-white/20 rounded px-2 py-1 outline-none focus:border-amber-400 cursor-pointer">
-                    </select>
+                </select>
             </div>
             <div id="watch-modal-content" class="overflow-y-auto text-white text-sm p-4"></div>
         </div>
@@ -164,7 +162,7 @@
                     <button id="about-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">About</button>
                     <button id="whats-new-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Updates</button>
                     <button id="acknowledgment-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Acknowledgments</button>
-		            <button id="settings-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Settings</button>
+                    <button id="settings-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Settings</button>
                 </div>
             </div>
             <div class="overflow-y-auto text-white text-sm p-4 flex-grow">
@@ -173,9 +171,9 @@
                     <p class="mt-4 text-xs text-gray-400">Made with ❤ by micka from Paris</p>
                 </div>
                 <div id="whats-new-content" class="tab-content hidden">
-                   <h3 class="text-base font-semibold text-amber-400 mb-2">v1.6 beta (February 14, 2026)</h3>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.6 beta (February 14, 2026)</h3>
                     <ul class="list-disc list-inside mb-4">
-                        <li>New Settings section</li>  
+                        <li>Introduced a new Settings section to customize your experience</li>  
                         <li>Added support for Invidious for a more private and ad-free trailer playback</li>  
                     </ul>
                     <h3 class="text-base font-semibold text-amber-400 mb-2">v1.5 (January 28, 2026)</h3>
@@ -227,31 +225,41 @@
                     </ul>
                 </div>
 
-		        <div id="settings-content" class="tab-content hidden">
+                <div id="settings-content" class="tab-content hidden">
                     <div class="space-y-6">
                         <section>
                             <p class="text-amber-400 font-bold mb-3 uppercase tracking-wider">Video Provider</p>
-                            <div class="flex flex-col gap-4">
-                                <label class="flex items-center gap-3 cursor-pointer group">
+                            <div class="flex flex-col gap-1">
+                                <label class="flex items-center gap-4 cursor-pointer group" title="The official player with maximum compatibility, playing directly in a popup on this page. It uses the nocookie instance for slightly better privacy.">
                                     <input type="radio" name="video-provider" value="youtube" class="accent-amber-400 w-4 h-4">
-                                    <span>YouTube (nocookie instance)</span>
+                                    <span class="text-gray-300 group-hover:text-white transition-colors">YouTube (nocookie)</span>
                                 </label>
-                                <label class="flex items-center gap-3 cursor-pointer group">
-                                    <input type="radio" name="video-provider" value="invidious" class="accent-amber-400 w-4 h-4">
-                                    <span>Invidious (inv.nadeko.net instance)</span>
+                                <label class="flex items-center gap-4 cursor-pointer group" title="A privacy-focused option that opens in a separate tab to bypass browser security blocks.">
+                                    <input type="radio" name="video-provider" value="invidious-nadeko" class="accent-amber-400 w-4 h-4">
+                                    <span class="text-gray-300 group-hover:text-white transition-colors">Invidious (inv.nadeko.net)</span>
+                                </label>
+                                <label class="flex items-center gap-4 cursor-pointer group" title="An alternative Invidious instance that opens in a separate tab to bypass browser security blocks.">
+                                    <input type="radio" name="video-provider" value="invidious-nerdvpn" class="accent-amber-400 w-4 h-4">
+                                    <span class="text-gray-300 group-hover:text-white transition-colors">Invidious (invidious.nerdvpn.de)</span>
                                 </label>
                             </div>
                         </section>
-                        <section>
+
+                        <section class="mt-5">
                             <p class="text-amber-400 font-bold mb-3 uppercase tracking-wider">Miscellaneous</p>
-                            <p class="text-xs text-gray-400"><a href="#" id="force-refresh-btn" class="opacity-40 hover:opacity-100 transition-opacity" title="Clear all your bookmarks and cached data for movies and TV shows. This is optional, but you might find it helpful!">Reset ↻</a></p>
+                            <div class="flex flex-col gap-1">
+                                <label id="force-refresh-btn" class="flex items-center gap-4 cursor-pointer group" title="Clears all your saved bookmarks and local cache, then reloads the app to its default state.">
+                                    <input type="radio" name="reset-action" class="accent-amber-400 w-4 h-4 cursor-pointer">
+                                    <span class="text-gray-300 group-hover:text-white transition-colors">Reset Application Data ↻</span>
+                                </label>
+                            </div>
                         </section>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+
 
     <script type="module">
         // ======================================
@@ -264,7 +272,8 @@
             tmdbDirectUrl: 'https://api.themoviedb.org/3',
             vercelProxyUrl: '/api/tmdb-api',
             youtubeEmbedUrl: 'https://www.youtube-nocookie.com/embed/',
-            invidiousEmbedUrl: 'https://invidious.nerdvpn.de/embed/',
+            invidiousNadekoUrl: 'https://inv.nadeko.net/embed/',
+            invidiousNerdvpnUrl: 'https://invidious.nerdvpn.de/embed/'
         };
 
         // UI Configuration
@@ -363,7 +372,6 @@
             { label: "Spanish Shows", icon: "🇪🇸", type: "tv", params: { with_origin_country: 'ES', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
             { label: "German Shows", icon: "🇩🇪", type: "tv", params: { with_origin_country: 'DE', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
             { label: "Korean Shows", icon: "🇰🇷", type: "tv", params: { with_origin_country: 'KR', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
-
         ];
 
         // SVG icons for poster card action buttons (optimization: pre-compiled)
@@ -473,7 +481,7 @@
         function getIcon(name, classes) {
             const paths = {
                 movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
-                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
+                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
                 bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" />'
             };
             return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
@@ -601,10 +609,17 @@
 
         // Open trailer in video player
         function openTrailer(videoKey) {
-            if (videoKey && videoPlayerEl) {
-                const baseUrl = state.videoProvider === 'invidious' ? API_CONFIG.invidiousEmbedUrl : API_CONFIG.youtubeEmbedUrl;
-                videoPlayerEl.src = `${baseUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
-                openModal(videoModalEl);
+            if (!videoKey) return;
+
+            if (state.videoProvider === 'youtube') {
+                if (videoPlayerEl) {
+                    videoPlayerEl.src = `${API_CONFIG.youtubeEmbedUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
+                    openModal(videoModalEl);
+                }
+            } else {
+                // Invidious selected: Open new tab with embed player to bypass iframe restrictions
+                const baseUrl = state.videoProvider === 'invidious-nadeko' ? API_CONFIG.invidiousNadekoUrl : API_CONFIG.invidiousNerdvpnUrl;
+                window.open(`${baseUrl}${videoKey}`, '_blank');
             }
         }
 
@@ -831,13 +846,13 @@
             const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS.shortcuts;
 
             if (isCacheStale && !append) {
-                 Object.assign(cache, { items: [], nextPage: 1, hasMore: true, timestamp: 0 });
+                Object.assign(cache, { items: [], nextPage: 1, hasMore: true, timestamp: 0 });
             }
 
             if (!append && cache.items.length > 0) {
-                 renderContent(cache.items);
-                 resetLoadMoreButton();
-                 return;
+                renderContent(cache.items);
+                resetLoadMoreButton();
+                return;
             }
 
             if (!cache.hasMore && append) return;
@@ -845,7 +860,7 @@
             const params = { ...shortcutDef.params, page: cache.nextPage };
             const data = await apiFetch(`/discover/${shortcutDef.type}`, params);
 
-             if (data?.results?.length > 0) {
+            if (data?.results?.length > 0) {
                 const newItems = data.results.filter(item => item.poster_path);
                 cache.items.push(...newItems);
                 cache.nextPage++;
@@ -920,10 +935,9 @@
         async function closeSearchBar() {
             state.isSearching = false;
             state.currentShortcutIndex = null;
-            
 
-        // Clean the URL query parameter silently without reloading after a browser/raycast search
-                window.history.replaceState({}, document.title, window.location.pathname);
+            // Clean the URL query parameter silently without reloading after a browser/raycast search
+            window.history.replaceState({}, document.title, window.location.pathname);
 
             searchInputContainer.classList.add('hidden');
             searchInputContainer.classList.remove('flex');
@@ -1027,7 +1041,7 @@
             
             // Re-verify class list in case it was modified
             if (grid.className.indexOf('xl:grid-cols-8') === -1) {
-                 grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+                grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
             }
 
             grid.innerHTML = itemsToRender.map(createPosterHTML).join('');
@@ -1183,14 +1197,14 @@
 
             if (openAppInfoBtn) {
                 openAppInfoBtn.addEventListener('click', () => {
-                    // Update settings radio buttons to match state
-                    const radio = $(`input[name="video-provider"][value="${state.videoProvider}"]`);
+                    // Pre-select current video provider in settings
+                    const radio = document.querySelector(`input[name="video-provider"][value="${state.videoProvider}"]`);
                     if (radio) radio.checked = true;
                     openModal(appInfoModalEl);
                 });
             }
 
-            // Settings handler
+            // Settings handler for provider change
             settingsContent?.addEventListener('change', (e) => {
                 if (e.target.name === 'video-provider') {
                     state.videoProvider = e.target.value;
@@ -1202,6 +1216,7 @@
             whatsNewTabBtn?.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
             acknowledgmentTabBtn?.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
             settingsTabBtn?.addEventListener('click', () => switchAppInfoTab('settings-tab-btn'));
+            
             forceRefreshBtn?.addEventListener('click', (e) => {
                 e.preventDefault();
                 forceClearCache();
@@ -1244,33 +1259,33 @@
             });
         }
 
-    // Initialize the application
-            async function init() {
-                loadCache();
-                setupLoadMoreButton();
-                setupEventListeners(); // Ensure listeners are ready before triggering search
-                switchAppInfoTab('about-tab-btn');
+        // Initialize the application
+        async function init() {
+            loadCache();
+            setupLoadMoreButton();
+            setupEventListeners(); // Ensure listeners are ready before triggering search
+            switchAppInfoTab('about-tab-btn');
 
-                // Check URL for search query (e.g., ?q=batman)
-                const params = new URLSearchParams(window.location.search);
-                const query = params.get('q');
+            // Check URL for search query (e.g., ?q=batman)
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('q');
 
-                if (query) {
-        // FIX: Set the default "Home" state to movies, so the "X" button knows where to go
-                    state.activeSection = 'movies'; 
-                
-                    // Then open search immediately
-                    openSearchBar();
-                    newSearchFieldInput.value = query;
-                    performSearch(query);
-                } else {
-                    // No query: Load the default homepage (Trending Movies)
-                    await setActiveSection('movies');
-                }
+            if (query) {
+                // FIX: Set the default "Home" state to movies, so the "X" button knows where to go
+                state.activeSection = 'movies'; 
+            
+                // Then open search immediately
+                openSearchBar();
+                newSearchFieldInput.value = query;
+                performSearch(query);
+            } else {
+                // No query: Load the default homepage (Trending Movies)
+                await setActiveSection('movies');
             }
+        }
 
-            // Start the application
-            init();
+        // Start the application
+        init();
 
     </script>
 
