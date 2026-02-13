@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OnRegardeQuoi is a minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta name="keywords" content="movies, tv shows, trailers, what to watch, cinema, streaming, netflix, hbo, amazon, film discovery, movie recommendations">
+    <meta name="theme-color" content="#080808">
+    <meta name="color-scheme" content="dark">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.onregardequoi.com/">
+    <title>OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Slackey&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="ressources/favicon.svg">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="ressources/apple-icon-180.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.onregardequoi.com/">
+    <meta property="og:title" content="OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers">
+    <meta property="og:description" content="Minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta property="og:image" content="https://www.onregardequoi.com/ressources/icon.png">
+    <meta property="og:image:alt" content="OnRegardeQuoi logo">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="OnRegardeQuoi.com - Discover Movies & TV Shows via Trailers">
+    <meta name="twitter:description" content="Minimalist, open-source web app to discover and search for movies and TV shows.">
+    <meta name="twitter:image" content="https://www.onregardequoi.com/ressources/icon.png">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Trailers">
+
+    <link rel="stylesheet" href="./output.css">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "OnRegardeQuoi.com",
+      "url": "https://www.onregardequoi.com",
+      "description": "A minimalist, open-source web app to discover and search for movies and TV shows.",
+      "applicationCategory": "Entertainment",
+      "operatingSystem": "All",
+      "image": "https://www.onregardequoi.com/ressources/icon.png",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <script data-goatcounter="https://mickaphd.goatcounter.com/count"
+            async src="//gc.zgo.at/count.js">        
+    </script>
+
+</head>
+
+<body class="bg-background text-white font-sans antialiased selection:bg-amber-400 selection:text-black">
+
+    <header class="fixed inset-0 w-full h-0 z-30 pointer-events-none">
+
+        <div id="header-logo" class="pointer-events-auto fixed top-4 left-1/2 -translate-x-1/2 md:left-auto md:right-8 md:translate-x-0 flex items-center justify-center md:justify-start transition-all duration-300 z-50">
+            <button id="open-app-info-btn" class="flex items-center flex-shrink-0 cursor-pointer group focus:outline-none">
+                <img src="ressources/logo.svg" alt="OnRegardeQuoi logo" width="48" height="48" class="h-12 w-auto transition-all duration-100 group-hover:scale-105 group-hover:brightness-125">
+            </button>
+            <h1 class="font-slackey text-xl tracking-tight block ml-2">
+                <span>On</span><span class="text-amber-400">Regarde</span><span>Quoi</span>
+            </h1>
+        </div>
+
+        <div class="pointer-events-auto fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-auto md:top-4 md:left-8 md:translate-x-0 z-50 transition-all duration-300 w-max">
+            <div id="dock-container" class="grid items-center bg-black/75 backdrop-blur-xl border border-white/10 rounded-full px-3 py-2 shadow-2xl overflow-x-auto hide-scrollbar">
+
+                <div id="nav-buttons-container" class="col-start-1 row-start-1 flex items-center justify-start h-full transition-opacity duration-300 w-full md:w-auto gap-2">
+                    
+                    <div class="flex items-center gap-2">
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-section="movies" title="Movies"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" /></svg></button>
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-section="tv" title="TV Shows"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" /></svg></button>
+                    </div>
+
+                    <div class="w-px h-10 bg-white/10 flex-shrink-0"></div>
+
+                    <div id="shared-subcategories" class="flex items-center gap-2">
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-category="trending" title="Trending Now"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg></button>
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-category="soon" title="Coming Soon"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" /></svg></button>
+                        <button class="nav-button sub-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-category="greats" title="All-Time Greats"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" /></svg></button>
+                    </div>
+
+                    <div id="search-separator" class="w-px h-10 bg-white/10 flex-shrink-0 transition-opacity"></div>
+
+                    <div class="flex items-center gap-2">
+                        <button class="nav-button main-category-button p-2 rounded-full text-gray-300 transition-all duration-200 cursor-pointer" data-section="bookmarks" title="Bookmarks"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" /></svg></button>
+                        <button id="search-toggle-btn" class="nav-button p-2 rounded-full text-gray-300 hover:text-amber-400 transition-colors duration-200 cursor-pointer flex-shrink-0" title="Toggle Search">
+                            <svg id="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
+                            <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-6 hidden"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="search-input-container" class="col-start-1 row-start-1 hidden relative items-center w-full z-10 flex">
+                    <input id="new-search-field-input" type="text" placeholder="Search..." class="bg-transparent focus:outline-none text-white w-full py-1.5 px-3">
+                    <button id="close-search-btn" class="nav-button active p-2 rounded-full cursor-pointer flex-shrink-0" title="Close Search">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="pt-24 px-4 pb-24 md:pb-8 sm:px-6 lg:px-8"></main>
+
+    <div id="load-more-container" class="fixed bottom-24 md:bottom-8 right-6 z-20"></div>
+
+    <div id="video-modal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-40 opacity-0 pointer-events-none p-4 cursor-pointer transition-opacity duration-200">
+        <div class="w-full max-w-4xl aspect-video cursor-default rounded-lg overflow-hidden shadow-[0_0_0_2px_theme('colors.amber.400')]">
+            <iframe id="video-player" class="w-full h-full" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <div id="trailer-list-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
+        <div id="trailer-list-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
+            <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
+                <h2 id="trailer-list-title" class="text-xl font-bold text-white">Available Videos</h2>
+            </div>
+            <div id="trailer-list-content" class="overflow-y-auto text-white text-sm p-2"></div>
+        </div>
+    </div>
+
+    <div id="info-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
+        <div id="info-modal-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
+            <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
+                <h2 id="info-modal-title" class="text-xl font-bold text-white">Details</h2>
+            </div>
+            <div id="info-modal-content" class="overflow-y-auto text-white text-sm p-4"></div>
+        </div>
+    </div>
+
+    <div id="watch-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
+        <div id="watch-modal-container" class="rounded-lg shadow-lg w-full max-w-lg max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-12">
+            <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0 gap-4">
+                <h2 class="text-xl font-bold text-white whitespace-nowrap">Where to Watch</h2>
+                <div class="flex-grow"></div>
+                <select id="watch-country-selector" style="background-color: #1e1e1e; color: white;" class="text-xs border border-white/20 rounded px-2 py-1 outline-none focus:border-amber-400 cursor-pointer">
+                    </select>
+            </div>
+            <div id="watch-modal-content" class="overflow-y-auto text-white text-sm p-4"></div>
+        </div>
+    </div>
+
+    <div id="app-info-modal" class="fixed inset-0 h-[100svh] bg-black/80 flex items-start justify-center z-40 opacity-0 pointer-events-none p-4 transition-opacity duration-200">
+        <div id="app-info-modal-container" class="rounded-lg shadow-lg w-[95vw] sm:max-w-lg max-h-[90vh] sm:max-h-[80vh] flex flex-col bg-[#1e1e1e]/70 backdrop-blur-md border border-white/10 mt-8 sm:mt-12">
+            <div class="p-4 border-b border-gray-700/50 flex justify-between items-center flex-shrink-0">
+                <div class="flex">
+                    <button id="about-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">About</button>
+                    <button id="whats-new-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Updates</button>
+                    <button id="acknowledgment-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Acknowledgments</button>
+		            <button id="settings-tab-btn" class="py-2 px-4 font-semibold border-b-2 focus:outline-none cursor-pointer">Settings</button>
+                </div>
+            </div>
+            <div class="overflow-y-auto text-white text-sm p-4 flex-grow">
+                <div id="about-content" class="tab-content">
+                    <p class="mb-2"><b><i><span class="text-amber-400">OnRegardeQuoi.com</span></i></b> is a free, open-source, and minimalist web app for discovering movies and TV shows through their trailers. <br><br>It takes its name from the common French phrase <i>"On regarde quoi ?"</i>, meaning <i>"What are we watching?"</i>.<br><br>Feel free to visit the <a href="https://github.com/mickaphd/OnRegardeQuoi/" target="_blank" class="text-amber-400 hover:underline">GitHub</a> repository to learn more about the project. It's also the best place to report bugs or request new features.<br>
+                    <p class="mt-4 text-xs text-gray-400">Made with ❤ by micka from Paris</p>
+                </div>
+                <div id="whats-new-content" class="tab-content hidden">
+                   <h3 class="text-base font-semibold text-amber-400 mb-2">v1.6 beta (February 14, 2026)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>New Settings section</li>  
+                        <li>Added support for Invidious for a more private and ad-free trailer playback</li>  
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.5 (January 28, 2026)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Integrated JustWatch for streaming availability</li>  
+                        <li>Introduced new category shortcuts for quick filtering (Action, Horror, Comedy, etc.)</li>  
+                        <li>Added support for URL query parameters (?q=) for direct searches and sharing</li> 
+                        <li>Generated desktop apps using Pake (available on GitHub)</li>  
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.4 (January 22, 2026)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Tailwind CSS optimization: migrated from CDN to compiled output.css for significantly faster load times</li>
+                        <li>Simplified header with external logo.svg integration</li>
+                        <li>New favicon and icon sets for iOS, Android, and other platforms</li>
+                        <li>New shortcuts for direct searches on YouTube and Dailymotion</li>
+                        <li>Improved the behavior of the close search bar button</li>
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.3 (November 26, 2025)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>Changed the behavior of the Dock</li>
+                        <li>Code optimization</li>
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.2 (November 21, 2025)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><i>onregardequoi.com</i> is now the official domain</li>
+                        <li>Bookmarks feature to save movies and TV shows (sort of a watch later thing)</li>
+                        <li>UI tweaks and optimization</li>
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.1 (October 16, 2025)</h3>
+                    <ul class="list-disc list-inside mb-4">
+                        <li>New shortcuts for IMDb, Rotten Tomatoes and Metacritic</li>
+                        <li>New favicons/icons for all browsers, devices and platforms</li>
+                        <li>Implemented a "Smart Hover & Tap" model that feels more native and predictable on all devices</li>
+                        <li>Code cleaning and optimization</li>
+                    </ul>
+                    <h3 class="text-base font-semibold text-amber-400 mb-2">v1.0 (September 23, 2025)</h3>
+                    <ul class="list-disc list-inside">
+                        <li>Initial release with core movie/TV show browsing</li>
+                        <li>Dynamic content loading and search functionality</li>
+                        <li>Responsive and modern design adapted for all screen sizes</li>
+                        <li>Persistent and time-based caching</li>
+                    </ul>
+                </div>
+                <div id="acknowledgment-content" class="tab-content hidden">
+                    <ul class="list-disc list-inside">
+                        <li><a href="https://www.themoviedb.org/" target="_blank" class="text-amber-400 hover:underline">The Movie Database</a> for movie and TV show data</li>
+                        <li><a href="https://www.justwatch.com/" target="_blank" class="text-amber-400 hover:underline">JustWatch</a> (via TMDB API) for streaming availability</li>
+                        <li><a href="https://www.vercel.com/" target="_blank" class="text-amber-400 hover:underline">Vercel</a> for seamless hosting and deployment</li>
+                    </ul>
+                </div>
+
+		        <div id="settings-content" class="tab-content hidden">
+                    <div class="space-y-6">
+                        <section>
+                            <p class="text-amber-400 font-bold mb-3 uppercase tracking-wider">Video Provider</p>
+                            <div class="flex flex-col gap-4">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="video-provider" value="youtube" class="accent-amber-400 w-4 h-4">
+                                    <span>YouTube (nocookie instance)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="radio" name="video-provider" value="invidious" class="accent-amber-400 w-4 h-4">
+                                    <span>Invidious (inv.nadeko.net instance)</span>
+                                </label>
+                            </div>
+                        </section>
+                        <section>
+                            <p class="text-amber-400 font-bold mb-3 uppercase tracking-wider">Miscellaneous</p>
+                            <p class="text-xs text-gray-400"><a href="#" id="force-refresh-btn" class="opacity-40 hover:opacity-100 transition-opacity" title="Clear all your bookmarks and cached data for movies and TV shows. This is optional, but you might find it helpful!">Reset ↻</a></p>
+                        </section>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // ======================================
+        // CONFIGURATION & CONSTANTS
+        // ======================================
+
+        // API Configuration
+        const API_CONFIG = {
+            devKey: '',
+            tmdbDirectUrl: 'https://api.themoviedb.org/3',
+            vercelProxyUrl: '/api/tmdb-api',
+            youtubeEmbedUrl: 'https://www.youtube-nocookie.com/embed/',
+            invidiousEmbedUrl: 'https://inv.nadeko.net/embed/',
+        };
+
+        // UI Configuration
+        const UI_CONFIG = {
+            posterSize: window.innerWidth < 768 ? 'w342' : 'w500',
+        };
+
+        // Derived constant
+        const IMAGE_BASE_URL = `https://image.tmdb.org/t/p/${UI_CONFIG.posterSize}`;
+
+        // Cache expiration times (in milliseconds)
+        const CACHE_TTLS = {
+            trending: 12 * 60 * 60 * 1000,  // 12 hours
+            soon: 24 * 60 * 60 * 1000,      // 24 hours
+            greats: 48 * 60 * 60 * 1000,    // 48 hours
+            shortcuts: 48 * 60 * 60 * 1000  // 48 hours
+        };
+
+        // Default app data structure - used to initialize and reset state
+        const DEFAULT_APP_DATA = {
+            movies: {
+                trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }
+            },
+            tv: {
+                trending: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                soon: { items: [], nextPage: 1, hasMore: true, timestamp: 0 },
+                greats: { items: [], nextPage: 1, hasMore: true, timestamp: 0 }
+            },
+            // Shortcuts caching
+            shortcuts: {} 
+        };
+
+        // API parameter configurations for different content types and categories
+        const API_PARAMS_CONFIG = {
+            movies: {
+                trending: {
+                    'primary_release_date.gte': getFormattedDate(-90),
+                    'primary_release_date.lte': getFormattedDate(),
+                    'vote_average.gte': 5,
+                    'vote_count.gte': 100,
+                    'sort_by': 'popularity.desc'
+                },
+                soon: {
+                    'primary_release_date.gte': getFormattedDate(1),
+                    'primary_release_date.lte': getFormattedDate(0, 6),
+                    'sort_by': 'popularity.desc',
+                    'with_original_language': 'en|fr'
+                },
+                greats: {
+                    'sort_by': 'vote_average.desc',
+                    'vote_count.gte': 5000
+                }
+            },
+            tv: {
+                trending: {
+                    'first_air_date.gte': getFormattedDate(0, -6),
+                    'first_air_date.lte': getFormattedDate(),
+                    'vote_average.gte': 5,
+                    'vote_count.gte': 100,
+                    'sort_by': 'popularity.desc'
+                },
+                soon: {
+                    'first_air_date.gte': getFormattedDate(1),
+                    'first_air_date.lte': getFormattedDate(0, 0, 1),
+                    'sort_by': 'popularity.desc',
+                    'with_original_language': 'en|fr'
+                },
+                greats: {
+                    'sort_by': 'vote_average.desc',
+                    'vote_count.gte': 2000
+                }
+            }
+        };
+
+        // Search Shortcuts Configuration - Quick access to curated movie and TV show collections
+        const SEARCH_SHORTCUTS = [
+            // ===== MOVIES BY GENRE =====
+            { label: "Action Movies", icon: "💥", type: "movie", params: { with_genres: '28', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Comedy Movies", icon: "😂", type: "movie", params: { with_genres: '35', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Horror Movies", icon: "😱", type: "movie", params: { with_genres: '27', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Sci-Fi Movies", icon: "👽", type: "movie", params: { with_genres: '878', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Drama Movies", icon: "🎭", type: "movie", params: { with_genres: '18', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            { label: "Thriller Movies", icon: "🔪", type: "movie", params: { with_genres: '53', 'vote_average.gte': 6, 'vote_count.gte': 500, sort_by: 'popularity.desc' } },
+            
+            // ===== MOVIES BY REGION =====
+            { label: "French Cinema", icon: "🇫🇷", type: "movie", params: { with_original_language: 'fr', 'vote_average.gte': 6, 'vote_count.gte': 400, sort_by: 'popularity.desc' } },
+            { label: "British Cinema", icon: "🇬🇧", type: "movie", params: { with_origin_country: 'GB', 'vote_average.gte': 6, 'vote_count.gte': 400, sort_by: 'popularity.desc' } },            
+            // ===== FAMILY & KIDS =====
+            { label: "Kids & Family Movies", icon: "👶", type: "movie", params: { with_genres: '16,10751', 'vote_average.gte': 6, 'vote_count.gte': 300, sort_by: 'popularity.desc' } },
+            
+            // ===== TV SHOWS BY REGION =====
+            { label: "French Shows", icon: "🇫🇷", type: "tv", params: { with_origin_country: 'FR', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "British Shows", icon: "🇬🇧", type: "tv", params: { with_origin_country: 'GB', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "Spanish Shows", icon: "🇪🇸", type: "tv", params: { with_origin_country: 'ES', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "German Shows", icon: "🇩🇪", type: "tv", params: { with_origin_country: 'DE', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+            { label: "Korean Shows", icon: "🇰🇷", type: "tv", params: { with_origin_country: 'KR', 'vote_average.gte': 6, 'vote_count.gte': 100, sort_by: 'popularity.desc' } },
+
+        ];
+
+        // SVG icons for poster card action buttons (optimization: pre-compiled)
+        const POSTER_BUTTON_ICONS = {
+            options: '<svg class="options-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" /></svg>',
+            info: '<svg class="info-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" /></svg>',
+            watch: '<svg class="watch-icon w-4 h-4 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>'
+        };
+
+        // ======================================
+        // STATE MANAGEMENT
+        // ======================================
+
+        // Detects user's country from browser language (e.g., "en-US" → "US")
+        // Falls back to 'US' if detection fails
+        const getDefaultCountry = () => {
+            try {
+                const country = navigator.language.split('-')[1];
+                return country ? country.toUpperCase() : 'US';
+            } catch {
+                return 'US';
+            }
+        };
+
+        // Centralized state object tracking app data, UI state, user bookmarks, and search state
+        const state = {
+            // All fetched movies/TV shows organized by type (movies/tv) and category (trending/soon/greats)
+            appData: DEFAULT_APP_DATA,
+            
+            // User's saved movies/TV shows (persisted in localStorage)
+            bookmarks: JSON.parse(localStorage.getItem('onregardequoi_bookmarks')) || [],
+            
+            // User's country code for streaming availability ("US", "FR", "GB", etc.)
+            userCountry: localStorage.getItem('onregardequoi_country') || getDefaultCountry(),
+
+            // Video provider preference
+            videoProvider: localStorage.getItem('onregardequoi_video_provider') || 'youtube',
+            
+            // Active main section: 'movies', 'tv', or 'bookmarks'
+            activeSection: null,
+            
+            // Active subcategory: 'trending', 'soon', or 'greats'
+            activeCategory: 'trending',
+            
+            // Timer ID for debouncing search input (prevents excessive API calls)
+            debounceTimer: null,
+            
+            // Whether search/filter mode is currently active
+            isSearching: false,
+            
+            // Index of currently selected search shortcut (null = none, 0-14 = shortcut index)
+            currentShortcutIndex: null 
+        };
+
+        // ======================================
+        // DOM SELECTORS
+        // ======================================
+        const $ = (selector) => document.querySelector(selector);
+        const mainEl = $('#main-content');
+        const loadMoreContainerEl = $('#load-more-container');
+        const dockContainer = $('#dock-container');
+        const headerLogo = $('#header-logo');
+        const searchToggleBtn = $('#search-toggle-btn');
+        const searchIcon = $('#search-icon');
+        const closeIcon = $('#close-icon');
+        const navButtonsContainer = $('#nav-buttons-container');
+        const searchInputContainer = $('#search-input-container');
+        const newSearchFieldInput = $('#new-search-field-input');
+        const sharedSubcategoriesEl = $('#shared-subcategories');
+        const videoModalEl = $('#video-modal');
+        const videoPlayerEl = $('#video-player');
+        const trailerListModalEl = $('#trailer-list-modal');
+        const trailerListContentEl = $('#trailer-list-content');
+        const trailerListTitleEl = $('#trailer-list-title');
+        const infoModalEl = $('#info-modal');
+        const infoModalContentEl = $('#info-modal-content');
+        const infoModalTitleEl = $('#info-modal-title');
+        const watchModalEl = $('#watch-modal');
+        const watchModalContentEl = $('#watch-modal-content');
+        const watchCountrySelector = $('#watch-country-selector');
+        const appInfoModalEl = $('#app-info-modal');
+        const openAppInfoBtn = $('#open-app-info-btn');
+        const aboutTabBtn = $('#about-tab-btn');
+        const whatsNewTabBtn = $('#whats-new-tab-btn');
+        const acknowledgmentTabBtn = $('#acknowledgment-tab-btn');
+        const settingsTabBtn = $('#settings-tab-btn');
+        const aboutContent = $('#about-content');
+        const whatsNewContent = $('#whats-new-content');
+        const acknowledgmentContent = $('#acknowledgment-content');
+        const settingsContent = $('#settings-content');
+        const forceRefreshBtn = $('#force-refresh-btn');
+
+        // ======================================
+        // UTILITY & HELPER FUNCTIONS
+        // ======================================
+
+        // Generate formatted dates for API queries (YYYY-MM-DD format)
+        function getFormattedDate(daysOffset = 0, monthsOffset = 0, yearsOffset = 0) {
+            const date = new Date();
+            date.setDate(date.getDate() + daysOffset);
+            date.setMonth(date.getMonth() + monthsOffset);
+            date.setFullYear(date.getFullYear() + yearsOffset);
+            return date.toISOString().split('T')[0];
+        }
+
+        // Get SVG icon by name (used in poster cards and modals)
+        function getIcon(name, classes) {
+            const paths = {
+                movie: '<path stroke-linecap="round" stroke-linejoin="round" d="M7 5V19M17 5V19M3 8H7M17 8H21M3 16H7M17 16H21M3 12H7M17 12H21M6.2 20H17.8C18.9201 20 19.4802 20 19.908 19.782C20.2843 19.5903 20.5903 19.2843 20.782 18.908C21 18.4802 21 17.9201 21 16.8V7.2C21 6.0799 21 5.51984 20.782 5.09202C20.5903 4.71569 20.2843 4.40973 19.908 4.21799C19.4802 4 18.9201 4 17.8 4H6.2C5.0799 4 4.51984 4 4.09202 4.21799C3.71569 4.40973 3.40973 4.71569 3.21799 5.09202C3 5.51984 3 6.07989 3 7.2V16.8C3 17.9201 3 18.4802 3.21799 18.908C3.40973 19.2843 3.71569 19.5903 4.09202 19.782C4.51984 20 5.07989 20 6.2 20Z" />',
+                tv: '<path stroke-linecap="round" stroke-linejoin="round" d="M15 7V21M18 11H18.01M18 14H18.01M18 17H18.01M17 3L12 7L7 3M7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21Z" />',
+                bookmark: '<path stroke-linecap="round" stroke-linejoin="round" d="M5 6.2C5 5.07989 5 4.51984 5.21799 4.09202C5.40973 3.71569 5.71569 3.40973 6.09202 3.21799C6.51984 3 7.07989 3 8.2 3H15.8C16.9201 3 17.4802 3 17.908 3.21799C18.2843 3.40973 18.5903 3.71569 18.782 4.09202C19 4.51984 19 5.07989 19 6.2V21L12 16L5 21V6.2Z" />'
+            };
+            return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${classes}">${paths[name] || ''}</svg>`;
+        }
+
+        // Toggles visibility and styling of tab buttons and content
+        function setTabState(tabBtn, tabContent, isActive) {
+            if (!tabBtn || !tabContent) return;
+            tabBtn.classList.toggle('text-white', isActive);
+            tabBtn.classList.toggle('text-gray-400', !isActive);
+            tabBtn.classList.toggle('border-amber-400', isActive);
+            tabBtn.classList.toggle('border-transparent', !isActive);
+            tabContent.classList.toggle('hidden', !isActive);
+        }
+
+        // ======================================
+        // API & CACHE FUNCTIONS
+        // ======================================
+
+        // Generic API fetch function - handles both direct and proxy calls
+        async function apiFetch(tmdbEndpoint, params = {}) {
+            try {
+                const baseUrl = API_CONFIG.devKey ? API_CONFIG.tmdbDirectUrl : API_CONFIG.vercelProxyUrl;
+                if (API_CONFIG.devKey) {
+                    const allParams = { api_key: API_CONFIG.devKey, language: 'en-US', ...params };
+                    const url = new URL(baseUrl + tmdbEndpoint);
+                    url.search = new URLSearchParams(allParams).toString();
+                    const response = await fetch(url);
+                    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                    return await response.json();
+                } else {
+                    const response = await fetch(baseUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ tmdbEndpoint, queryParams: params }),
+                    });
+                    if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
+                    return await response.json();
+                }
+            } catch (error) {
+                console.error(`API error: ${error}`);
+                return null;
+            }
+        }
+
+        // Get trailers for a movie/TV show, prioritizing official trailers
+        async function getTrailers(type, id) {
+            const data = await apiFetch(`/${type}/${id}/videos`);
+            if (!data?.results?.length) return [];
+            const priority = (v) => {
+                const n = v.name.toLowerCase();
+                if (['trailer', 'teaser'].includes(v.type.toLowerCase()) && !['promo', 'spot', 'bts'].some(kw => n.includes(kw))) {
+                    if (n.includes('official trailer')) return 5;
+                    if (v.official) return 4;
+                    if (v.type === 'Trailer') return 3;
+                    return 2;
+                }
+                return 1;
+            };
+            return data.results.filter(v => v.site === 'YouTube').sort((a, b) => priority(b) - priority(a));
+        }
+
+        // Get best trailer (first in priority order)
+        async function getBestTrailer(type, id) {
+            const trailers = await getTrailers(type, id);
+            return trailers[0] || null;
+        }
+
+        // Get detailed information for a movie/TV show
+        async function getDetails(type, id) {
+            return await apiFetch(`/${type}/${id}`);
+        }
+
+        // Get streaming/watch providers for a movie/TV show
+        async function getWatchProviders(type, id) {
+            const data = await apiFetch(`/${type}/${id}/watch/providers`);
+            return data?.results || null;
+        }
+        
+        // Cache management - save to localStorage
+        function saveCache() {
+            localStorage.setItem('onregardequoi_cache', JSON.stringify(state.appData));
+        }
+
+        // Cache management - load from localStorage
+        function loadCache() {
+            try {
+                const cachedData = localStorage.getItem('onregardequoi_cache');
+                if (cachedData) {
+                    const parsed = JSON.parse(cachedData);
+                    // Merge caching structures in case DEFAULT_APP_DATA changed (new version)
+                    state.appData = { ...DEFAULT_APP_DATA, ...parsed };
+                    if (!state.appData.shortcuts) state.appData.shortcuts = {}; 
+                }
+            } catch (error) {
+                console.error("Cache error:", error);
+                state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
+            }
+        }
+
+        // Clear all cache and bookmarks
+        function forceClearCache() {
+            state.appData = JSON.parse(JSON.stringify(DEFAULT_APP_DATA));
+            state.bookmarks = [];
+            localStorage.clear();
+            alert('Cache and Bookmarks reset. Reloading...');
+            location.reload();
+        }
+
+        // ======================================
+        // MODAL MANAGEMENT
+        // ======================================
+
+        // Open modal (remove visibility classes)
+        function openModal(modal) {
+            if (!modal) return;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+        }
+
+        // Close modal (add visibility classes)
+        function closeModal(modal) {
+            if (!modal) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+        }
+
+        // Open trailer in video player
+        function openTrailer(videoKey) {
+            if (videoKey && videoPlayerEl) {
+                const baseUrl = state.videoProvider === 'invidious' ? API_CONFIG.invidiousEmbedUrl : API_CONFIG.youtubeEmbedUrl;
+                videoPlayerEl.src = `${baseUrl}${videoKey}?autoplay=1&controls=1&rel=0`;
+                openModal(videoModalEl);
+            }
+        }
+
+        // Close video player and clear iframe
+        function closeTrailer() {
+            closeModal(videoModalEl);
+            setTimeout(() => { if (videoPlayerEl) videoPlayerEl.src = 'about:blank'; }, 300);
+        }
+
+        // Show trailer list modal with available videos
+        function showTrailerList(title, trailers) {
+            if (!trailerListTitleEl || !trailerListContentEl) return;
+            const encodedTitle = encodeURIComponent(title);
+            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
+            const externalLinksHTML = `
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <a href="https://www.youtube.com/results?search_query=${encodedTitle}+trailer" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on YouTube">YouTube</a>
+                    <a href="https://www.dailymotion.com/search/${encodedTitle}%20trailer" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Dailymotion">Dailymotion</a>
+                </div>
+            `;
+            trailerListTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">Videos for ${title}</span>${externalLinksHTML}</div>`;
+            trailerListContentEl.innerHTML = trailers?.length
+                ? trailers.map(t => `<div class="video-item px-4 py-3 cursor-pointer flex justify-between items-center rounded-md hover:bg-amber-400 hover:text-white transition-colors" data-key="${t.key}" title="${t.name}"><span class="truncate pr-2">${t.name}</span><span class="video-type-tag text-xs bg-gray-700 text-gray-300 rounded px-1.5 py-0.5 whitespace-nowrap">${t.type}</span></div>`).join('')
+                : `<div class="p-4 text-gray-400">No videos found.</div>`;
+            openModal(trailerListModalEl);
+        }
+
+        // Show info modal with detailed information
+        async function showInfoModal(title, details, type, id) {
+            if (!infoModalTitleEl || !infoModalContentEl) return;
+            const encodedTitle = encodeURIComponent(title);
+            const tagClass = "px-2 py-0.5 rounded bg-white/10 border border-white/20 text-[10px] text-gray-300 hover:bg-amber-400 hover:text-black hover:border-transparent transition-colors uppercase tracking-wide font-bold no-underline leading-none";
+            const externalLinksHTML = `
+                <div class="flex flex-wrap gap-2 mt-2">
+                    <a href="https://www.imdb.com/find/?q=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on IMDb">IMDb</a>
+                    <a href="https://www.rottentomatoes.com/search?search=${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Rotten Tomatoes">Rotten Tomatoes</a>
+                    <a href="https://www.metacritic.com/search/${encodedTitle}" target="_blank" rel="noopener noreferrer" class="${tagClass}" title="Search on Metacritic">Metacritic</a>
+                </div>
+            `;
+            infoModalTitleEl.innerHTML = `<div class="flex flex-col items-start"><span class="leading-tight">${title}</span>${externalLinksHTML}</div>`;
+            
+            let content = '<div class="text-gray-400">Details not available.</div>';
+            if (details) {
+                const credits = await apiFetch(`/${type}/${id}/credits`);
+                const director = credits?.crew?.find(c => c.job === 'Director')?.name || 'N/A';
+                const cast = credits?.cast?.slice(0, 5).map(a => a.name).join(', ') || 'N/A';
+                const currencyFormatter = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+                const infoMap = {
+                    "Year": (details.release_date || details.first_air_date || '').substring(0, 4) || 'N/A',
+                    "Genres": details.genres?.map(g => g.name).join(', ') || 'N/A',
+                    "Runtime": details.runtime ? `${details.runtime} min` : (details.episode_run_time?.[0] ? `${details.episode_run_time[0]} min/ep` : 'N/A'),
+                    "Rating": details.vote_average ? `${details.vote_average.toFixed(1)}/10 (${details.vote_count} votes)` : 'N/A',
+                    "Status": details.status || 'N/A',
+                    "Director": director,
+                    "Cast": cast,
+                    "Budget": details.budget > 0 ? currencyFormatter.format(details.budget) : null,
+                    "Revenue": details.revenue > 0 ? currencyFormatter.format(details.revenue) : null,
+                    "Production": details.production_companies?.map(c => c.name).join(', ') || null,
+                    "Seasons": type === 'tv' && details.number_of_seasons ? details.number_of_seasons : null,
+                    "Episodes": type === 'tv' && details.number_of_episodes ? details.number_of_episodes : null,
+                };
+
+                content = Object.entries(infoMap)
+                    .filter(([_, v]) => v && v !== 'N/A')
+                    .map(([k, v]) => `<div><strong>${k}:</strong> <span class="text-gray-400">${v}</span></div>`)
+                    .join('') + `<div class="mt-2"><strong>Synopsis:</strong> <span class="text-gray-400 leading-relaxed">${details.overview || 'No synopsis.'}</span></div>`;
+            }
+
+            infoModalContentEl.innerHTML = `<div class="space-y-2">${content}</div>`;
+            openModal(infoModalEl);
+        }
+
+        // Show where to watch modal with streaming providers
+        async function showWatchModal(title, providers) {
+            if (!watchModalEl || !watchModalContentEl || !watchCountrySelector) return;
+            
+            const availableCountries = providers ? Object.keys(providers).sort() : [];
+            const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+            
+            let options = [...availableCountries];
+            if (state.userCountry && !options.includes(state.userCountry)) {
+                options.push(state.userCountry);
+            }
+            if (options.length === 0) options.push('US');
+            options.sort();
+            
+            watchCountrySelector.innerHTML = options.map(code => {
+                const name = countryNames.of(code) || code;
+                return `<option value="${code}" class="bg-[#1e1e1e] text-white" ${code === state.userCountry ? 'selected' : ''}>${name}</option>`;
+            }).join('');
+
+            watchCountrySelector.classList.remove('hidden');
+
+            const renderWatchContent = (countryCode) => {
+                const data = providers?.[countryCode];
+                if (!data) {
+                    const countryName = countryNames.of(countryCode) || countryCode;
+                    watchModalContentEl.innerHTML = `
+                        <div class="py-8">
+                            <p class="text-gray-500 text-sm">Hmm, this item doesn't seem available for streaming, renting, or buying in <b>${countryName}</b> at the moment.</p><br>
+                            <p class="text-gray-500 text-sm">Maybe it's still in theaters if you are in the "Trending" category, or simply not out yet if you are in the "Soon" category.</p><br>
+                            <p class="text-gray-500 text-sm">Eventually, JustWatch doesn't have the information, or perhaps every provider has removed it!</p>
+                        </div>`;
+                    return;
+                }
+
+                const renderSection = (title, items) => {
+                    if (!items || items.length === 0) return '';
+                    const icons = items.map(p => `
+                        <div class="flex flex-col items-center gap-1 w-16 text-center">
+                            <img src="https://image.tmdb.org/t/p/w92${p.logo_path}" alt="${p.provider_name}" class="w-12 h-12 rounded-lg shadow-sm" loading="lazy">
+                            <span class="text-[10px] text-gray-300 leading-tight line-clamp-2">${p.provider_name}</span>
+                        </div>
+                    `).join('');
+                    return `<div class="mb-4"><h3 class="font-bold text-amber-400 text-sm mb-2 uppercase">${title}</h3><div class="flex flex-wrap gap-3">${icons}</div></div>`;
+                };
+
+                const streamHTML = renderSection('Stream', data.flatrate);
+                const rentHTML = renderSection('Rent', data.rent);
+                const buyHTML = renderSection('Buy', data.buy);
+                
+                const footer = `<div class="mt-6 flex justify-center text-white text-xs">
+                    Powered by&nbsp;<a href="${data.link}" target="_blank" class="text-amber-400 hover:underline">JustWatch</a>
+                </div>`;
+
+                if (streamHTML || rentHTML || buyHTML) {
+                    watchModalContentEl.innerHTML = `<div>${streamHTML}${rentHTML}${buyHTML}${footer}</div>`;
+                } else {
+                    const countryName = countryNames.of(countryCode) || countryCode;
+                    watchModalContentEl.innerHTML = `
+                        <div class="text-center py-8">
+                            <p class="text-gray-300 font-bold text-lg mb-2">Not available in ${countryName}</p>
+                            <p class="text-gray-500 text-sm">Maybe it's still in theaters? Go check it out!<br>Or... time to move to another country? ✈️</p>
+                        </div>`;
+                }
+            };
+
+            renderWatchContent(watchCountrySelector.value);
+
+            watchCountrySelector.onchange = (e) => {
+                const newCountry = e.target.value;
+                state.userCountry = newCountry;
+                localStorage.setItem('onregardequoi_country', newCountry);
+                renderWatchContent(newCountry);
+            };
+
+            openModal(watchModalEl);
+        }
+
+        // Switch between app info modal tabs (optimization: uses utility function)
+        function switchAppInfoTab(activeTabId) {
+            const tabs = [
+                { id: 'about-tab-btn', btn: aboutTabBtn, content: aboutContent },
+                { id: 'whats-new-tab-btn', btn: whatsNewTabBtn, content: whatsNewContent },
+                { id: 'acknowledgment-tab-btn', btn: acknowledgmentTabBtn, content: acknowledgmentContent },
+                { id: 'settings-tab-btn', btn: settingsTabBtn, content: settingsContent }
+            ];
+            tabs.forEach(tab => {
+                const isActive = tab.id === activeTabId;
+                setTabState(tab.btn, tab.content, isActive);
+            });
+        }
+
+        // ======================================
+        // CONTENT LOADING & RENDERING
+        // ======================================
+
+        // Fetch content from API or cache
+        async function fetchContent(append = false) {
+            // Check cache for shortcut first if active
+            if (state.isSearching && state.currentShortcutIndex !== null) {
+                await fetchShortcutContent(append);
+                return;
+            }
+
+            if (state.isSearching) return;
+            const mediaType = state.activeSection === 'movies' ? 'movie' : 'tv';
+            const category = state.activeCategory;
+            const cache = state.appData[state.activeSection][category];
+            const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS[category];
+
+            if (!append && cache.items.length > 0 && !isCacheStale) {
+                renderContent(cache.items);
+                resetLoadMoreButton();
+                return;
+            }
+
+            if (!append && isCacheStale) {
+                Object.assign(cache, { items: [], nextPage: 1, hasMore: true });
+            }
+
+            if (!cache.hasMore && append) return;
+
+            const params = { ...API_PARAMS_CONFIG[state.activeSection][category], page: cache.nextPage };
+            const data = await apiFetch(`/discover/${mediaType}`, params);
+
+            if (data?.results?.length > 0) {
+                cache.items.push(...data.results.filter(item => item.poster_path));
+                cache.nextPage++;
+                cache.hasMore = data.page < data.total_pages;
+                if (!append) cache.timestamp = Date.now();
+            } else {
+                cache.hasMore = false;
+            }
+
+            renderContent(cache.items);
+            resetLoadMoreButton();
+            saveCache();
+        }
+
+        // Fetch shortcut content with persistent caching per shortcut index
+        async function fetchShortcutContent(append = false) {
+            const index = state.currentShortcutIndex;
+            if (index === null) return;
+            
+            // Initialize cache object for this shortcut index if it doesn't exist
+            if (!state.appData.shortcuts[index]) {
+                state.appData.shortcuts[index] = { items: [], nextPage: 1, hasMore: true, timestamp: 0 };
+            }
+            
+            const cache = state.appData.shortcuts[index];
+            const shortcutDef = SEARCH_SHORTCUTS[index];
+            const isCacheStale = (Date.now() - cache.timestamp) > CACHE_TTLS.shortcuts;
+
+            if (isCacheStale && !append) {
+                 Object.assign(cache, { items: [], nextPage: 1, hasMore: true, timestamp: 0 });
+            }
+
+            if (!append && cache.items.length > 0) {
+                 renderContent(cache.items);
+                 resetLoadMoreButton();
+                 return;
+            }
+
+            if (!cache.hasMore && append) return;
+
+            const params = { ...shortcutDef.params, page: cache.nextPage };
+            const data = await apiFetch(`/discover/${shortcutDef.type}`, params);
+
+             if (data?.results?.length > 0) {
+                const newItems = data.results.filter(item => item.poster_path);
+                cache.items.push(...newItems);
+                cache.nextPage++;
+                cache.hasMore = data.page < data.total_pages;
+                if (!append) cache.timestamp = Date.now();
+            } else {
+                cache.hasMore = false;
+            }
+
+            renderContent(cache.items);
+            resetLoadMoreButton();
+            saveCache();
+        }
+
+        // Set active section (movies, tv, bookmarks)
+        async function setActiveSection(section) {
+            if (state.isSearching) return;
+            document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === section));
+
+            if (section === 'bookmarks') {
+                state.activeSection = section;
+                sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
+                if (state.bookmarks.length === 0) {
+                    mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
+                } else {
+                    renderContent(state.bookmarks);
+                }
+                resetLoadMoreButton();
+                return;
+            }
+
+            state.activeSection = section;
+            sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
+            await fetchContent(false);
+        }
+
+        // Render Search Shortcuts
+        function renderSearchShortcuts() {
+            if (!mainEl) return;
+            state.currentShortcutIndex = null;
+
+            mainEl.innerHTML = `
+                <div class="flex flex-col items-center pt-6 fade-in px-4 w-full">
+                     <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2 sm:gap-3 w-max mx-auto">
+                        ${SEARCH_SHORTCUTS.map((shortcut, index) => `
+                            <button class="shortcut-btn flex flex-col items-center gap-1 bg-[#1e1e1e] hover:bg-amber-400 hover:text-black border border-white/10 hover:border-transparent p-2 rounded-lg transition-all duration-200 group" data-index="${index}" title="${shortcut.label}">
+                                <span class="text-xl">${shortcut.icon}</span>
+                                <span class="text-[9px] text-center leading-tight">${shortcut.label}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+            
+            const loadMoreBtn = $('#load-more-btn');
+            if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+        }
+
+        // Open search bar
+        function openSearchBar() {
+            state.isSearching = true;
+            navButtonsContainer.classList.add('opacity-0', 'pointer-events-none');
+            searchInputContainer.classList.remove('hidden');
+            searchInputContainer.classList.add('flex');
+            newSearchFieldInput.focus();
+            renderSearchShortcuts();
+            searchIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
+        }
+
+        // Close search bar
+        async function closeSearchBar() {
+            state.isSearching = false;
+            state.currentShortcutIndex = null;
+            
+
+        // Clean the URL query parameter silently without reloading after a browser/raycast search
+                window.history.replaceState({}, document.title, window.location.pathname);
+
+            searchInputContainer.classList.add('hidden');
+            searchInputContainer.classList.remove('flex');
+            navButtonsContainer.classList.remove('opacity-0', 'pointer-events-none');
+            newSearchFieldInput.value = '';
+            searchIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+
+            // Force main content restoration logic
+            document.querySelectorAll('.main-category-button').forEach(b => b.classList.toggle('active', b.dataset.section === state.activeSection));
+            if (state.activeSection !== 'bookmarks') {
+                sharedSubcategoriesEl.querySelectorAll('.sub-category-button').forEach(b => b.classList.toggle('active', b.dataset.category === state.activeCategory));
+            }
+
+            if (state.activeSection === 'bookmarks') {
+                setActiveSection('bookmarks');
+            } else {
+                await fetchContent(false);
+            }
+        }
+
+        // Perform search with debouncing
+        async function performSearch(query) {
+            clearTimeout(state.debounceTimer);
+            if (!query) {
+                renderSearchShortcuts();
+                return;
+            }
+            state.currentShortcutIndex = null;
+            mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">Searching...</div>';
+            state.debounceTimer = setTimeout(async () => {
+                const data = await apiFetch('/search/multi', { query });
+                const results = data?.results.filter(i => (i.media_type === 'movie' || i.media_type === 'tv') && i.poster_path) ?? [];
+                results.sort((a, b) => b.popularity - a.popularity);
+                if (results.length > 0) {
+                    renderContent(results);
+                    const loadMoreBtn = $('#load-more-btn');
+                    if (loadMoreBtn) loadMoreBtn.classList.add('hidden');
+                } else {
+                    mainEl.innerHTML = '<p class="text-center text-gray-400 mt-10">No results found.</p>';
+                }
+            }, 350);
+        }
+
+        // Create HTML for a single poster card
+        function createPosterHTML(item) {
+            const type = item.media_type || (item.title ? 'movie' : 'tv');
+            const title = item.title || item.name;
+            const year = (item.release_date || item.first_air_date || '').substring(0, 4);
+            const tooltip = `${title}${year ? ` (${year})` : ''}`;
+            const isBookmarked = state.bookmarks.some(b => b.id == item.id);
+
+            let badgeHTML = '';
+            if (item.media_type) {
+                const icon = getIcon(item.media_type === 'movie' ? 'movie' : 'tv', 'w-4 h-4 text-black');
+                badgeHTML = `<div class="absolute top-2 right-2 p-1.5 bg-white/90 backdrop-blur-sm rounded-full z-10" title="${item.media_type === 'movie' ? 'Movie' : 'TV Show'}">${icon}</div>`;
+            }
+
+            return `<div class="poster-container transition-transform duration-100 hover:scale-105 hover:z-10" data-id="${item.id}" data-type="${type}" data-title="${title}" data-poster="${item.poster_path}" title="${tooltip}">
+                <div class="poster relative rounded-lg overflow-hidden shadow-lg bg-gray-900 aspect-[2/3] ring-0 hover:ring-2 hover:ring-amber-400 transition-shadow duration-100">
+                    ${badgeHTML}
+                    <img src="${IMAGE_BASE_URL}${item.poster_path}" alt="${title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://placehold.co/500x750/0f0f0f/444444?text=Img+Error'">
+                    <div class="poster-overlay absolute inset-0 flex items-center justify-center">
+                        <button data-action="play" class="group cursor-pointer" title="Play Trailer">
+                            <svg class="play-icon w-16 h-16 text-white group-hover:text-amber-400 transition-colors" style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <button data-action="bookmark" class="bookmark-icon absolute top-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors z-10 ${isBookmarked ? 'text-amber-400 fill-current' : 'text-black'}" title="Bookmark">
+                            ${getIcon('bookmark', 'w-4 h-4')}
+                        </button>
+                        <button data-action="options" class="absolute bottom-2 right-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Find More Videos">
+                            ${POSTER_BUTTON_ICONS.options}
+                        </button>
+                        <button data-action="watch" class="absolute bottom-2 left-1/2 -translate-x-1/2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="Where to Watch">
+                            ${POSTER_BUTTON_ICONS.watch}
+                        </button>
+                        <button data-action="info" class="absolute bottom-2 left-2 p-1.5 bg-white/90 hover:bg-amber-400 rounded-full cursor-pointer backdrop-blur-sm transition-colors" title="More Information">
+                            ${POSTER_BUTTON_ICONS.info}
+                        </button>
+                    </div>
+                </div>
+            </div>`;
+        }
+
+        // Render poster grid (FIXED: ensures proper grid classes are always applied)
+        function renderContent(itemsToRender) {
+            if (!itemsToRender || !mainEl) return;
+            
+            // Clear main element completely first to avoid residual shortcut UI
+            // This ensures the grid is always clean
+            let grid = mainEl.querySelector('.grid');
+            if (!grid) {
+                // Completely reset content to force new grid creation with correct classes
+                mainEl.innerHTML = '';
+                grid = document.createElement('div');
+                // FORCE responsive classes here - this fixes the "4 columns" bug
+                grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+                mainEl.appendChild(grid);
+            }
+            
+            // Re-verify class list in case it was modified
+            if (grid.className.indexOf('xl:grid-cols-8') === -1) {
+                 grid.className = 'grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 sm:gap-5';
+            }
+
+            grid.innerHTML = itemsToRender.map(createPosterHTML).join('');
+        }
+
+        // Setup load more button
+        function setupLoadMoreButton() {
+            if (!loadMoreContainerEl) return;
+            if ($('#load-more-btn')) return;
+            const button = document.createElement('button');
+            button.id = 'load-more-btn';
+            button.className = 'bg-gray-700/50 backdrop-blur-md border border-white/10 rounded-full p-3 shadow-lg transition-all duration-200 hover:bg-amber-400 hover:scale-110 hover:text-black text-white group';
+            loadMoreContainerEl.appendChild(button);
+        }
+
+        // Update load more button state
+        function resetLoadMoreButton() {
+            const button = $('#load-more-btn');
+            if (!button) return;
+            
+            // Hide button if: (1) doing text search, (2) in bookmarks, or (3) viewing shortcuts menu
+            const isShortcutMenuVisible = state.isSearching && state.currentShortcutIndex === null;
+            const shouldHide = (state.isSearching && !isShortcutMenuVisible && state.currentShortcutIndex === null) || state.activeSection === 'bookmarks' || isShortcutMenuVisible;
+            
+            button.classList.toggle('hidden', shouldHide);
+            
+            if (shouldHide) return;
+            
+            // Determine which cache/state to check
+            let cache;
+            if (state.currentShortcutIndex !== null) {
+                cache = state.appData.shortcuts[state.currentShortcutIndex];
+            } else {
+                cache = state.appData[state.activeSection][state.activeCategory];
+            }
+
+            button.disabled = !cache.hasMore;
+            button.classList.toggle('cursor-pointer', cache.hasMore);
+            button.classList.toggle('cursor-not-allowed', !cache.hasMore);
+            button.title = cache.hasMore ? 'Load More' : 'No more results';
+            button.innerHTML = cache.hasMore
+                ? `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 13.5 12 21m0 0-7.5-7.5M12 21V3" /></svg>`
+                : `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 1 1 5.636 5.636m12.728 12.728L5.636 5.636" /></svg>`;
+        }
+
+        // ======================================
+        // EVENT HANDLERS
+        // ======================================
+
+        // Handle poster card clicks (play, bookmark, info, etc.)
+        async function handlePosterClick(e) {
+            // Handle Shortcut Clicks (New)
+            const shortcutBtn = e.target.closest('.shortcut-btn');
+            if (shortcutBtn) {
+                const index = parseInt(shortcutBtn.dataset.index);
+                state.currentShortcutIndex = index;
+                mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">Loading...</div>';
+                await fetchShortcutContent(false);
+                return;
+            }
+
+            const poster = e.target.closest('.poster-container');
+            if (!poster) return;
+            const action = e.target.closest('[data-action]')?.dataset.action;
+            const { id, type, title, poster: posterPath } = poster.dataset;
+
+            if (action) {
+                poster.classList.remove('show-overlay');
+                if (action === 'play') {
+                    openTrailer((await getBestTrailer(type, id))?.key);
+                } else if (action === 'options') {
+                    showTrailerList(title, await getTrailers(type, id));
+                } else if (action === 'info') {
+                    showInfoModal(title, await getDetails(type, id), type, id);
+                } else if (action === 'watch') {
+                    showWatchModal(title, await getWatchProviders(type, id));
+                } else if (action === 'bookmark') {
+                    const index = state.bookmarks.findIndex(b => b.id == id);
+                    const btn = poster.querySelector('[data-action="bookmark"]');
+                    if (index === -1) {
+                        state.bookmarks.push({ id, type, title, poster_path: posterPath, media_type: type });
+                        btn.classList.remove('text-black');
+                        btn.classList.add('text-amber-400', 'fill-current');
+                    } else {
+                        state.bookmarks.splice(index, 1);
+                        btn.classList.add('text-black');
+                        btn.classList.remove('text-amber-400', 'fill-current');
+                        if (state.activeSection === 'bookmarks') poster.remove();
+                        if (state.activeSection === 'bookmarks' && state.bookmarks.length === 0) {
+                            mainEl.innerHTML = '<div class="text-center text-gray-400 mt-10">No bookmarks yet.</div>';
+                        }
+                    }
+                    localStorage.setItem('onregardequoi_bookmarks', JSON.stringify(state.bookmarks));
+                }
+                return;
+            }
+            if (poster.classList.contains('show-overlay')) {
+                poster.classList.remove('show-overlay');
+            } else {
+                document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
+                poster.classList.add('show-overlay');
+            }
+        }
+
+        // Handle sub-category button clicks
+        async function handleCategoryClick(e) {
+            const button = e.target.closest('.sub-category-button');
+            if (!button || button.classList.contains('active')) return;
+            button.parentElement.querySelectorAll('.sub-category-button').forEach(b => b.classList.remove('active'));
+            button.classList.add('active');
+            state.activeCategory = button.dataset.category;
+            if (state.activeSection === 'bookmarks') {
+                await setActiveSection('movies');
+            } else {
+                await fetchContent(false);
+            }
+        }
+
+        // ======================================
+        // SETUP & INITIALIZATION
+        // ======================================
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            document.querySelectorAll('.main-category-button').forEach(btn => {
+                btn.addEventListener('click', () => setActiveSection(btn.dataset.section));
+            });
+            sharedSubcategoriesEl.addEventListener('click', handleCategoryClick);
+
+            searchToggleBtn.addEventListener('click', () => {
+                state.isSearching ? closeSearchBar() : openSearchBar();
+            });
+            const closeSearchBtn = $('#close-search-btn');
+            if (closeSearchBtn) {
+                closeSearchBtn.addEventListener('click', closeSearchBar);
+            }
+            newSearchFieldInput.addEventListener('input', () => {
+                performSearch(newSearchFieldInput.value.trim());
+            });
+
+            [trailerListModalEl, infoModalEl, watchModalEl, appInfoModalEl].forEach(modal => {
+                if (modal) {
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) closeModal(modal);
+                    });
+                }
+            });
+            if (videoModalEl) {
+                videoModalEl.addEventListener('click', (e) => {
+                    if (e.target === videoModalEl) closeTrailer();
+                });
+            }
+
+            if (openAppInfoBtn) {
+                openAppInfoBtn.addEventListener('click', () => {
+                    // Update settings radio buttons to match state
+                    const radio = $(`input[name="video-provider"][value="${state.videoProvider}"]`);
+                    if (radio) radio.checked = true;
+                    openModal(appInfoModalEl);
+                });
+            }
+
+            // Settings handler
+            settingsContent?.addEventListener('change', (e) => {
+                if (e.target.name === 'video-provider') {
+                    state.videoProvider = e.target.value;
+                    localStorage.setItem('onregardequoi_video_provider', e.target.value);
+                }
+            });
+
+            aboutTabBtn?.addEventListener('click', () => switchAppInfoTab('about-tab-btn'));
+            whatsNewTabBtn?.addEventListener('click', () => switchAppInfoTab('whats-new-tab-btn'));
+            acknowledgmentTabBtn?.addEventListener('click', () => switchAppInfoTab('acknowledgment-tab-btn'));
+            settingsTabBtn?.addEventListener('click', () => switchAppInfoTab('settings-tab-btn'));
+            forceRefreshBtn?.addEventListener('click', (e) => {
+                e.preventDefault();
+                forceClearCache();
+            });
+
+            if (trailerListContentEl) {
+                trailerListContentEl.addEventListener('click', e => {
+                    const item = e.target.closest('[data-key]');
+                    if (item) {
+                        closeModal(trailerListModalEl);
+                        openTrailer(item.dataset.key);
+                    }
+                });
+            }
+
+            mainEl.addEventListener('click', handlePosterClick);
+            loadMoreContainerEl?.addEventListener('click', e => {
+                e.target.closest('#load-more-btn') && fetchContent(true);
+            });
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.poster-container')) {
+                    document.querySelectorAll('.poster-container.show-overlay').forEach(p => p.classList.remove('show-overlay'));
+                }
+            });
+
+            document.addEventListener('keydown', e => {
+                if (e.key === 'Escape') {
+                    [videoModalEl, trailerListModalEl, infoModalEl, watchModalEl, appInfoModalEl].forEach(closeModal);
+                    closeTrailer();
+                    if (state.isSearching) closeSearchBar();
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    headerLogo.classList.add('opacity-0', 'pointer-events-none');
+                } else {
+                    headerLogo.classList.remove('opacity-0', 'pointer-events-none');
+                }
+            });
+        }
+
+    // Initialize the application
+            async function init() {
+                loadCache();
+                setupLoadMoreButton();
+                setupEventListeners(); // Ensure listeners are ready before triggering search
+                switchAppInfoTab('about-tab-btn');
+
+                // Check URL for search query (e.g., ?q=batman)
+                const params = new URLSearchParams(window.location.search);
+                const query = params.get('q');
+
+                if (query) {
+        // FIX: Set the default "Home" state to movies, so the "X" button knows where to go
+                    state.activeSection = 'movies'; 
+                
+                    // Then open search immediately
+                    openSearchBar();
+                    newSearchFieldInput.value = query;
+                    performSearch(query);
+                } else {
+                    // No query: Load the default homepage (Trending Movies)
+                    await setActiveSection('movies');
+                }
+            }
+
+            // Start the application
+            init();
+
+    </script>
+
+</body>
+</html>
