@@ -1110,10 +1110,7 @@
             if (action) {
                 poster.classList.remove('show-overlay');
                 if (action === 'play') {
-                    const videoData = await getBestTrailer(type, id);
-                    if (videoData?.key) {
-                        openTrailer(videoData.key);
-                    }
+                    openTrailer((await getBestTrailer(type, id))?.key);
                 } else if (action === 'options') {
                     showTrailerList(title, await getTrailers(type, id));
                 } else if (action === 'info') {
