@@ -2,7 +2,7 @@
 // Dev mode: Add your API key here for local testing
 // Prod mode: Leave devKey empty - uses Vercel proxy with server-side env var
 const API_CONFIG = {
-  devKey: '', // EMPTY for production (uses Vercel), add key for local dev
+  devKey: 'fe728e34b4e492c1e47161b6a939683f', // EMPTY for production (uses Vercel), add key for local dev
   tmdbDirectUrl: 'https://api.themoviedb.org/3',
   vercelProxyUrl: '/api/tmdb-api'
 };
