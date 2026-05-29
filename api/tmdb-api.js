@@ -1,5 +1,6 @@
 /* OnRegardeQuoi: an open-source and minimalist web app for discovering movies and TV shows */
 /* Made with ❤ by micka from Paris */
+/* This endpoint proxies requests to TMDB using the server-side API key */
 
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
@@ -15,15 +16,15 @@ export default async function handler(request, response) {
       return response.status(400).json({ message: 'Missing TMDB endpoint' });
     }
 
-    // Retrieve the API key from Vercel environment variables
+    // Retrieve API key from Vercel environment variables
     const apiKey = process.env.TMDB_API_KEY;
 
     if (!apiKey) {
-      console.error('TMDB_API_KEY is not set in environment variables.');
-      return response.status(500).json({ message: 'Server configuration error: TMDB API key missing.' });
+      console.error('TMDB_API_KEY not configured in Vercel environment');
+      return response.status(500).json({ message: 'Server configuration error' });
     }
 
-    // Combine the query parameters from the client with the required API key and language
+    // Combine params with API key
     const allParams = {
       api_key: apiKey,
       language: 'en-US',
@@ -45,6 +46,6 @@ export default async function handler(request, response) {
 
   } catch (error) {
     console.error('Proxy error:', error);
-    return response.status(500).json({ message: 'Internal Server Error', error: error.message });
+    return response.status(500).json({ message: 'Internal Server Error' });
   }
 }
