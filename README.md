@@ -17,10 +17,11 @@
 - **Where to Watch** – Find where to stream, buy, or rent through JustWatch integration
 - **Quick Search Integration** – Add OnRegardeQuoi as a custom search engine in your browser, Raycast, Alfred, etc. `https://www.onregardequoi.com/?q={query}`
 - **No Account** - No account is required and no cookies are used
+- <i>v2 is officially out—updates coming soon.</i>
   
 ## 🎨 Screenshots
 
-Will update soon now that the v.2 is released.
+<i>v2 is officially out—updates coming soon.</i>
 
 ## 🚀 Getting Started
 
@@ -71,6 +72,7 @@ Found a bug or have a feature request? [Open an issue](https://github.com/mickap
 - [The Movie Database (TMDB)](https://www.themoviedb.org/) – Comprehensive movie and TV show data
 - [JustWatch](https://www.justwatch.com/)- Streaming availability
 - [Vercel](https://vercel.com/) – Seamless and free hosting
+- <i>v2 is officially out—updates coming soon.</i>
 
 ## 📄 License
 
