@@ -1,14 +1,6 @@
 # OnRegardeQuoi
-<p align="center">
-  <img width="250" height="180" alt="OnRegardeQuoi" src="https://github.com/user-attachments/assets/970c9eaf-095d-48c2-ba5a-748968525c48" />
-  <br /><br />
-  <strong>Status:</strong> Maintained | <strong>Version:</strong> 1.5
-  <br />
-  <a href="https://www.onregardequoi.com/"><strong>www.onregardequoi.com</strong></a>
-</p>
 
-
-**OnRegardeQuoi** is a free, open-source, and minimalist web app that helps you discover movies and TV shows through their trailers. 
+**OnRegardeQuoi.com** is a free, private, open-source, and minimalist web app that helps you discover movies and TV shows through their trailers. 
 <br>It takes its name from the French phrase <i>On regarde quoi ?</i> meaning <i>What are we watching?</i>
 <br>The goal is to provide a simple and light trailer-focused experience, not to replace more comprehensive movie databases.
 
@@ -28,32 +20,7 @@
   
 ## 🎨 Screenshots
 
-<img width="80%" alt="Desktop - Home Page" src="https://github.com/user-attachments/assets/cbfb334a-3cba-457f-92d3-8a72c3270f73" />
-
-<details>
-<summary><strong>🌐 Web App</strong></summary>
-<img width="75%" alt="Desktop - Movie Details" src="https://github.com/user-attachments/assets/44dd74d2-4a63-4dab-9992-b3a093fc8c95" />
-<img width="75%" alt="Desktop - Search" src="https://github.com/user-attachments/assets/2c34ab8a-7e64-4fa5-823a-5448ddb2c9a2" />
-</details>
-
-<details>
-<summary><strong>📱 iPhone Bookmark</strong></summary>
-<img width="30%" alt="iPhone - Home Screen Bookmark/App" src="https://github.com/user-attachments/assets/f011e873-3405-4842-afc8-17da4d6fbef3" />
-<img width="30%" alt="iPhone - Home" src="https://github.com/user-attachments/assets/e442ec2b-2ddf-4d82-a8ab-2722b3b8e636" />
-<img width="30%" alt="iPhone - Search" src="https://github.com/user-attachments/assets/fd20ae2c-636c-4319-8577-6d244af9d5aa" />
-</details>
-
-<details>
-<summary><strong>🖥️ macOS Desktop</strong></summary>
-<img width="75%" alt="macOS App" src="https://github.com/user-attachments/assets/d9992ffd-f616-42d5-9f8c-31de3760e922"/>
-<img width="75%" alt="macOS App" src="https://github.com/user-attachments/assets/5ec2ddcd-8b04-4f72-a8fa-644c811614fe"/>
-</details>
-
-<details>
-<summary><strong>🖥️ Raycast</strong></summary>
-<img width="20%" alt="macOS App" src="https://github.com/user-attachments/assets/087de7a2-6f89-4751-9918-345c27fd76c2"/>
-<img width="70%" alt="macOS App" src="https://github.com/user-attachments/assets/5bf42bfd-0657-4ec8-b862-d4818fdc62f3"/>
-</details>
+Will update soon now that the v.2 is released.
 
 ## 🚀 Getting Started
 
@@ -88,10 +55,6 @@ Deploy your own instance for free on Vercel:
 5. Deploy!
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/mickaphd/OnRegardeQuoi)
-
-## 🎯 How Content is Selected
-
-**OnRegardeQuoi** uses specific filters for each category to ensure high-quality and relevant content, such as a minimum rating or vote count. This is why listings may differ from those on the main TMDB website. These criteria will certainly evolve over time (feel free to share your thoughts on this matter; I'm clearly open to suggestions!).
 
 ## 🔒 Privacy Policy
 
